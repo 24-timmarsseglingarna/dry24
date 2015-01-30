@@ -43,3 +43,7 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'haml'
+gem 'haml-rails'
+gem 'formtastic'
+gem 'acts_as_list'
