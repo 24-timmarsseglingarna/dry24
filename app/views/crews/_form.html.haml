@@ -1,0 +1,8 @@
+= semantic_form_for @crew do |f|
+  = f.inputs do
+    = f.input :boat_name
+    = f.input :captain_name
+    = f.input :captain_email
+
+  = f.actions do
+    = f.action :submit, :as => :input

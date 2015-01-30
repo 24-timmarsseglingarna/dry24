@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Boat name:
+  = @crew.boat_name
+%p
+  %b Captain name:
+  = @crew.captain_name
+%p
+  %b Captain email:
+  = @crew.captain_email
+
+= link_to 'Edit', edit_crew_path(@crew)
+\|
+= link_to 'Back', crews_path

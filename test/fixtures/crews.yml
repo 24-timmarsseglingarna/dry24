@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  boat_name: MyString
+  captain_name: MyString
+  captain_email: MyString
+
+two:
+  boat_name: MyString
+  captain_name: MyString
+  captain_email: MyString
