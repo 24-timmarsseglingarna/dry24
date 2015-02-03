@@ -1,0 +1,11 @@
+= semantic_form_for @log_entry do |f|
+  = f.inputs do
+    = f.input :point_id
+    = f.input :to_point_id
+    = f.input :from_time
+    = f.input :to_time
+    = f.input :description
+    = f.input :poition
+
+  = f.actions do
+    = f.action :submit, :as => :input

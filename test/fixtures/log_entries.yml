@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  point_id: 1
+  to_point_id: 1
+  from_time: 2015-02-03 15:27:06
+  to_time: 2015-02-03 15:27:06
+  description: MyString
+  poition: 1
+
+two:
+  point_id: 1
+  to_point_id: 1
+  from_time: 2015-02-03 15:27:06
+  to_time: 2015-02-03 15:27:06
+  description: MyString
+  poition: 1
