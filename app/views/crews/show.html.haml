@@ -7,6 +7,12 @@
       = @crew.boat_name
     %h2
       = @crew.captain_name
+    %p
+      %b sections_within_range
+      %ul
+      - for section in @crew.sections_within_range do
+        %li= "#{section.point.number} - #{section.to_point.number}"
 
+    %p
 
 = render 'map'
