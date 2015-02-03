@@ -8,10 +8,10 @@
     %h2
       = @crew.captain_name
     %p
-      %b sections_within_range
+      %b Next leg
       %ul
-      - for section in @crew.sections_within_range do
-        %li= "#{section.point.number} - #{section.to_point.number}"
+      - for section in @crew.start_point.sections do
+        %li= "#{section.point.number} - #{section.to_point.number_name} (#{section.distance} M)."
 
     %p
 

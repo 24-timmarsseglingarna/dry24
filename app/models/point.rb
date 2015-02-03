@@ -27,9 +27,10 @@ class Point < ActiveRecord::Base
 
   def targets
     target_points = []
-    for section in self.sections do
+    for section in sections do
       target_points << section.to_point
     end
+    target_points
   end
 
   def near

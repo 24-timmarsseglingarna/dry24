@@ -5,8 +5,12 @@ class Crew < ActiveRecord::Base
     Point.find_by_number '555'
   end
 
+  def range
+    20 # nautical miles
+  end
+
   def points_within_range
-    within = start_point.nearbys(4, :units => :nm)
+    within = start_point.nearbys(range, :units => :nm)
     within << start_point
     return within
   end
@@ -15,10 +19,13 @@ class Crew < ActiveRecord::Base
     out_array = Array.new
     for point in points_within_range do
       for section in point.sections do
-        out_array << section
+        unless (section.to_point.distance_to(start_point) > range)
+          out_array << section
+        end
       end
     end
     out_array
   end
 
 end
+
