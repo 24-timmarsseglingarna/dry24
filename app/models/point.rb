@@ -18,6 +18,13 @@ class Point < ActiveRecord::Base
     out
   end
 
+  def targets
+    target_points = Array.new
+    for section in self.sections do
+      target_points << section.to_point
+    end
+    target_points
+  end
 
 end
   

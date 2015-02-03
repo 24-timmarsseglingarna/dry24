@@ -1,0 +1,12 @@
+<script>
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {mapTypeId: google.maps.MapTypeId.TERRAIN }, internal: {id: 'map'}}, function(){
+        <%- for @polyline in @polylines do %>
+            handler.addPolyline(<%=raw @polyline.to_json %>);
+        <%- end %>
+        markers = handler.addMarkers(<%=raw @hash.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+    });
+</script>
+

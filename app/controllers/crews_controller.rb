@@ -10,6 +10,33 @@ class CrewsController < ApplicationController
   # GET /crews/1
   # GET /crews/1.json
   def show
+    @points = Point.find_by_number('555').targets
+    @points << Point.find_by_number('555')
+
+    @polylines = Array.new
+    from_point = Point.find_by_number('555')
+    for point in from_point.targets
+      roundpoints = []
+      roundpoints << {:lng => from_point.long_d, :lat => from_point.lat_d}
+      roundpoints << {:lng => point.long_d, :lat => point.lat_d}
+      @polylines << roundpoints
+    end
+
+
+    @hash = Gmaps4rails.build_markers(@points) do |point, marker|
+      colorcode='ff0'
+      colorcode = 'f0f' if point.number == '555'
+      marker.lat point.lat_d
+      marker.lng point.long_d
+      marker.json({:id => point.number.to_i })
+      marker.title point.number
+      marker.picture ({
+           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+           "width" =>  23,
+           "height" => 41,
+       })
+    end
+
   end
 
   # GET /crews/new
