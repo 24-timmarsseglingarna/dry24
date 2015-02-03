@@ -27,6 +27,7 @@ class CrewsController < ApplicationController
       roundpoints = []
       roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
       roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
+      roundpoints << {:strokeColor => 'ffffff'}
       @polylines << roundpoints
     end
 
@@ -36,7 +37,7 @@ class CrewsController < ApplicationController
       marker.lat point.latitude
       marker.lng point.longitude
       marker.json({:id => point.number.to_i })
-      marker.title point.number
+      marker.title point.number_name
       marker.picture ({
            "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
            "width" =>  23,
@@ -45,6 +46,7 @@ class CrewsController < ApplicationController
     end
 
   end
+
 
   # GET /crews/new
   def new
