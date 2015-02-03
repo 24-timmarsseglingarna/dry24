@@ -8,21 +8,22 @@
       %th Lat
       %th Long
       %th Definition
-      %th
-      %th
-      %th
+      %th Other end
+
       
   %tbody
     - @points.each do |point|
       %tr
-        %td= point.number
-        %td= point.name
+        %td= link_to point.number, point
+        %td= link_to point.name, point
         %td= point.lat
         %td= point.long
         %td= point.definition
-        %td= link_to 'Show', point
-        %td= link_to 'Edit', edit_point_path(point)
-        %td= link_to 'Destroy', point, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td
+          %ul
+            - for section in point.sections do
+              %li= link_to section.other_end, section.to_point
+
 
 %br
 

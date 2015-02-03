@@ -1,0 +1,16 @@
+%p#notice= notice
+
+%p
+  %b Point:
+  = link_to @section.point.number_name, @section.point
+%p
+  %b To point:
+  = link_to @section.to_point.number_name, @section.to_point
+%p
+  %b Distance:
+  = @section.distance
+
+= link_to 'Edit', edit_section_path(@section)
+\|
+= link_to 'Back', sections_path
+= link_to 'Destroy', @section, :method => :delete, :data => { :confirm => "Delete #{@section.point.number_name} - #{@section.to_point.number_name}? Are you sure?" }

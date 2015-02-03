@@ -16,6 +16,14 @@
   %b Definition:
   = @point.definition
 
+%p
+  %b Sections:
+%ol
+  - for section in @point.sections
+    %li= link_to(section.to_point.number_name + " (" + section.distance.to_s + " M)", section)
+
 = link_to 'Edit', edit_point_path(@point)
 \|
 = link_to 'Back', points_path
+\|
+=link_to 'Destroy', @point, :method => :delete, :data => { :confirm => "Delete #{@point.number_name}? Are you sure?" }

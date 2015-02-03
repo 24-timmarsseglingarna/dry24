@@ -1,0 +1,22 @@
+%h1 Listing sections
+
+%table
+  %thead
+    %tr
+      %th Point
+      %th To point
+      %th Distance
+      %th
+      %th
+      
+  %tbody
+    - @sections.each do |section|
+      %tr
+        %td= link_to section.point.number_name, section.point
+        %td= link_to section.to_point.number_name, section.to_point
+        %td= section.distance
+        %td= link_to 'View', section
+        %td= link_to 'Edit', edit_section_path(section)
+%br
+
+= link_to 'New Section', new_section_path
