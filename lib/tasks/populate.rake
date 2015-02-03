@@ -54,7 +54,7 @@ namespace :destroy do
   task :points => :environment do
     Point.destroy_all
   end
-  
+
   task :sections => :environment do
     Section.destroy_all
   end
