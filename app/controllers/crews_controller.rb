@@ -89,6 +89,9 @@ class CrewsController < ApplicationController
     @log_entry.point = @crew.last_point
     @log_entry.from_time = DateTime.now
     @log_entry.to_time = DateTime.now
+    if @log_entry.point.present? && @log_entry.to_point.present?
+      @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
+    end
     next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
     @crew.save
@@ -171,6 +174,6 @@ class CrewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def crew_params
-      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, :to_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description ])
+      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, :to_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description, :distance ])
     end
 end
