@@ -38,10 +38,12 @@ class CrewsController < ApplicationController
 
     @wakes = Array.new
     for leg in @crew.log_entries
-      roundpoints = []
-      roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
-      roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
-      @wakes << roundpoints
+      if leg.point.present? && leg.to_point.present?
+        roundpoints = []
+        roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
+        roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
+        @wakes << roundpoints
+      end
     end
 
     @hash = Gmaps4rails.build_markers(@points) do |point, marker|
@@ -93,9 +95,15 @@ class CrewsController < ApplicationController
   # POST /crews.json
   def create
     @crew = Crew.new(crew_params)
-    @crew.last_point = Point.find_by_number("555")
+    @crew.last_point = @crew.start_point
     respond_to do |format|
       if @crew.save
+        @log_entry = @crew.log_entries.build
+        @log_entry.to_point = @crew.start_point
+        @log_entry.point = nil
+        @log_entry.from_time = nil
+        @log_entry.to_time = DateTime.now
+        @log_entry.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
         format.json { render :show, status: :created, location: @crew }
       else

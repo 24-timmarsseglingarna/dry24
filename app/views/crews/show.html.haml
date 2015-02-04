@@ -32,7 +32,7 @@
           - for log_entry in @crew.log_entries.reverse do
             %tr
               %td= I18n.l log_entry.to_time, :format => :long
-              %td= raw (log_entry.to_point.number_name)
+              %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
               %td 5,6M
               %td NV
               %td 3 m/s
