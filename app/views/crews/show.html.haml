@@ -2,42 +2,39 @@
 
 .map-wrapper
   #map
-  #boat-data
-    #crew
-      %p#notice= notice
-      %h1= @crew.boat_name
-      %p
+  .outer-game-container
+    .inner-game-container
+      .game-box
+        -#%p#notice= notice
+        %h1= @crew.boat_name
         Skeppare:
         = @crew.captain_name
-      %p
-        Nu vid:
-        = raw @crew.last_point.number_name
         %br
-        Nu är klockan ...
+        Start/mål:
+        = @crew.start_point.number_name
+        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{URI.encode(@crew.start_point.number)}"
         %br
-        Vind: NNV 4 m/s
+        Snart framme vid:
+        = @crew.last_point.number_name
+        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{URI.encode(@crew.last_point.number)}"
         %br
-        Hastighet: 3,5 knop
-    #targets
-      %b Vart nu?
-      = semantic_form_for @log_entry, :url => create_log_entry_crew_url do |f|
-        = f.input :to_point, :as => :radio, :label => 'Where to?', :collection => Hash[@point_options.map{|b| ["#{b.number} #{b.name}",b.id]}]
-        -#= f.input :point
-        -#= f.input :crew_id
-        = f.actions do
-          = f.action :submit, :as => :button, :label => 'Segla vidare'
+        = "Tid #{I18n.l DateTime.now, :format => :long}"
+        %br Vind AWA: -..° AWS .. m/s
+        Kurs COG: ..°
+        %br Fart VMG: ... knop VTS: ... knop
+        %h3 Vart nu?
+        %ol
+        -for section in @sections do
+          %li= link_to (raw(section.to_point.number_name) + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
 
-
-        -# %ul
-        -# - for section in @crew.last_point.sections do
-        -#   %li= link_to "#{section.point.number} - #{section.to_point.number_name} (#{section.distance} M).", create_log_entry_crew_path(:section_id => section.id)
-
-    #logg-book
-      %p
-        %b Loggbok
-        %ul
-        - for log_entry in @crew.log_entries do
-          %li= raw (log_entry.point.number_name) + '--' + log_entry.to_point.number_name
-
+        %h3 Loggbok
+        %table.logbook
+          - for log_entry in @crew.log_entries.reverse do
+            %tr
+              %td= I18n.l log_entry.to_time, :format => :long
+              %td= raw (log_entry.to_point.number_name)
+              %td 5,6M
+              %td NV
+              %td 3 m/s
 
 = render 'map'

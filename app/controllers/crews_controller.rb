@@ -14,7 +14,7 @@ class CrewsController < ApplicationController
     @log_entry.crew = @crew
     @log_entry.point = @crew.last_point
 
-    @point_options = @crew.last_point.targets
+    @sections = @crew.last_point.sections
     @points = @crew.last_point.targets
     @points << @crew.last_point
     @points << @crew.start_point
@@ -39,8 +39,8 @@ class CrewsController < ApplicationController
 
     @hash = Gmaps4rails.build_markers(@points) do |point, marker|
       colorcode='ff0'
-      colorcode = 'ff8c00' if point.number == '555'
-      colorcode = 'f00' if point.number == @crew.last_point.number
+      colorcode = 'ff8c00' if point.number == @crew.start_point.number
+      colorcode = '66ff66' if point.number == @crew.last_point.number
       marker.lat point.latitude
       marker.lng point.longitude
       marker.json({:id => point.number.to_i })
@@ -50,17 +50,18 @@ class CrewsController < ApplicationController
            "width" =>  23,
            "height" => 41,
        })
+      #"url" => "http://maps.google.com/mapfiles/ms/micons/sailing.png",
     end
   end
 
   def create_log_entry
     @crew = Crew.find(params[:id])
     @log_entry = @crew.log_entries.build
-    @log_entry.to_point_id = params[:log_entry][:to_point_id]
+    @log_entry.to_point_id = params[:to_point_id]
     @log_entry.point = @crew.last_point
     @log_entry.from_time = DateTime.now
     @log_entry.to_time = DateTime.now
-    next_point = Point.find params[:log_entry][:to_point_id]
+    next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
     @crew.save
     if @log_entry.save
@@ -129,6 +130,6 @@ class CrewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def crew_params
-      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description ])
+      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, :to_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description ])
     end
 end
