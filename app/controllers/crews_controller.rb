@@ -28,12 +28,11 @@ class CrewsController < ApplicationController
       @polylines << roundpoints
     end
 
-    @polylines = Array.new
+
     for section in @crew.sections_within_range
       roundpoints = []
       roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
       roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
-      roundpoints << {:strokeColor => 'ffffff'}
       @polylines << roundpoints
     end
 
