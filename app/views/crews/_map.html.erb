@@ -20,7 +20,5 @@
         handler.getMap().setZoom(10);
         var centerpoint = new google.maps.LatLng(<%= raw @crew.last_point.latitude %>,<%= raw @crew.last_point.longitude %>);
         handler.getMap().setCenter(centerpoint);
-        /*handler.bounds.extendWith(markers);
-        handler.fitMapToBounds();*/
     });
 </script>
