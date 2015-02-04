@@ -7,6 +7,7 @@
       .game-box
         -#%p#notice= notice
         %h1= @crew.boat_name
+        %p= "Under tävling" unless @crew.finished
         Skeppare:
         = @crew.captain_name
         %br
@@ -14,19 +15,27 @@
         = @crew.start_point.number_name
         = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{URI.encode(@crew.start_point.number)}"
         %br
-        Snart framme vid:
-        = @crew.last_point.number_name
-        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{URI.encode(@crew.last_point.number)}"
-        %br
-        = "Tid #{I18n.l DateTime.now, :format => :long}"
-        %br Vind AWA: -..° AWS .. m/s
-        Kurs COG: ..°
-        %br Fart VMG: ... knop VTS: ... knop
-        %h3 Vart nu?
-        %ol
-        -for section in @sections do
-          %li= link_to (raw(section.to_point.number_name) + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+        - unless @crew.finished
+          Vid:
+          = @crew.last_point.number_name
+          = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{URI.encode(@crew.last_point.number)}"
+          %br
+          = "Tid #{I18n.l DateTime.now, :format => :long}"
+          %br Vind AWA: -..° AWS .. m/s
+          Kurs COG: ..°
+          %br Fart VMG: ... knop VTS: ... knop
+          %h3 Vart nu?
+          %ol
+          - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
+            %b Du är nu vid start-/målpunkten. Vill du gå i mål eller fortsätta segla?
+            = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
 
+          %p Gå till ...
+          %ul
+          -for section in @sections do
+            %li= link_to (raw(section.to_point.number_name) + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+        - else
+          %p=link_to 'Börja om?', crews_path
         %h3 Loggbok
         %table.logbook
           - for log_entry in @crew.log_entries.reverse do

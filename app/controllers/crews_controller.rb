@@ -82,6 +82,13 @@ class CrewsController < ApplicationController
     redirect_to crew_url(@crew), notice: "Rundat."
   end
 
+  def finish
+    @crew = Crew.find(params[:id])
+    @crew.finished= true
+    @crew.save
+    redirect_to crew_url(@crew), notice: "Gått i mål."
+  end
+
   # GET /crews/new
   def new
     @crew = Crew.new

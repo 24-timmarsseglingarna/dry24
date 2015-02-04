@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150203175233) do
+ActiveRecord::Schema.define(version: 20150204182916) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
     t.string   "captain_name"
     t.string   "captain_email"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "last_point_id"
+    t.boolean  "finished",      default: false
   end
 
   create_table "log_entries", force: :cascade do |t|
