@@ -53,6 +53,6 @@
             %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
             %td= log_entry.distance.to_s + " M"
             %td NV 3 m/s
-
+      %p= "Torrsegling version: #{Rails.configuration.version}"
 
 = render 'map'
