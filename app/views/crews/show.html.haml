@@ -36,14 +36,23 @@
             %li= link_to (raw(section.to_point.number_name) + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
         - else
           %p=link_to 'Börja om?', crews_path
-        %h3 Loggbok
-        %table.logbook
-          - for log_entry in @crew.log_entries.reverse do
-            %tr
-              %td= I18n.l log_entry.to_time, :format => :long
-              %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
-              %td 5,6M
-              %td NV
-              %td 3 m/s
+      - sum = 0.0
+      - for log_entry in @crew.log_entries do
+        - sum += log_entry.distance.to_f
+      %p= "Nettodistans: #{sum.round(1)} M."
+      %h3 Loggbok
+      %table.logbook
+        %tr
+          %th Tid
+          %th Punkt
+          %th Distans
+          %th Vind
+        - for log_entry in @crew.log_entries.reverse do
+          %tr
+            %td= I18n.l log_entry.to_time, :format => :long
+            %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
+            %td= log_entry.distance.to_s + " M"
+            %td NV 3 m/s
+
 
 = render 'map'

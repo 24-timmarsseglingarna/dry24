@@ -1,16 +1,3 @@
-
-.alpha60 {
-  /* Fallback for web browsers that doesn't support RGBa */
-  background: rgb(105, 105, 105) transparent;
-  /* RGBa with 0.6 opacity */
-  background: rgba(105, 105, 105, 0.6);
-  /* For IE 5.5 - 7*/
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#69696900, endColorstr=#69696900);
-  /* For IE 8*/
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#69696900, endColorstr=#69696900)";
-}
-
-
 .formtastic .choices-group {
   width: 90%;
   padding-left: 5%;
@@ -30,7 +17,7 @@
   list-style-type: none;
 }
 
-.logbook, .logbook tr, .logbook td {
+.logbook, .logbook tr, .logbook td, .logbook th {
   border: solid 1px black;
   border-collapse: collapse;
 }
