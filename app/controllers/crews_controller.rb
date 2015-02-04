@@ -28,13 +28,20 @@ class CrewsController < ApplicationController
       @polylines << roundpoints
     end
 
-    @polylines = Array.new
+
     for section in @crew.sections_within_range
       roundpoints = []
       roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
       roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
-      roundpoints << {:strokeColor => 'ffffff'}
       @polylines << roundpoints
+    end
+
+    @wakes = Array.new
+    for leg in @crew.log_entries
+      roundpoints = []
+      roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
+      roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
+      @wakes << roundpoints
     end
 
     @hash = Gmaps4rails.build_markers(@points) do |point, marker|
