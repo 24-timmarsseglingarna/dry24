@@ -27,3 +27,29 @@
     /* For IE 8*/
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff00, endColorstr=#ffffff00)";
 }
+
+#notice {
+    background-color: #ffffff;
+}
+
+.formtastic .choices-group {
+    width: 90%;
+    padding-left: 5%;
+}
+
+.formtastic .choices .label {
+    margin-top: -2em;
+}
+
+element.style {
+}
+9media="all"
+.formtastic .input {
+    overflow: hidden;
+    padding: 0.5em 0;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+}
+.formtastic ul, .formtastic ol, .formtastic li {
+    list-style-type: none;
+}

@@ -8,7 +8,8 @@
       %th From time
       %th To time
       %th Description
-      %th Poition
+      %th Position
+      %th Crew
       %th
       %th
       %th
@@ -16,12 +17,13 @@
   %tbody
     - @log_entries.each do |log_entry|
       %tr
-        %td= log_entry.point_id
-        %td= log_entry.to_point_id
+        %td= log_entry.point.number_name unless log_entry.point.blank?
+        %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
         %td= log_entry.from_time
         %td= log_entry.to_time
         %td= log_entry.description
-        %td= log_entry.poition
+        %td= log_entry.position
+        %td= log_entry.crew.boat_name unless log_entry.crew.blank?
         %td= link_to 'Show', log_entry
         %td= link_to 'Edit', edit_log_entry_path(log_entry)
         %td= link_to 'Destroy', log_entry, :method => :delete, :data => { :confirm => 'Are you sure?' }

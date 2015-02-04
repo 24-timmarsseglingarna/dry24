@@ -2,10 +2,10 @@
 
 %p
   %b Point:
-  = @log_entry.point_id
+  = @log_entry.point
 %p
   %b To point:
-  = @log_entry.to_point_id
+  = @log_entry.to_point.number_name
 %p
   %b From time:
   = @log_entry.from_time
@@ -16,8 +16,12 @@
   %b Description:
   = @log_entry.description
 %p
-  %b Poition:
-  = @log_entry.poition
+  %b Position:
+  = @log_entry.position
+
+%p
+  %b Crew:
+  = @log_entry.crew.boat_name unless @log_entry.crew.blank?
 
 = link_to 'Edit', edit_log_entry_path(@log_entry)
 \|

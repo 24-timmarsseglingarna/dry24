@@ -10,11 +10,17 @@ class CrewsController < ApplicationController
   # GET /crews/1
   # GET /crews/1.json
   def show
-    @points = Point.find_by_number('555').targets
-    @points << Point.find_by_number('555')
+    @log_entry = LogEntry.new
+    @log_entry.crew = @crew
+    @log_entry.point = @crew.last_point
+
+    @point_options = @crew.last_point.targets
+    @points = @crew.last_point.targets
+    @points << @crew.last_point
+    @points << @crew.start_point
 
     @polylines = Array.new
-    from_point = Point.find_by_number('555')
+    from_point = @crew.last_point
     for point in from_point.targets
       roundpoints = []
       roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
@@ -33,7 +39,8 @@ class CrewsController < ApplicationController
 
     @hash = Gmaps4rails.build_markers(@points) do |point, marker|
       colorcode='ff0'
-      colorcode = 'f0f' if point.number == '555'
+      colorcode = 'ff8c00' if point.number == '555'
+      colorcode = 'f00' if point.number == @crew.last_point.number
       marker.lat point.latitude
       marker.lng point.longitude
       marker.json({:id => point.number.to_i })
@@ -44,9 +51,27 @@ class CrewsController < ApplicationController
            "height" => 41,
        })
     end
-
   end
 
+  def create_log_entry
+    @crew = Crew.find(params[:id])
+    @log_entry = @crew.log_entries.build
+    @log_entry.to_point_id = params[:log_entry][:to_point_id]
+    @log_entry.point = @crew.last_point
+    @log_entry.from_time = DateTime.now
+    @log_entry.to_time = DateTime.now
+    next_point = Point.find params[:log_entry][:to_point_id]
+    @crew.last_point = next_point
+    @crew.save
+    if @log_entry.save
+      @log_entry = LogEntry.new
+    end
+
+    #render :action => :show
+    @point_options = @crew.last_point.targets
+    #render 'crews/show'
+    redirect_to crew_url(@crew)
+  end
 
   # GET /crews/new
   def new
@@ -61,7 +86,7 @@ class CrewsController < ApplicationController
   # POST /crews.json
   def create
     @crew = Crew.new(crew_params)
-
+    @crew.last_point = Point.find_by_number("555")
     respond_to do |format|
       if @crew.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
@@ -105,6 +130,6 @@ class CrewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def crew_params
-      params.require(:crew).permit(:boat_name, :captain_name, :captain_email)
+      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description ])
     end
 end
