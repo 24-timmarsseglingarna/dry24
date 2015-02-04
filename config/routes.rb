@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   resources :crews do
     member do
       post 'create_log_entry'
+      put 'finish'
     end
   end
 
