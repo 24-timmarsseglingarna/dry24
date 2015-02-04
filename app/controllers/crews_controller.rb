@@ -36,6 +36,7 @@ class CrewsController < ApplicationController
       @polylines << roundpoints
     end
 
+    @visited = Array.new
     @wakes = Array.new
     for leg in @crew.log_entries
       if leg.point.present? && leg.to_point.present?
@@ -43,24 +44,42 @@ class CrewsController < ApplicationController
         roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
         roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
         @wakes << roundpoints
+        @visited << leg.to_point
       end
     end
 
-    @hash = Gmaps4rails.build_markers(@points) do |point, marker|
-      colorcode='ff0'
-      colorcode = 'ff8c00' if point.number == @crew.start_point.number
-      colorcode = '66ff66' if point.number == @crew.last_point.number
-      marker.lat point.latitude
-      marker.lng point.longitude
-      marker.json({:id => point.number.to_i })
-      marker.title point.number_name
-      marker.picture ({
-           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
-           "width" =>  23,
-           "height" => 41,
-       })
-      #"url" => "http://maps.google.com/mapfiles/ms/micons/sailing.png",
+    if @crew.finished
+      @hash = Gmaps4rails.build_markers(@visited) do |point, marker|
+        colorcode='fff'
+        colorcode = 'ff8c00' if point.number == @crew.start_point.number
+        marker.lat point.latitude
+        marker.lng point.longitude
+        marker.json({:id => point.number.to_i })
+        marker.title point.number_name
+        marker.picture ({
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "width" =>  23,
+                           "height" => 41,
+                       })
+      end
+    else
+      @hash = Gmaps4rails.build_markers(@points) do |point, marker|
+        colorcode='ff0'
+        colorcode = 'ff8c00' if point.number == @crew.start_point.number
+        colorcode = '66ff66' if point.number == @crew.last_point.number
+        marker.lat point.latitude
+        marker.lng point.longitude
+        marker.json({:id => point.number.to_i })
+        marker.title point.number_name
+        marker.picture ({
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "width" =>  23,
+                           "height" => 41,
+                       })
+        #"url" => "http://maps.google.com/mapfiles/ms/micons/sailing.png",
+      end
     end
+
   end
 
   def create_log_entry

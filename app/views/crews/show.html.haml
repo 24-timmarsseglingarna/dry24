@@ -7,7 +7,7 @@
       .game-box
         -#%p#notice= notice
         %h1= @crew.boat_name
-        %p= "Under tävling" unless @crew.finished
+        %p= 'Under tävling' unless @crew.finished
         Skeppare:
         = @crew.captain_name
         %br

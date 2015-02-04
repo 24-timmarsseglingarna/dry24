@@ -18,7 +18,12 @@
         <%- end %>
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
         handler.getMap().setZoom(10);
-        var centerpoint = new google.maps.LatLng(<%= raw @crew.last_point.latitude %>,<%= raw @crew.last_point.longitude %>);
-        handler.getMap().setCenter(centerpoint);
+        <%- if @crew.finished %>
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        <%- else %>
+            var centerpoint = new google.maps.LatLng(<%= raw @crew.last_point.latitude %>,<%= raw @crew.last_point.longitude %>);
+            handler.getMap().setCenter(centerpoint);
+        <%- end %>
     });
 </script>
