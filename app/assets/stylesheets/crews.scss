@@ -1,10 +1,58 @@
 // Place all the styles related to the crews controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 .map-wrapper {
   width:  100%;
 }
 
+#map {
+  width: 74%;
+  float:left;
+  height: 100%;
+  height: 100vh;
+}
+
+
+.outer-game-container{
+  float: right;
+  width: 25%;
+  height: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow:auto;
+
+}
+
+.inner-game-container{
+
+}
+
+.game-box{
+  margin: 0;
+  padding: 0;
+}
+#crew {
+  background-color: #ffff00;
+}
+
+#targets {
+  background-color: #ffe4b5;
+}
+#log-book {
+  right: 0;
+  bottom: 0;
+}
+
+/*
 #map {
   position: absolute;
   left: 0px;
@@ -16,8 +64,14 @@
 
 #boat-data {
   position: absolute;
-  left: 0px;
-  bottom: 0px;
+  right: 0px;
+  top: 0px;
   z-index: 1;
-  padding: 0.5em;
+  padding: 0 0.5em 0 0.5em;
+  height: 100%;
+  height: 100vh;
+  border-radius: 2em;
+  overflow:auto;
 }
+
+*/

@@ -1,0 +1,36 @@
+
+.alpha60 {
+  /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(105, 105, 105) transparent;
+  /* RGBa with 0.6 opacity */
+  background: rgba(105, 105, 105, 0.6);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#69696900, endColorstr=#69696900);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#69696900, endColorstr=#69696900)";
+}
+
+
+.formtastic .choices-group {
+  width: 90%;
+  padding-left: 5%;
+}
+
+.formtastic .choices .label {
+  margin-top: -2em;
+}
+
+.formtastic .input {
+  overflow: hidden;
+  padding: 0.5em 0;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+.formtastic ul, .formtastic ol, .formtastic li {
+  list-style-type: none;
+}
+
+.logbook, .logbook tr, .logbook td {
+  border: solid 1px black;
+  border-collapse: collapse;
+}
