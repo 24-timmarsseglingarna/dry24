@@ -37,6 +37,14 @@ class CrewsController < ApplicationController
       @polylines << roundpoints
     end
 
+    @wakes = Array.new
+    for leg in @crew.log_entries
+      roundpoints = []
+      roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
+      roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
+      @wakes << roundpoints
+    end
+
     @hash = Gmaps4rails.build_markers(@points) do |point, marker|
       colorcode='ff0'
       colorcode = 'ff8c00' if point.number == @crew.start_point.number
