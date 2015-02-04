@@ -1,6 +1,14 @@
 <script>
     handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {mapTypeId: google.maps.MapTypeId.TERRAIN }, internal: {id: 'map'}}, function(){
+    handler.buildMap({ provider: {mapTypeId: google.maps.MapTypeId.TERRAIN,
+            panControl: false,
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            overviewMapControl: true
+    },
+        internal: {id: 'map'}}, function(){
         <%- for @polyline in @polylines do %>
             handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#FF0000', strokeOpacity:0.2, strokeWeight:2});
         <%- end %>

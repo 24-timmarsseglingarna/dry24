@@ -68,9 +68,8 @@ class CrewsController < ApplicationController
     end
 
     #render :action => :show
-    @point_options = @crew.last_point.targets
     #render 'crews/show'
-    redirect_to crew_url(@crew)
+    redirect_to crew_url(@crew), notice: "Rundat."
   end
 
   # GET /crews/new

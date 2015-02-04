@@ -21,7 +21,7 @@ class Point < ActiveRecord::Base
 
   def number_name
     out = number
-    out += ' ' + name unless name.blank?
+    out += '&nbsp;' + name unless name.blank?
     out
   end
 
