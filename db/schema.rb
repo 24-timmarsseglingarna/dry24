@@ -11,14 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150130111811) do
+ActiveRecord::Schema.define(version: 20150204195929) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
     t.string   "captain_name"
     t.string   "captain_email"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "last_point_id"
+    t.boolean  "finished",      default: false
+  end
+
+  create_table "log_entries", force: :cascade do |t|
+    t.integer  "point_id"
+    t.integer  "to_point_id"
+    t.datetime "from_time"
+    t.datetime "to_time"
+    t.string   "description"
+    t.integer  "position"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "crew_id"
+    t.float    "distance",    default: 0.0
   end
 
   create_table "points", force: :cascade do |t|
@@ -29,6 +44,8 @@ ActiveRecord::Schema.define(version: 20150130111811) do
     t.string   "definition"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "sections", force: :cascade do |t|

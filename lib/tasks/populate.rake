@@ -26,6 +26,8 @@ namespace :populate do
       point.definition = doc.xpath("//PoD//punkt//definition").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
       point.lat = doc.xpath("//PoD//punkt//lat").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
       point.long = doc.xpath("//PoD//punkt//long").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
+      point.longitude = (point.long.split[0].to_d + point.long.split[1].gsub(/,/, ".").to_d/60).to_f
+      point.latitude = (point.lat.split[0].to_d + point.lat.split[1].gsub(/,/, ".").to_d/60).to_f
       point.save!
       puts "---#{point.number_name}  ---"
       doc.search("tillpunkter").search("punkt").each do |other_end|
@@ -52,4 +54,14 @@ namespace :destroy do
   task :points => :environment do
     Point.destroy_all
   end
+
+  task :sections => :environment do
+    Section.destroy_all
+  end
+
+  task :crews => :environment do
+    Crew.destroy_all
+  end
+
+
 end

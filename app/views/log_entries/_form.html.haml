@@ -1,0 +1,12 @@
+= semantic_form_for @log_entry do |f|
+  = f.inputs do
+    = f.input :point, :collection => Hash[Point.all.order('number ASC').map{|b| ["#{b.number} #{b.name}",b.id]}]
+    = f.input :to_point, :collection => Hash[Point.all.order('number ASC').map{|b| ["#{b.number} #{b.name}",b.id]}]
+    = f.input :from_time
+    = f.input :to_time
+    = f.input :description
+    = f.input :position
+    = f.input :crew, :collection => Hash[Crew.all.order('boat_name ASC').map{|b| ["#{b.boat_name} -- #{b.captain_name}",b.id]}]
+
+  = f.actions do
+    = f.action :submit, :as => :input
