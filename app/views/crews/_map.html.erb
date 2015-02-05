@@ -9,8 +9,12 @@
             overviewMapControl: true,
     },
         internal: {id: 'map'}}, function(){
-        <%- for @polyline in @polylines do %>
-            handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#FF0000', strokeOpacity:0.2, strokeWeight:2});
+        <%- for @polyline in @in_range do %>
+        handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#000000', strokeOpacity:0.2, strokeWeight:2});
+        <%- end %>
+
+        <%- for @polyline in @next_options do %>
+            handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#FF0000', strokeOpacity:1, strokeWeight:2});
         <%- end %>
 
         <%- for @polyline in @wakes do %>

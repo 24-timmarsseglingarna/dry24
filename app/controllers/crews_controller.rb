@@ -19,21 +19,22 @@
     @points << @crew.last_point
     @points << @crew.start_point
 
-    @polylines = Array.new
-    from_point = @crew.last_point
-    for point in from_point.targets
-      roundpoints = []
-      roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
-      roundpoints << {:lng => point.longitude, :lat => point.latitude}
-      @polylines << roundpoints
+    @next_options = Array.new
+    unless @crew.finished
+      from_point = @crew.last_point
+      for point in from_point.targets
+        roundpoints = []
+        roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
+        roundpoints << {:lng => point.longitude, :lat => point.latitude}
+        @next_options << roundpoints
+      end
     end
-
-
+    @in_range = Array.new
     for section in @crew.sections_within_range
       roundpoints = []
       roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
       roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
-      @polylines << roundpoints
+      @in_range << roundpoints
     end
 
     @visited = Array.new
