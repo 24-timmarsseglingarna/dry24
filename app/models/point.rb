@@ -12,11 +12,11 @@ class Point < ActiveRecord::Base
   end
 
   def latitude
-    (lat.split[0].to_d + lat.split[1].gsub(/,/, ".").to_d/60).to_f
+  #  (lat.split[0].to_d + lat.split[1].gsub(/,/, ".").to_d/60).to_f
   end
 
   def longitude
-    (long.split[0].to_d + long.split[1].gsub(/,/, ".").to_d/60).to_f
+   # (long.split[0].to_d + long.split[1].gsub(/,/, ".").to_d/60).to_f
   end
 
   def number_name

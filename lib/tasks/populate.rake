@@ -63,5 +63,8 @@ namespace :destroy do
     Crew.destroy_all
   end
 
+  task :log_entries => :environment do
+    LogEntry.destroy_all
+  end
 
 end
