@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204195929) do
+ActiveRecord::Schema.define(version: 20150205082815) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
@@ -37,10 +37,8 @@ ActiveRecord::Schema.define(version: 20150204195929) do
   end
 
   create_table "points", force: :cascade do |t|
-    t.string   "number"
+    t.integer  "number"
     t.string   "name"
-    t.string   "lat"
-    t.string   "long"
     t.string   "definition"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

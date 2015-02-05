@@ -1,4 +1,4 @@
-class CrewsController < ApplicationController
+  class CrewsController < ApplicationController
   before_action :set_crew, only: [:show, :edit, :update, :destroy]
 
   # GET /crews
@@ -19,21 +19,22 @@ class CrewsController < ApplicationController
     @points << @crew.last_point
     @points << @crew.start_point
 
-    @polylines = Array.new
-    from_point = @crew.last_point
-    for point in from_point.targets
-      roundpoints = []
-      roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
-      roundpoints << {:lng => point.longitude, :lat => point.latitude}
-      @polylines << roundpoints
+    @next_options = Array.new
+    unless @crew.finished
+      from_point = @crew.last_point
+      for point in from_point.targets
+        roundpoints = []
+        roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
+        roundpoints << {:lng => point.longitude, :lat => point.latitude}
+        @next_options << roundpoints
+      end
     end
-
-
+    @in_range = Array.new
     for section in @crew.sections_within_range
       roundpoints = []
       roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
       roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
-      @polylines << roundpoints
+      @in_range << roundpoints
     end
 
     @visited = Array.new
@@ -57,7 +58,7 @@ class CrewsController < ApplicationController
         marker.json({:id => point.number.to_i })
         marker.title point.number_name
         marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
                            "width" =>  23,
                            "height" => 41,
                        })
@@ -72,7 +73,7 @@ class CrewsController < ApplicationController
         marker.json({:id => point.number.to_i })
         marker.title point.number_name
         marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
                            "width" =>  23,
                            "height" => 41,
                        })
