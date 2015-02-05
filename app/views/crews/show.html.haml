@@ -13,12 +13,12 @@
         %br
         Start/mål:
         = @crew.start_point.number_name
-        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{URI.encode(@crew.start_point.number)}"
+        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
         %br
         - unless @crew.finished
           Vid:
           = @crew.last_point.number_name
-          = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{URI.encode(@crew.last_point.number)}"
+          = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
           %br
           = "Tid #{I18n.l DateTime.now, :format => :long}"
           %br Vind AWA: -..° AWS .. m/s

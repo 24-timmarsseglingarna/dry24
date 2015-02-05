@@ -6,9 +6,9 @@ class Section < ActiveRecord::Base
   validates_numericality_of :distance, greater_than_or_equal_to: 0
 
   def other_end
-    str = to_point.number
+    str = to_point.number.to_s
     str += ' ' + to_point.name unless to_point.name.blank?
     str += ' (' + distance.to_s + ')' unless distance.blank?
-    return str
+    str
   end
 end

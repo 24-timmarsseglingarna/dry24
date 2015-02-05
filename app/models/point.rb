@@ -1,26 +1,50 @@
 class Point < ActiveRecord::Base
-  include  ActionView::Helpers::OutputSafetyHelper
-  validates :number, length: {in: 1..4}, uniqueness: true, numericality: { only_integer: true, greater_than: 0 }
-  validates_length_of :name, :minimum => 2, :allow_blank => true
+  include ActionView::Helpers::NumberHelper
+
+  default_scope { order('number ASC') }
   has_many :sections
 
-  geocoded_by :full_address
-  after_validation :geocode
+  validates :number, numericality: { only_integer: true, greater_than: 0 }
+  validates_length_of :name, :minimum => 2, :allow_blank => true
+  validates_numericality_of :longitude, :greater_than_or_equal_to => -90, :less_than_or_equal_to => 90, :allow_nil => true
+  validates_numericality_of :latitude, :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180, :allow_nil => true
+
+  after_validation :geocode, :if => false
+
+  geocoded_by nil #:full_address
 
   def full_address
-    'Stavsnäs vinterhamn, Värmdö'
+    nil
   end
 
-  def latitude
-    (lat.split[0].to_d + lat.split[1].gsub(/,/, ".").to_d/60).to_f
+  def lat
+    if latitude.present?
+      if latitude < 0
+        hemisphere = 'S'
+      else
+        hemisphere = 'N'
+      end
+       "#{hemisphere} #{latitude.floor}°#{number_with_precision(((latitude-latitude.floor)*60), precision: 2) }'"
+    else
+      nil
+    end
   end
 
-  def longitude
-    (long.split[0].to_d + long.split[1].gsub(/,/, ".").to_d/60).to_f
+  def long
+    if longitude.present?
+      if longitude < 0
+        hemisphere = 'W'
+      else
+        hemisphere = 'E'
+      end
+      "#{hemisphere} #{longitude.floor}°#{number_with_precision(((longitude-longitude.floor)*60), precision: 2) }'"
+    else
+      nil
+    end
   end
 
   def number_name
-    out = number
+    out = number.to_s
     unless name.blank?
       out += ' ' + name
     end
@@ -33,12 +57,6 @@ class Point < ActiveRecord::Base
       target_points << section.to_point
     end
     target_points
-  end
-
-  def near
-    #Point.near([latitude, longitude], 60, :units => :nm)
-    nearbys(10, :units => :nm)
-
   end
 
 end

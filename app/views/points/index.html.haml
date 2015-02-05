@@ -12,7 +12,7 @@
 
       
   %tbody
-    - @points.each do |point|
+    - @points.first(5).each do |point|
       %tr
         %td= link_to point.number, point
         %td= link_to point.name, point

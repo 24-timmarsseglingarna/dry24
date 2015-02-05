@@ -11,7 +11,7 @@ namespace :import do
     doc = Nokogiri::XML(open("http://dev.24-timmars.nu/PoD/api/xmlapi2.php?points"), nil, 'ISO-8859-1'  )
     # TODO set character encoding
     doc.xpath("//punkter//punkt//nummer").each do |number|
-      p = Point.find_or_create_by(number: number.content.to_s.strip)
+      p = Point.find_or_create_by(number: number.content.to_s.strip.to_i)
       p.save!
     end
   end
@@ -24,10 +24,10 @@ namespace :populate do
       #name = doc.xpath("//PoD//punkt//namn").first.content
       point.name = doc.xpath("//PoD//punkt//namn").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
       point.definition = doc.xpath("//PoD//punkt//definition").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
-      point.lat = doc.xpath("//PoD//punkt//lat").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
-      point.long = doc.xpath("//PoD//punkt//long").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
-      point.longitude = (point.long.split[0].to_d + point.long.split[1].gsub(/,/, ".").to_d/60).to_f
-      point.latitude = (point.lat.split[0].to_d + point.lat.split[1].gsub(/,/, ".").to_d/60).to_f
+      lat = doc.xpath("//PoD//punkt//lat").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
+      long = doc.xpath("//PoD//punkt//long").first.content.strip.encode("iso-8859-1").force_encoding("utf-8")
+      point.longitude = (long.split[0].to_d + long.split[1].gsub(/,/, ".").to_d/60).to_f
+      point.latitude = (lat.split[0].to_d + lat.split[1].gsub(/,/, ".").to_d/60).to_f
       point.save!
       puts "---#{point.number_name}  ---"
       doc.search("tillpunkter").search("punkt").each do |other_end|
@@ -40,12 +40,6 @@ namespace :populate do
 
     end
   end
-
-
-
-
-
-
 
 end
 

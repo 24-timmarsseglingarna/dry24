@@ -1,4 +1,4 @@
-class CrewsController < ApplicationController
+  class CrewsController < ApplicationController
   before_action :set_crew, only: [:show, :edit, :update, :destroy]
 
   # GET /crews
@@ -57,7 +57,7 @@ class CrewsController < ApplicationController
         marker.json({:id => point.number.to_i })
         marker.title point.number_name
         marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
                            "width" =>  23,
                            "height" => 41,
                        })
@@ -72,7 +72,7 @@ class CrewsController < ApplicationController
         marker.json({:id => point.number.to_i })
         marker.title point.number_name
         marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{URI.encode(point.number)}",
+                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
                            "width" =>  23,
                            "height" => 41,
                        })
