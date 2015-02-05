@@ -11,7 +11,7 @@ class Point < ActiveRecord::Base
 
   after_validation :geocode, :if => false
 
-  geocoded_by nil #:full_address
+  geocoded_by :full_address
 
   def full_address
     nil
