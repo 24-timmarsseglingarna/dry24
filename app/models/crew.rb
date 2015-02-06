@@ -32,16 +32,20 @@ class Crew < ActiveRecord::Base
     out_array
   end
 
-  def add_leg section=nil
-    unless section.blank?
-      log_entry = LogEntry.new
-      log_entry.crew_id = self.id
-      log_entry.from_time = DateTime.now
-      log_entry.point_id = section.point_id
-      log_entry.to_point_id = section.to_point_id
-      log_entry.save!
-      last_point = log_entry.to_point
+  def tripled_rounding? point
+    roundings = Array.new
+    for log_entry in log_entries do
+      roundings << log_entry.to_point unless log_entry.to_point.blank?
     end
+    no_of_uses = roundings.count(point)
+    no_of_uses-= 2 if point == start_point
+    no_of_uses > 2
   end
+
+  def tripled_sections? log_entry
+    (LogEntry.where(crew: self, point: log_entry.point, to_point: log_entry.to_point).count +
+     LogEntry.where(crew: self, point: log_entry.to_point, to_point: log_entry.point).count) > 2
+  end
+
 end
 
