@@ -50,7 +50,9 @@
         - for log_entry in @crew.log_entries.reverse do
           %tr
             %td= I18n.l log_entry.to_time, :format => :long
-            %td= log_entry.to_point.number_name unless log_entry.to_point.blank?
+            %td
+              = log_entry.to_point.number_name unless log_entry.to_point.blank?
+              = log_entry.description
             %td= log_entry.distance.to_s + " M"
             %td NV 3 m/s
       %p= "Torrsegling version: #{Rails.configuration.version}"

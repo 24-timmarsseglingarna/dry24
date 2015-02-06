@@ -97,6 +97,16 @@
     @crew.last_point = next_point
     @crew.save
     if @log_entry.save
+      logger.info "++++ #{@log_entry.to_point.number_name}"
+      logger.info "++++ #{@crew.tripled_rounding? @log_entry.to_point}"
+      if @crew.tripled_rounding? @log_entry.to_point
+        @punishment = @crew.log_entries.build
+        @punishment.description = "Rundat #{@log_entry.to_point.number} för många gånger."
+        @punishment.from_time = DateTime.now
+        @punishment.to_time = DateTime.now
+        @punishment.distance = - @log_entry.distance
+        @punishment.save
+      end
       @log_entry = LogEntry.new
     end
 
