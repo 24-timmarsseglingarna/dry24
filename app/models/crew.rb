@@ -37,9 +37,15 @@ class Crew < ActiveRecord::Base
     for log_entry in log_entries do
       roundings << log_entry.to_point unless log_entry.to_point.blank?
     end
-    no_of_roundings = roundings.count(point)
-    no_of_roundings-= 2 if point == start_point
-    no_of_roundings >= 3
+    no_of_uses = roundings.count(point)
+    no_of_uses-= 2 if point == start_point
+    no_of_uses > 2
   end
+
+  def tripled_sections? log_entry
+    (LogEntry.where(crew: self, point: log_entry.point, to_point: log_entry.to_point).count +
+     LogEntry.where(crew: self, point: log_entry.to_point, to_point: log_entry.point).count) > 2
+  end
+
 end
 
