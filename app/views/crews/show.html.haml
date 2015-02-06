@@ -24,7 +24,7 @@
               .legend#cog
                 COG
               .value
-                = "#{@crew.cog}°"
+                = '%.0f' % @crew.cog + '°'
             .instrument#sog
               .legend
                 SOG

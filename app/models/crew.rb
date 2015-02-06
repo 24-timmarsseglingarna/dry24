@@ -98,12 +98,21 @@ class Crew < ActiveRecord::Base
     sog
   end
 
+  # Person.where(["user_name = :u", { u: user_name }]).first
   def cog
-    0
+    out = 0
+    log_entry = LogEntry.where(crew: self, to_point: last_point).last
+    if log_entry.present?
+      if log_entry.point.present? && log_entry.to_point.present?
+        out = log_entry.point.bearing_to log_entry.to_point
+      end
+    end
+    out
   end
 
   def game_time
     DateTime.now
   end
+
 end
 
