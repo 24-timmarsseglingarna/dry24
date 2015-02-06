@@ -9,7 +9,6 @@ class Crew < ActiveRecord::Base
     Point.find_by_number '555'
   end
 
-
   def range
     60 # nautical miles
   end
@@ -47,5 +46,64 @@ class Crew < ActiveRecord::Base
      LogEntry.where(crew: self, point: log_entry.to_point, to_point: log_entry.point).count) > 2
   end
 
+  # True Wind Speed
+  def tws
+    1 # depends on location and time
+  end
+
+  # Wind direction
+  def wd
+    90 # depends on location and time
+  end
+
+  # True wind angle
+  def twa
+    true_wind_angle = wd - cog
+    true_wind_angle -= 360 if true_wind_angle > 180
+    true_wind_angle += 360 if true_wind_angle < -180
+    true_wind_angle
+  end
+
+  # Apparent wind speed
+  def aws
+    # x axis - the boat's direction
+    # y axis - abeam to port
+    aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+    aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
+    logger.info "+++ direction component: #{aws_x} "
+    logger.info "+++ side component: #{aws_y} "
+    aws_res = Math::sqrt(aws_x**2 + aws_y**2)
+    logger.info "+++ result: #{aws_res} "
+    aws_res
+  end
+
+  # Apparent wind angle
+  def awa
+    if aws > 0.05
+      aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+      aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
+      Math::atan(aws_y/aws_x) / 2 / Math::PI * 360
+    else
+      0
+    end
+  end
+
+  # Speed over ground
+  def sog
+    1 # depends on polar diagram, twa, tws
+  end
+
+  # Velocity made good
+  def vmg
+    sog
+  end
+
+  def cog
+    0
+  end
+
+  def game_time
+    DateTime.now
+  end
 end
 
