@@ -102,6 +102,14 @@ class Crew < ActiveRecord::Base
 
   # Velocity made good
   def vmg
+    #dist = 0
+    log_entry = LogEntry.where(crew: self, to_point: last_point).last
+    if log_entry.present?
+      if log_entry.point.present? && log_entry.to_point.present?
+        dist = log_entry.point.distance_from(log_entry.to_point) / 1609 * 1852
+        duration = (log_entry.to_time - log_entry.from_time)
+      end
+    end
     sog
   end
 
