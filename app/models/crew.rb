@@ -48,17 +48,17 @@ class Crew < ActiveRecord::Base
 
   # True Wind Speed
   def tws
-    1 # depends on location and time
+    10 / (0.54 * 3.6) # depends on location and time
   end
 
   # Wind direction
-  def wd
+  def twd
     90 # depends on location and time
   end
 
   # True wind angle
   def twa
-    true_wind_angle = wd - cog
+    true_wind_angle = twd - cog
     true_wind_angle -= 360 if true_wind_angle > 180
     true_wind_angle += 360 if true_wind_angle < -180
     true_wind_angle
@@ -68,19 +68,16 @@ class Crew < ActiveRecord::Base
   def aws
     # x axis - the boat's direction
     # y axis - abeam to port
-    aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+    aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6) # 1/(.54*3.6) knots to m/s
     aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
-    logger.info "+++ direction component: #{aws_x} "
-    logger.info "+++ side component: #{aws_y} "
     aws_res = Math::sqrt(aws_x**2 + aws_y**2)
-    logger.info "+++ result: #{aws_res} "
     aws_res
   end
 
   # Apparent wind angle
   def awa
     if aws > 0.05
-      aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+      aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6)
       aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
       Math::atan(aws_y/aws_x) / 2 / Math::PI * 360
     else
@@ -90,7 +87,7 @@ class Crew < ActiveRecord::Base
 
   # Speed over ground
   def sog
-    1 # depends on polar diagram, twa, tws
+    4 # depends on polar diagram, twa, tws
   end
 
   # Velocity made good
@@ -98,7 +95,6 @@ class Crew < ActiveRecord::Base
     sog
   end
 
-  # Person.where(["user_name = :u", { u: user_name }]).first
   def cog
     out = 0
     log_entry = LogEntry.where(crew: self, to_point: last_point).last
