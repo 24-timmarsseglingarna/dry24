@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150208132448) do
+ActiveRecord::Schema.define(version: 20150208164822) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20150208132448) do
     t.integer  "last_point_id"
     t.boolean  "finished",      default: false
     t.datetime "game_time"
+    t.float    "log",           default: 0.0
+    t.float    "trip",          default: 0.0
   end
 
   create_table "log_entries", force: :cascade do |t|

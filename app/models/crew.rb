@@ -58,7 +58,7 @@ class Crew < ActiveRecord::Base
 
   # Wind direction
   def twd
-    90 # depends on location and time
+    225 # depends on location and time
   end
 
   # True wind angle
@@ -92,8 +92,19 @@ class Crew < ActiveRecord::Base
 
   # Speed over ground
   def sog
-    #4 # depends on polar diagram, twa, tws
+    speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
+                                                  [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
+    twa_abs = twa.abs
+    if twa_abs < 52 # TODO viewed SOG should not be reduced when tacking.
+      speed = speed_at_10_knots_wind[52]
+    else
+      speed = speed_at_10_knots_wind[twa_abs]
+    end
+    speed
+  end
 
+  # Velocity made good
+  def vmg
     speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
                                                   [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
     twa_abs = twa.abs
@@ -103,11 +114,6 @@ class Crew < ActiveRecord::Base
       speed = speed_at_10_knots_wind[twa_abs]
     end
     speed
-  end
-
-  # Velocity made good
-  def vmg
-    sog
   end
 
   def cog
@@ -120,8 +126,6 @@ class Crew < ActiveRecord::Base
     end
     out
   end
-
-
 
 end
 

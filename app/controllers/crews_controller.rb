@@ -92,7 +92,8 @@
     @log_entry.to_time = @crew.game_time
     if @log_entry.point.present? && @log_entry.to_point.present?
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
-      leg_time = @log_entry.distance / @crew.sog # nm / knots
+      leg_time = @log_entry.distance / @crew.vmg # nm / knots
+
       @log_entry.to_time = @crew.game_time + leg_time.hours
       @crew.game_time += leg_time.hours
     end
