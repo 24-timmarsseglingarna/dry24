@@ -8,6 +8,10 @@
         -#%p#notice= notice
         %h1= @crew.boat_name
         %p= 'Under tävling' unless @crew.finished
+        %p
+          Starttid:
+          = "#{I18n.l @crew.start_time, :format => :long}"
+
         Skeppare:
         = @crew.captain_name
         %br

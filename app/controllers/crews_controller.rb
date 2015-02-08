@@ -88,10 +88,13 @@
     @log_entry = @crew.log_entries.build
     @log_entry.to_point_id = params[:to_point_id]
     @log_entry.point = @crew.last_point
-    @log_entry.from_time = DateTime.now
-    @log_entry.to_time = DateTime.now
+    @log_entry.from_time = @crew.game_time
+    @log_entry.to_time = @crew.game_time
     if @log_entry.point.present? && @log_entry.to_point.present?
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
+      leg_time = @log_entry.distance / @crew.sog # nm / knots
+      @log_entry.to_time = @crew.game_time + leg_time.hours
+      @crew.game_time += leg_time.hours
     end
     next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
@@ -100,16 +103,16 @@
       if @crew.tripled_rounding? @log_entry.to_point
         @punishment = @crew.log_entries.build
         @punishment.description = "Rundat #{@log_entry.to_point.number} för många gånger."
-        @punishment.from_time = DateTime.now
-        @punishment.to_time = DateTime.now
+        @punishment.from_time = @crew.game_time
+        @punishment.to_time = @crew.game_time
         @punishment.distance = - @log_entry.distance
         @punishment.save
       else #don't punish twice
         if @crew.tripled_sections? @log_entry
           @punishment = @crew.log_entries.build
           @punishment.description = "Seglat #{@log_entry.from_to} för många gånger."
-          @punishment.from_time = DateTime.now
-          @punishment.to_time = DateTime.now
+          @punishment.from_time = @crew.game_time
+          @punishment.to_time = @crew.game_time
           @punishment.distance = - @log_entry.distance
           @punishment.save
         end
@@ -143,13 +146,15 @@
   def create
     @crew = Crew.new(crew_params)
     @crew.last_point = @crew.start_point
+    @crew.game_time = DateTime.now.beginning_of_year + 6.months + 6.days + 11.hours + rand(30).minutes
+
     respond_to do |format|
       if @crew.save
         @log_entry = @crew.log_entries.build
         @log_entry.to_point = @crew.start_point
         @log_entry.point = nil
         @log_entry.from_time = nil
-        @log_entry.to_time = DateTime.now
+        @log_entry.to_time = @crew.game_time
         @log_entry.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
         format.json { render :show, status: :created, location: @crew }
