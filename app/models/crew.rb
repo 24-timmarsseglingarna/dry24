@@ -58,7 +58,7 @@ class Crew < ActiveRecord::Base
 
   # Wind direction
   def twd
-    90 # depends on location and time
+    225 # depends on location and time
   end
 
   # True wind angle
