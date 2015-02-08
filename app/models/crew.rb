@@ -48,12 +48,12 @@ class Crew < ActiveRecord::Base
 
   # True Wind Speed
   def tws
-    1 # depends on location and time
+    10 / (0.54 * 3.6) # depends on location and time
   end
 
   # Wind direction
   def twd
-    90 # depends on location and time
+    225 # depends on location and time
   end
 
   # True wind angle
@@ -68,37 +68,49 @@ class Crew < ActiveRecord::Base
   def aws
     # x axis - the boat's direction
     # y axis - abeam to port
-    aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+    aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6) # 1/(.54*3.6) knots to m/s
     aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
-    logger.info "+++ direction component: #{aws_x} "
-    logger.info "+++ side component: #{aws_y} "
     aws_res = Math::sqrt(aws_x**2 + aws_y**2)
-    logger.info "+++ result: #{aws_res} "
     aws_res
   end
 
   # Apparent wind angle
   def awa
     if aws > 0.05
-      aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog
+      aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6)
       aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
       Math::atan(aws_y/aws_x) / 2 / Math::PI * 360
-    else
+    else  
       0
     end
   end
 
   # Speed over ground
   def sog
-    1 # depends on polar diagram, twa, tws
+    speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
+                                                  [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
+    twa_abs = twa.abs
+    if twa_abs < 52 # TODO viewed SOG should not be reduced when tacking.
+      speed = speed_at_10_knots_wind[52]
+    else
+      speed = speed_at_10_knots_wind[twa_abs]
+    end
+    speed
   end
 
   # Velocity made good
   def vmg
-    sog
+    speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
+                                                  [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
+    twa_abs = twa.abs
+    if twa_abs < 52 # TODO viewed SOG should not be reduced when tacking.
+      speed = speed_at_10_knots_wind[52] * Math::cos((52 - twa_abs) * 2 * Math::PI / 360)
+    else
+      speed = speed_at_10_knots_wind[twa_abs]
+    end
+    speed
   end
 
-  # Person.where(["user_name = :u", { u: user_name }]).first
   def cog
     out = 0
     log_entry = LogEntry.where(crew: self, to_point: last_point).last
@@ -108,10 +120,6 @@ class Crew < ActiveRecord::Base
       end
     end
     out
-  end
-
-  def game_time
-    DateTime.now
   end
 
 end
