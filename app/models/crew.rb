@@ -92,8 +92,19 @@ class Crew < ActiveRecord::Base
 
   # Speed over ground
   def sog
-    #4 # depends on polar diagram, twa, tws
+    speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
+                                                  [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
+    twa_abs = twa.abs
+    if twa_abs < 52 # TODO viewed SOG should not be reduced when tacking.
+      speed = speed_at_10_knots_wind[52]
+    else
+      speed = speed_at_10_knots_wind[twa_abs]
+    end
+    speed
+  end
 
+  # Velocity made good
+  def vmg
     speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
                                                   [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
     twa_abs = twa.abs
@@ -103,19 +114,6 @@ class Crew < ActiveRecord::Base
       speed = speed_at_10_knots_wind[twa_abs]
     end
     speed
-  end
-
-  # Velocity made good
-  def vmg
-    #dist = 0
-    log_entry = LogEntry.where(crew: self, to_point: last_point).last
-    if log_entry.present?
-      if log_entry.point.present? && log_entry.to_point.present?
-        dist = log_entry.point.distance_from(log_entry.to_point) / 1609 * 1852
-        duration = (log_entry.to_time - log_entry.from_time)
-      end
-    end
-    sog
   end
 
   def cog
@@ -128,8 +126,6 @@ class Crew < ActiveRecord::Base
     end
     out
   end
-
-
 
 end
 
