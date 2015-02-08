@@ -9,6 +9,11 @@ class Crew < ActiveRecord::Base
     Point.find_by_number '555'
   end
 
+  def start_time
+    log_entry = LogEntry.where(crew: self).first
+    log_entry.to_time
+  end
+
   def range
     60 # nautical miles
   end
@@ -92,7 +97,7 @@ class Crew < ActiveRecord::Base
     speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
                                                   [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
     twa_abs = twa.abs
-    if twa_abs < 52
+    if twa_abs < 52 # TODO viewed SOG should not be reduced when tacking.
       speed = speed_at_10_knots_wind[52] * Math::cos((52 - twa_abs) * 2 * Math::PI / 360)
     else
       speed = speed_at_10_knots_wind[twa_abs]
@@ -124,9 +129,7 @@ class Crew < ActiveRecord::Base
     out
   end
 
-  def game_time
-    DateTime.now
-  end
+
 
 end
 
