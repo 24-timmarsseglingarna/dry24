@@ -29,7 +29,7 @@
               .legend
                 SOG
               .value
-                = "#{@crew.sog}"
+                = '%.2f' % @crew.sog
                 %span.unit kt
             .instrument#vmg
               .legend
