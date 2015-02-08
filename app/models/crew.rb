@@ -52,13 +52,13 @@ class Crew < ActiveRecord::Base
   end
 
   # Wind direction
-  def wd
+  def twd
     90 # depends on location and time
   end
 
   # True wind angle
   def twa
-    true_wind_angle = wd - cog
+    true_wind_angle = twd - cog
     true_wind_angle -= 360 if true_wind_angle > 180
     true_wind_angle += 360 if true_wind_angle < -180
     true_wind_angle
