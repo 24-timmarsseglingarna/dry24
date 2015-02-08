@@ -80,14 +80,24 @@ class Crew < ActiveRecord::Base
       aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6)
       aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
       Math::atan(aws_y/aws_x) / 2 / Math::PI * 360
-    else
+    else  
       0
     end
   end
 
   # Speed over ground
   def sog
-    4 # depends on polar diagram, twa, tws
+    #4 # depends on polar diagram, twa, tws
+
+    speed_at_10_knots_wind = Spliner::Spliner.new [52, 60, 75, 90, 110, 120, 135, 150, 210, 225],
+                                                  [6.05, 6.32, 6.59, 6.78, 6.68, 6.50, 6.11, 5.50, 5.50, 6.11]
+    twa_abs = twa.abs
+    if twa_abs < 52
+      speed = speed_at_10_knots_wind[52] * Math::cos((52 - twa_abs) * 2 * Math::PI / 360)
+    else
+      speed = speed_at_10_knots_wind[twa_abs]
+    end
+    speed
   end
 
   # Velocity made good
