@@ -7,10 +7,13 @@
       .game-box
         -#%p#notice= notice
         %h1= @crew.boat_name
-        %p= 'Under tävling' unless @crew.finished
         %p
           Starttid:
           = "#{I18n.l @crew.start_time, :format => :long}"
+        - unless @crew.finished
+          %p
+            Speltid:
+            = "#{I18n.l @crew.game_time, :format => :long}"
 
         Skeppare:
         = @crew.captain_name
@@ -88,20 +91,19 @@
                 ***
                 =# '%.1f' % 0
                 %span.unit M
-
-
-
           %h3
           %h3 Vart nu?
           %ol
           - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
-            %b Du är nu vid start-/målpunkten. Vill du gå i mål eller fortsätta segla?
-            = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
-
+            %p Du är nu vid start-/målpunkten.
+            - if @crew.game_time > (@crew.start_time + 21.hours)
+              = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
+            - else
+              Du måste segla minst 21 timmar innan du kan gå i mål.
           %p Gå till ...
           %ul
           -for section in @sections do
-            %li= link_to (raw(section.to_point.number_name) + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+            %li= link_to (section.to_point.number_name + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
         - else
           %p=link_to 'Börja om?', crews_path
       - sum = 0.0
