@@ -30,13 +30,14 @@
                 SOG
               .value
                 = "#{@crew.sog}"
-                %span.unit m/s
+                %span.unit kt
             .instrument#vmg
               .legend
                 VMG
               .value
-                = "#{@crew.vmg}"
-                %span.unit m/s
+                ***
+                =# "#{@crew.vmg}"
+                %span.unit kt
             .instrument#time
               .legend
                 Time
@@ -44,9 +45,9 @@
                 = "#{I18n.l @crew.game_time, :format => :long}"
             .instrument#wd
               .legend
-                WD
+                TWD
               .value
-                = '%.0f' % @crew.wd + '°'
+                = '%.0f' % @crew.twd + '°'
             .instrument#awa
               .legend
                 AWA
@@ -73,13 +74,15 @@
               .legend
                 Trip
               .value
-                = '%.1f' % 0
+                ***
+                =# '%.1f' % 0
                 %span.unit M
             .instrument
               .legend
                 Log
               .value
-                = '%.1f' % 0
+                ***
+                =# '%.1f' % 0
                 %span.unit M
 
 
