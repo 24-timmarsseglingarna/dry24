@@ -21,7 +21,7 @@
             handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#000066', strokeOpacity:0.4, strokeWeight:6});
         <%- end %>
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
-        handler.getMap().setZoom(10);
+        handler.getMap().setZoom(9);
         <%- if @crew.finished %>
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();

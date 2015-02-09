@@ -9,9 +9,8 @@ class Point < ActiveRecord::Base
   validates_numericality_of :longitude, :greater_than_or_equal_to => -90, :less_than_or_equal_to => 90, :allow_nil => true
   validates_numericality_of :latitude, :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180, :allow_nil => true
 
-  after_validation :geocode, :if => false
-
-  geocoded_by nil #:full_address
+  geocoded_by :full_address
+  after_validation :geocode,  if: ->(obj){ obj.full_address.present?   }
 
   def full_address
     nil
