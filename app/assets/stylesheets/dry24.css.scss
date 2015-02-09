@@ -45,6 +45,7 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
 #crew {
   background-color: #ffff00;
 }
@@ -52,10 +53,7 @@ html, body {
 #targets {
   background-color: #ffe4b5;
 }
-#log-book {
-  right: 0;
-  bottom: 0;
-}
+
 
 
 .formtastic .choices-group {
@@ -80,6 +78,7 @@ html, body {
 .logbook, .logbook tr, .logbook td, .logbook th {
   border: solid 1px black;
   border-collapse: collapse;
+  font-size: 0.8rem;
 }
 
 .instruments {
