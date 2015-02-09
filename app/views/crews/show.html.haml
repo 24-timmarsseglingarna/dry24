@@ -5,26 +5,8 @@
     .inner-game-container
       .game-box
         -#%p#notice= notice
-        %h1= @crew.boat_name
-        %p
-          Starttid:
-          = "#{I18n.l @crew.start_time, :format => :long}"
+        %h1.boat-name= @crew.boat_name
         - unless @crew.finished
-          %p
-            Speltid:
-            = "#{I18n.l @crew.game_time, :format => :long}"
-
-        Skeppare:
-        = @crew.captain_name
-        %br
-        Start/mål:
-        = @crew.start_point.number_name
-        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
-        %br
-        - unless @crew.finished
-          Vid:
-          = @crew.last_point.number_name
-          = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
           .instruments
             .instrument
               .legend#cog
@@ -33,22 +15,15 @@
                 = '%.0f' % @crew.cog + '°'
             .instrument#sog
               .legend
-                SOG
+                SOG kt
               .value
-                = '%.2f' % @crew.sog
-                %span.unit kt
+                = '%.1f' % @crew.sog
             .instrument#vmg
               .legend
-                VMG
+                VMG kt
               .value
-                = '%.2f' % @crew.vmg
-                %span.unit kt
-            .instrument#time
-              .legend
-                Time
-              .value
-                = "#{I18n.l @crew.game_time, :format => :long}"
-            .instrument#wd
+                = '%.1f' % @crew.vmg
+            .instrument#wd.dev
               .legend
                 TWD
               .value
@@ -60,21 +35,19 @@
                 = '%.0f' % @crew.awa + '°'
             .instrument#aws
               .legend
-                AWS
+                AWS m/s
               .value
                 = '%.1f' % @crew.aws
-                %span.unit m/s
-            .instrument
+            .instrument.dev
               .legend
                 TWA
               .value
                 = '%.0f' % @crew.twa + '°'
-            .instrument
+            .instrument.dev
               .legend
-                TWS
+                TWS m/s
               .value
                 = '%.1f' % @crew.tws
-                %span.unit m/s
             .instrument
               .legend
                 Trip
@@ -89,25 +62,40 @@
                 ***
                 =# '%.2f' % @crew.log unless @crew.log.blank?
                 %span.unit M
-          %h3
+            .instrument
+              .legend
+                Start/Finish
+              .value
+                =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
+                = @crew.start_point.number
+            .instrument
+              .legend
+                WPT
+              .value
+                =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
+                = @crew.last_point.number
+            .instrument#time
+              .legend
+                Time
+              .value
+                = "#{I18n.l @crew.game_time, :format => :long}"
+
+
           %h3 Vart nu?
-          %ol
           - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
             %p Du är nu vid start-/målpunkten.
             - if @crew.game_time > (@crew.start_time + 21.hours)
               = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
             - else
               Du måste segla minst 21 timmar innan du kan gå i mål.
-          %p Gå till ...
-          %ul
-          -for section in @sections do
-            %li= link_to (section.to_point.number_name + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+          %ol.where_to
+            -for section in @sections do
+              %li= link_to (section.to_point.number_name + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
         - else
           %p=link_to 'Börja om?', crews_path
       - sum = 0.0
       - for log_entry in @crew.log_entries do
         - sum += log_entry.distance.to_f
-      %p= "Nettodistans: #{sum.round(1)} M."
       %h3 Loggbok
       %table.logbook
         %tr
@@ -115,6 +103,13 @@
           %th Punkt
           %th Distans
           %th Vind
+        %tr
+          %td
+          %td Distans hittills
+          %td= sum.round(1).to_s + ' M'
+          %td
+            = Geocoder::Calculations.compass_point(@crew.twd)
+            = @crew.tws.round 0
         - for log_entry in @crew.log_entries.reverse do
           %tr
             %td= I18n.l log_entry.to_time, :format => :long
@@ -122,8 +117,9 @@
               = log_entry.to_point.number_name unless log_entry.to_point.blank?
               = log_entry.description
             %td= log_entry.distance.to_s + " M"
-            %td NV 3 m/s
-      %p= "Torrsegling version: #{Rails.configuration.version}"
+            %td
+      %hr
+      .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 
 :javascript

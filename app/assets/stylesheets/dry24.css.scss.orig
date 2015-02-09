@@ -1,7 +1,9 @@
-@include h5bp-normalize;
-
+<<<<<<< HEAD
 html, body {
-  background-color: #BBBBBB;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #666666;
 }
 
 .wrapper {
@@ -56,6 +58,9 @@ html, body {
   right: 0;
   bottom: 0;
 }
+=======
+@include h5bp-normalize;
+>>>>>>> master
 
 
 .formtastic .choices-group {
@@ -84,60 +89,27 @@ html, body {
 
 .instruments {
   @include clearfix;
-  padding-left: 2%;
-  padding-top: 0.25em;
-  background-color: #666666;
+  background-color: #000000;
   .instrument {
     float: left;
-    margin: 0 2% 0.25em 2%;
-    padding: 0.25em;
-    width: 25%;
+    margin: 0 0.5em 0.5em 0;
+    padding: 0.5em;
+    width: 5em;
     background-color: #666666;
     }
     .legend {
       text-align: center;
-      font-size: 0.6em;
+      font-size: 0.8em;
     }
     .value {
       text-align: center;
-      font-size: 1.5em;
+      font-size: 2em;
     }
     .unit {
-      font-size: 0.4em;
+      font-size: 0.5em;
     }
   }
-.dev {
-  background-color: #999999;
-  color: #fff;
-}
 .instruments #time{
-  width: 90%;
+  width: 11.5em;
 }
 
-.boat-name{
-  display: none;
-}
-
-ol.where_to {
-  @include no-bullets;
-  padding: 0;
-}
-
-ol.where_to li {
-  font-size: 0.8rem;
-  margin: 0.5em 0;
-  padding: 0.5em;
-  background-color: #999999;
-  a {
-    @include unstyled-link;
-  }
-}
-
-ol.where_to li:hover {
-  background-color: #BBBBBB;
-}
-
-.app-version {
-  font-size: 0.5rem;
-  color: #333333;
-}
