@@ -85,7 +85,7 @@
                 = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
                 = @crew.last_point.number
 
-          
+
           %h3 Vart nu?
           %ol
           - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2

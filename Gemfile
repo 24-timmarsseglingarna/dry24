@@ -55,6 +55,7 @@ gem 'underscore-rails'
 gem 'geocoder'
 gem 'rails-i18n'
 gem 'compass-rails'
+gem 'compass-h5bp'
 gem 'spliner'
 
 group :production do

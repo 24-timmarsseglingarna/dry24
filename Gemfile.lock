@@ -65,6 +65,8 @@ GEM
     compass-core (1.0.3)
       multi_json (~> 1.0)
       sass (>= 3.3.0, < 3.5)
+    compass-h5bp (0.1.2)
+      compass
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
     compass-rails (2.0.4)
@@ -207,6 +209,7 @@ DEPENDENCIES
   acts_as_list
   byebug
   coffee-rails (~> 4.1.0)
+  compass-h5bp
   compass-rails
   formtastic
   geocoder
