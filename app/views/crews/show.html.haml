@@ -1,8 +1,7 @@
-
-
-.map-wrapper
-  #map
-  .outer-game-container
+.wrapper
+  .map-wrapper
+    #map
+  .control-wrapper
     .inner-game-container
       .game-box
         -#%p#notice= notice
@@ -125,5 +124,13 @@
             %td= log_entry.distance.to_s + " M"
             %td NV 3 m/s
       %p= "Torrsegling version: #{Rails.configuration.version}"
+
+
+:javascript
+  /*$(document).ready(function(){
+    var width = $(window).width();
+    $('#map').css('height', width);
+    $('#map').css('width', width);
+  });*/
 
 = render 'map'
