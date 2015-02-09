@@ -147,7 +147,7 @@
   def create
     @crew = Crew.new(crew_params)
     @crew.last_point = @crew.start_point
-    @crew.game_time = DateTime.now.beginning_of_year + 6.months + 6.days + 11.hours + rand(30).minutes
+    @crew.game_time = DateTime.now.beginning_of_year + 5.months + 3.days + 11.hours + rand(30).minutes
 
     respond_to do |format|
       if @crew.save

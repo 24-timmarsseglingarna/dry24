@@ -7,25 +7,7 @@
       .game-box
         -#%p#notice= notice
         %h1= @crew.boat_name
-        %p
-          Starttid:
-          = "#{I18n.l @crew.start_time, :format => :long}"
         - unless @crew.finished
-          %p
-            Speltid:
-            = "#{I18n.l @crew.game_time, :format => :long}"
-
-        Skeppare:
-        = @crew.captain_name
-        %br
-        Start/mål:
-        = @crew.start_point.number_name
-        = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
-        %br
-        - unless @crew.finished
-          Vid:
-          = @crew.last_point.number_name
-          = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
           .instruments
             .instrument
               .legend#cog
@@ -90,7 +72,20 @@
                 ***
                 =# '%.2f' % @crew.log unless @crew.log.blank?
                 %span.unit M
-          %h3
+            .instrument
+              .legend
+                Start/Finish
+              .value
+                = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
+                = @crew.start_point.number
+            .instrument
+              .legend
+                WPT
+              .value
+                = image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
+                = @crew.last_point.number
+
+          
           %h3 Vart nu?
           %ol
           - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2

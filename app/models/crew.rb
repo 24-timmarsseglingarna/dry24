@@ -9,6 +9,11 @@ class Crew < ActiveRecord::Base
     Point.find_by_number '555'
   end
 
+  def start_time
+    log_entry = LogEntry.where(crew: self).first
+    log_entry.to_time
+  end
+
   def range
     60 # nautical miles
   end
