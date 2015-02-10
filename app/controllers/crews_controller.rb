@@ -135,6 +135,12 @@
       @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
       @punishment.save
     end
+    @handicap_compensation = @crew.log_entries.build
+    @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance_sum.round(1)}."
+    @handicap_compensation.from_time = @crew.game_time
+    @handicap_compensation.to_time = @crew.game_time
+    @handicap_compensation.distance = @crew.distance_sum * (1 -@crew.handicap)
+    @handicap_compensation.save
     @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."
   end

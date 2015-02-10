@@ -16,6 +16,10 @@ class Crew < ActiveRecord::Base
     log_entry.to_time
   end
 
+  def handicap
+    1.146
+  end
+
   def distance_sum
     sum = 0.0
     for log_entry in log_entries do

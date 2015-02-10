@@ -93,12 +93,12 @@
       %table.logbook
         %tr
           %th Tid
-          %th Punkt
+          %th Händelse
           %th Distans
           %th Vind
         %tr
           %td
-          %td Distans hittills
+          %td Distans:
           %td= @crew.distance_sum.round(1).to_s + ' M'
           %td
             =# Geocoder::Calculations.compass_point(@crew.twd)
