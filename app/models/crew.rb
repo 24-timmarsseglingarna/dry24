@@ -16,6 +16,14 @@ class Crew < ActiveRecord::Base
     log_entry.to_time
   end
 
+  def distance_sum
+    sum = 0.0
+    for log_entry in log_entries do
+      sum += log_entry.distance.to_f
+    end
+    sum
+  end
+
   def range
     60 # nautical miles
   end
@@ -130,15 +138,13 @@ class Crew < ActiveRecord::Base
   end
 
   private
-  def start_details
-    logger.info "++++ start_details"
 
+  def start_details
     self.last_point = start_point
     self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 11.hours + rand(30).minutes
   end
 
   def add_first_log_entry
-    logger.info "++++ add_first_log_entry"
     log_entry = log_entries.build( :to_point => start_point,
                                    :point => nil,
                                    :from_time => nil,

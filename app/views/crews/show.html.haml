@@ -88,9 +88,7 @@
               %li= link_to (section.to_point.number_name + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
         - else
           %p=link_to 'Börja om?', crews_path
-      - sum = 0.0
-      - for log_entry in @crew.log_entries do
-        - sum += log_entry.distance.to_f
+
       %h3 Loggbok
       %table.logbook
         %tr
@@ -101,7 +99,7 @@
         %tr
           %td
           %td Distans hittills
-          %td= sum.round(1).to_s + ' M'
+          %td= @crew.distance_sum.round(1).to_s + ' M'
           %td
             =# Geocoder::Calculations.compass_point(@crew.twd)
             =# @crew.tws.round 0
@@ -111,7 +109,7 @@
             %td
               = log_entry.to_point.number_name unless log_entry.to_point.blank?
               = log_entry.description
-            %td= log_entry.distance.to_s + " M"
+            %td= log_entry.distance.round(1).to_s + " M"
             %td
               = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
               = log_entry.tws.round unless log_entry.tws.blank?

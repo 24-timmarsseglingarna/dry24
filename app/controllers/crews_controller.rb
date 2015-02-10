@@ -120,15 +120,21 @@
       end
       @log_entry = LogEntry.new
     end
-
-    #render :action => :show
-    #render 'crews/show'
     redirect_to crew_url(@crew), notice: "Rundat."
   end
 
   def finish
     @crew = Crew.find(params[:id])
     @crew.finished= true
+    actual_time = (@crew.game_time - @crew.start_time)/3600
+    if actual_time > 24
+      @punishment = @crew.log_entries.build
+      @punishment.description = "Försenad #{((actual_time - 24) * 60).round} min."
+      @punishment.from_time = @crew.game_time
+      @punishment.to_time = @crew.game_time
+      @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
+      @punishment.save
+    end
     @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."
   end
