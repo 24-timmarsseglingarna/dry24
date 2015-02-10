@@ -117,10 +117,10 @@
 
 
 :javascript
-  /*$(document).ready(function(){
-    var width = $(window).width();
+  $(document).ready(function(){
+    var width = document.getElementById('map').offsetWidth; /*$(window).width();*/
     $('#map').css('height', width);
     $('#map').css('width', width);
-  });*/
+  });
 
 = render 'map'
