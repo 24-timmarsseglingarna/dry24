@@ -49,6 +49,12 @@
               = '%.1f' % @crew.tws
           .instrument
             .legend
+              Start/Finish
+            .value
+              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
+              = @crew.start_point.number
+          .instrument
+            .legend
               Trip M
             .value
               = '%.1f' % @crew.trip unless @crew.trip.blank?
@@ -57,12 +63,6 @@
               Log M
             .value
               = '%.1f' % @crew.log unless @crew.log.blank?
-          .instrument
-            .legend
-              Start/Finish
-            .value
-              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
-              = @crew.start_point.number
           .instrument
             .legend
               WPT
@@ -85,7 +85,7 @@
               Du måste segla minst 21 timmar innan du kan gå i mål.
           %ol.where_to
             -for section in @sections do
-              %li= link_to (section.to_point.number_name + ' (' + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+              %li= link_to (section.to_point.number_name + ' (' +  Geocoder::Calculations.compass_point(section.point.bearing_to(section.to_point)).to_s + " " + section.distance.to_s + ' M)'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
         - else
           %p=link_to 'Börja om?', crews_path
 
