@@ -74,7 +74,7 @@
               Time
             .value
               - unless @crew.finished
-                "#{I18n.l @crew.game_time, :format => :long}"
+                #{I18n.l @crew.game_time, :format => :long}
               - else
                 *******
 
