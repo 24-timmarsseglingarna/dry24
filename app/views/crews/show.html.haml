@@ -6,81 +6,76 @@
       .game-box
         -#%p#notice= notice
         %h1.boat-name= @crew.boat_name
+        .instruments
+          .instrument
+            .legend#cog
+              COG
+            .value
+              = '%.0f' % @crew.cog + '°'
+          .instrument#sog
+            .legend
+              SOG kt
+            .value
+              = '%.1f' % @crew.sog
+          .instrument#vmg
+            .legend
+              VMG kt
+            .value
+              = '%.1f' % @crew.vmg
+          .instrument#wd.dev
+            .legend
+              TWD
+            .value
+              = '%.0f' % @crew.twd + '°'
+          .instrument#awa
+            .legend
+              AWA
+            .value
+              = '%.0f' % @crew.awa + '°'
+          .instrument#aws
+            .legend
+              AWS m/s
+            .value
+              = '%.1f' % @crew.aws
+          .instrument.dev
+            .legend
+              TWA
+            .value
+              = '%.0f' % @crew.twa + '°'
+          .instrument.dev
+            .legend
+              TWS m/s
+            .value
+              = '%.1f' % @crew.tws
+          .instrument
+            .legend
+              Trip M
+            .value
+              = '%.1f' % @crew.trip unless @crew.trip.blank?
+          .instrument
+            .legend
+              Log M
+            .value
+              = '%.1f' % @crew.log unless @crew.log.blank?
+          .instrument
+            .legend
+              Start/Finish
+            .value
+              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
+              = @crew.start_point.number
+          .instrument
+            .legend
+              WPT
+            .value
+              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
+              = @crew.last_point.number
+          .instrument#time
+            .legend
+              Time
+            .value
+              = "#{I18n.l @crew.game_time, :format => :long}"
+
         - unless @crew.finished
-          .instruments
-            .instrument
-              .legend#cog
-                COG
-              .value
-                = '%.0f' % @crew.cog + '°'
-            .instrument#sog
-              .legend
-                SOG kt
-              .value
-                = '%.1f' % @crew.sog
-            .instrument#vmg
-              .legend
-                VMG kt
-              .value
-                = '%.1f' % @crew.vmg
-            .instrument#wd.dev
-              .legend
-                TWD
-              .value
-                = '%.0f' % @crew.twd + '°'
-            .instrument#awa
-              .legend
-                AWA
-              .value
-                = '%.0f' % @crew.awa + '°'
-            .instrument#aws
-              .legend
-                AWS m/s
-              .value
-                = '%.1f' % @crew.aws
-            .instrument.dev
-              .legend
-                TWA
-              .value
-                = '%.0f' % @crew.twa + '°'
-            .instrument.dev
-              .legend
-                TWS m/s
-              .value
-                = '%.1f' % @crew.tws
-            .instrument
-              .legend
-                Trip
-              .value
-                ***
-                =# '%.2f' % @crew.trip unless @crew.trip.blank?
-                %span.unit M
-            .instrument
-              .legend
-                Log
-              .value
-                ***
-                =# '%.2f' % @crew.log unless @crew.log.blank?
-                %span.unit M
-            .instrument
-              .legend
-                Start/Finish
-              .value
-                =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
-                = @crew.start_point.number
-            .instrument
-              .legend
-                WPT
-              .value
-                =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
-                = @crew.last_point.number
-            .instrument#time
-              .legend
-                Time
-              .value
-                = "#{I18n.l @crew.game_time, :format => :long}"
-
-
           %h3 Vart nu?
           - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
             %p Du är nu vid start-/målpunkten.
@@ -108,8 +103,8 @@
           %td Distans hittills
           %td= sum.round(1).to_s + ' M'
           %td
-            = Geocoder::Calculations.compass_point(@crew.twd)
-            = @crew.tws.round 0
+            =# Geocoder::Calculations.compass_point(@crew.twd)
+            =# @crew.tws.round 0
         - for log_entry in @crew.log_entries.reverse do
           %tr
             %td= I18n.l log_entry.to_time, :format => :long
@@ -118,7 +113,8 @@
               = log_entry.description
             %td= log_entry.distance.to_s + " M"
             %td
-      %hr
+              = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
+              = log_entry.tws.round unless log_entry.tws.blank?
       .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 

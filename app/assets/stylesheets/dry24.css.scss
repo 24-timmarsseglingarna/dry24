@@ -81,6 +81,10 @@ html, body {
   font-size: 0.8rem;
 }
 
+.logbook td {
+  padding: 0.2em;
+}
+
 .instruments {
   @include clearfix;
   padding-left: 2%;
@@ -108,6 +112,7 @@ html, body {
 .dev {
   background-color: #999999;
   color: #fff;
+  display: none;
 }
 .instruments #time{
   width: 90%;

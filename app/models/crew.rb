@@ -4,6 +4,8 @@ class Crew < ActiveRecord::Base
 
   validates_presence_of :captain_name, :boat_name
   accepts_nested_attributes_for :log_entries
+  after_create :add_first_log_entry
+  before_create :start_details
 
   def start_point
     Point.find_by_number '555'
@@ -125,6 +127,23 @@ class Crew < ActiveRecord::Base
       end
     end
     out
+  end
+
+  private
+  def start_details
+    logger.info "++++ start_details"
+
+    self.last_point = start_point
+    self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 11.hours + rand(30).minutes
+  end
+
+  def add_first_log_entry
+    logger.info "++++ add_first_log_entry"
+    log_entry = log_entries.build( :to_point => start_point,
+                                   :point => nil,
+                                   :from_time => nil,
+                                   :to_time =>   game_time)
+    log_entry.save
   end
 
 end

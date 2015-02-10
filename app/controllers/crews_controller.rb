@@ -146,17 +146,8 @@
   # POST /crews.json
   def create
     @crew = Crew.new(crew_params)
-    @crew.last_point = @crew.start_point
-    @crew.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 11.hours + rand(30).minutes
-
     respond_to do |format|
       if @crew.save
-        @log_entry = @crew.log_entries.build
-        @log_entry.to_point = @crew.start_point
-        @log_entry.point = nil
-        @log_entry.from_time = nil
-        @log_entry.to_time = @crew.game_time
-        @log_entry.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
         format.json { render :show, status: :created, location: @crew }
       else
