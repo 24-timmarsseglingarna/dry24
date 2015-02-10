@@ -120,15 +120,27 @@
       end
       @log_entry = LogEntry.new
     end
-
-    #render :action => :show
-    #render 'crews/show'
     redirect_to crew_url(@crew), notice: "Rundat."
   end
 
   def finish
     @crew = Crew.find(params[:id])
     @crew.finished= true
+    actual_time = (@crew.game_time - @crew.start_time)/3600
+    if actual_time > 24
+      @punishment = @crew.log_entries.build
+      @punishment.description = "Försenad #{((actual_time - 24) * 60).round} min."
+      @punishment.from_time = @crew.game_time
+      @punishment.to_time = @crew.game_time
+      @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
+      @punishment.save
+    end
+    @handicap_compensation = @crew.log_entries.build
+    @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance_sum.round(1)}."
+    @handicap_compensation.from_time = @crew.game_time
+    @handicap_compensation.to_time = @crew.game_time
+    @handicap_compensation.distance = @crew.distance_sum * (1 -@crew.handicap)
+    @handicap_compensation.save
     @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."
   end
@@ -146,17 +158,8 @@
   # POST /crews.json
   def create
     @crew = Crew.new(crew_params)
-    @crew.last_point = @crew.start_point
-    @crew.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 11.hours + rand(30).minutes
-
     respond_to do |format|
       if @crew.save
-        @log_entry = @crew.log_entries.build
-        @log_entry.to_point = @crew.start_point
-        @log_entry.point = nil
-        @log_entry.from_time = nil
-        @log_entry.to_time = @crew.game_time
-        @log_entry.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
         format.json { render :show, status: :created, location: @crew }
       else
