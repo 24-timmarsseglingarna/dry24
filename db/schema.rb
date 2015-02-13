@@ -11,19 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209110232) do
+ActiveRecord::Schema.define(version: 20150213150257) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
     t.string   "captain_name"
     t.string   "captain_email"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "last_point_id"
-    t.boolean  "finished",      default: false
+    t.boolean  "finished",       default: false
     t.datetime "game_time"
-    t.float    "log",           default: 0.0
-    t.float    "trip",          default: 0.0
+    t.float    "log",            default: 0.0
+    t.float    "trip",           default: 0.0
+    t.integer  "start_point_id"
   end
 
   create_table "log_entries", force: :cascade do |t|
@@ -40,6 +41,22 @@ ActiveRecord::Schema.define(version: 20150209110232) do
     t.float    "twd"
     t.float    "tws"
   end
+
+  create_table "organizers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "fk_org_code"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "organizers_points", force: :cascade do |t|
+    t.integer  "organizer_id"
+    t.integer  "point_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "organizers_points", ["organizer_id", "point_id"], name: "index_organizers_points_on_organizer_id_and_point_id", unique: true
 
   create_table "points", force: :cascade do |t|
     t.integer  "number"

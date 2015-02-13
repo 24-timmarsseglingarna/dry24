@@ -41,6 +41,20 @@ namespace :populate do
     end
   end
 
+  task :start_points => :environment do
+    Organizer.all.each do |organizer|
+      unless organizer.fk_org_code.blank?
+        doc = Nokogiri.XML(open("http://dev.24-timmars.nu/PoD/xmlapi.php?krets=#{url_encode(organizer.fk_org_code.strip)}"), nil, 'ISO-8859-1')
+        doc.xpath("//startpunkter//startpunkt//nummer").each do |number|
+          point = Point.find_by_number number.content.strip.to_i
+          unless organizer.start_points.include? point
+            organizer.start_points << point
+          end
+        end
+      end
+    end
+  end
+
 end
 
 

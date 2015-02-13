@@ -28,3 +28,27 @@ sv:
     formats:
       long: ! '%e %B %Y'
 
+  formtastic:
+    titles:
+      post_details: "Post details"
+    labels:
+      crew:
+        boat_name: "Båtens namn"
+        captain_name: "Skepparens namn"
+        captain_email: "Skepparens mejladress"
+        start_point: "Startplats"
+    hints:
+      post:
+        title: "Choose a good title for your post."
+        body: "Write something inspiring here."
+    placeholders:
+      post:
+        title: "Title your post"
+        slug: "Leave blank for an automatically generated slug"
+      user:
+        email: "you@yours.com"
+    actions:
+      create: "zCreate my %{model}"
+      update: "zSave changes"
+      reset: "zReset form"
+      cancel: "zCancel and go back"

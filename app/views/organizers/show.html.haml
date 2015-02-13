@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @organizer.name
+%p
+  %b Fk org code:
+  = @organizer.fk_org_code
+
+= link_to 'Edit', edit_organizer_path(@organizer)
+\|
+= link_to 'Back', organizers_path

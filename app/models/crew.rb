@@ -1,15 +1,14 @@
 class Crew < ActiveRecord::Base
   has_many :log_entries, -> { order('position ASC') }
   belongs_to :last_point, :class_name => "Point"
+  belongs_to  :start_point, :class_name => "Point"
 
-  validates_presence_of :captain_name, :boat_name
+
+  validates_presence_of :captain_name, :boat_name, :start_point
   accepts_nested_attributes_for :log_entries
   after_create :add_first_log_entry
   before_create :start_details
 
-  def start_point
-    Point.find_by_number '555'
-  end
 
   def start_time
     log_entry = LogEntry.where(crew: self).first
@@ -144,7 +143,8 @@ class Crew < ActiveRecord::Base
   private
 
   def start_details
-    self.last_point = start_point
+    #self.start_point = Point.find_by_number '555'
+    #self.last_point = start_point
     self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 11.hours + rand(30).minutes
   end
 

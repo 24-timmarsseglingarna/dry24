@@ -148,6 +148,12 @@
   # GET /crews/new
   def new
     @crew = Crew.new
+    @start_points = Array.new
+    for organizer in Organizer.all do
+      for start_point in organizer.start_points do
+        @start_points << start_point unless start_point.blank?
+      end
+    end
   end
 
   # GET /crews/1/edit
@@ -158,6 +164,13 @@
   # POST /crews.json
   def create
     @crew = Crew.new(crew_params)
+    @start_points = Array.new
+    for organizer in Organizer.all do
+      for start_point in organizer.start_points do
+        @start_points << start_point unless start_point.blank?
+      end
+    end
+    @crew.last_point = @crew.start_point
     respond_to do |format|
       if @crew.save
         format.html { redirect_to @crew, notice: 'Crew was successfully created.' }
@@ -201,6 +214,6 @@
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def crew_params
-      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, :to_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description, :distance ])
+      params.require(:crew).permit(:boat_name, :captain_name, :captain_email, :last_point_id, :to_point_id, :start_point_id, log_entry: [:id, :crew_id, :point_id, :to_point_id, :from_time, :to_time, :position, :description, :distance ])
     end
 end

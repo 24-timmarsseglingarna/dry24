@@ -5,3 +5,14 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Organizer.create(name: 'Svenska Kryssarklubbens Västkustkrets', fk_org_code: 'Vk')
+Organizer.create(name: 'Svenska Kryssarklubbens Vänerkrets')
+Organizer.create(name: 'Svenska Kryssarklubbens Blekingekrets', fk_org_code: 'Bl')
+Organizer.create(name: 'Svenska Kryssarklubbens Dackekrets')
+Organizer.create(name: 'Svenska Kryssarklubbens S:t Annakrets', fk_org_code: 'SA')
+Organizer.create(name: 'Svenska Kryssarklubbens Västermälarkrets', fk_org_code: 'Vm')
+Organizer.create(name: 'Svenska Kryssarklubbens Stockholmskrets', fk_org_code: 'St')
+Organizer.create(name: 'Svenska Kryssarklubbens Eggesundskrets')
+Organizer.create(name: 'Svenska Kryssarklubbens Bottenhavskrets')
+Organizer.create(name: 'Svenska Kryssarklubbens Bottenvikskrets')

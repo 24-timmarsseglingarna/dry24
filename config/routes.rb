@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :organizers
+
   resources :log_entries
 
   resources :sections
