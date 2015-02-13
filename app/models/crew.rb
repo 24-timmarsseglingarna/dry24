@@ -8,7 +8,7 @@ class Crew < ActiveRecord::Base
   before_create :start_details
 
   def start_point
-    Point.find_by_number '555'
+    Point.find_by_number '1001'
   end
 
   def start_time
