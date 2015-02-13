@@ -3,6 +3,8 @@ class Point < ActiveRecord::Base
 
   default_scope { order('number ASC') }
   has_many :sections
+  has_and_belongs_to_many :organizers
+  has_many :crews
 
   validates :number, numericality: { only_integer: true, greater_than: 0 }
   validates_length_of :name, :minimum => 2, :allow_blank => true

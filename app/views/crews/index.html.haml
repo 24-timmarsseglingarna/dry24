@@ -1,24 +1,32 @@
-%h1= link_to 'Börja en ny segling!', new_crew_path
+.wrapper
 
-%h1 Deltagarlista
+  = link_to 'Börja en ny segling!', new_crew_path
 
-%table
-  %thead
-    %tr
-      %th Båtnamn
-      %th Skeppare
-      %th
-      %th
-      %th
-      
-  %tbody
-    - @crews.each do |crew|
+  %h1 Deltagarlista
+
+  %table
+    %thead
       %tr
-        %td= link_to crew.boat_name, crew
-        %td= crew.captain_name
-        %td= link_to 'Edit', edit_crew_path(crew)
-        %td= link_to 'Destroy', crew, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %th Båt
+        %th Skeppare
+        %th
+        %th
+        %th
+
+    %tbody
+      - @crews.each do |crew|
+        %tr
+          %td= link_to crew.boat_name, crew
+          %td= crew.captain_name
+          %td
+            - if crew.finished
+              Gått i mål.
+            -else
+              Seglar.
+
+          %td=# link_to 'Edit', edit_crew_path(crew)
+          %td=# link_to 'Destroy', crew, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 
 
-%p= "Torrsegling version: #{Rails.configuration.version}"
+  %p= "Torrsegling version: #{Rails.configuration.version}"

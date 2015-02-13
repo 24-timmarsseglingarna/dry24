@@ -1,0 +1,7 @@
+= semantic_form_for @organizer do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :fk_org_code
+
+  = f.actions do
+    = f.action :submit, :as => :input

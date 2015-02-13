@@ -2,7 +2,7 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Dry24
+    %title= content_for?(:title) ? content_for(:title) : '24-timmarsseglingarna'
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -9,6 +9,12 @@ class Crew < ActiveRecord::Base
   after_create :add_first_log_entry
   before_create :start_details
 
+<<<<<<< HEAD
+  def start_point
+    Point.find_by_number '1001'
+  end
+=======
+>>>>>>> release/7
 
   def start_time
     log_entry = LogEntry.where(crew: self).first
