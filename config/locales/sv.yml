@@ -24,6 +24,7 @@ sv:
   time:
     formats:
       long: ! '%a %H.%M'
+      short: ! '%H.%M'
   date:
     formats:
       long: ! '%e %B %Y'

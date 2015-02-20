@@ -1,122 +1,81 @@
 - title "Torrsegling med #{@crew.boat_name}"
 .wrapper
+  .instruments
+    .instrument
+      .legend#cog
+        COG
+      .value
+        = '%.0f' % @crew.cog + '°'
+    .instrument#sog
+      .legend
+        SOG kt
+      .value
+        = '%.1f' % @crew.sog
+    .instrument#wd.dev
+      .legend
+        TWD
+      .value
+        = '%.0f' % @crew.twd + '°'
+    .instrument.dev
+      .legend
+        TWS m/s
+      .value
+        = '%.1f' % @crew.tws
+    .instrument
+      .legend
+        Log M
+      .value
+        = '%.1f' % @crew.log unless @crew.log.blank?
+    .instrument
+      .legend
+        Time
+      .value
+        = "#{I18n.l @crew.game_time, :format => :short}"
   .map-wrapper
     #map
   .control-wrapper
-    .inner-game-container
-      .game-box
-        -#%p#notice= notice
-        %h1.boat-name= @crew.boat_name
-        .instruments
-          .instrument
-            .legend#cog
-              COG
-            .value
-              = '%.0f' % @crew.cog + '°'
-          .instrument#sog
-            .legend
-              SOG kt
-            .value
-              = '%.1f' % @crew.sog
-          .instrument#vmg
-            .legend
-              VMG kt
-            .value
-              = '%.1f' % @crew.vmg
-          .instrument#wd.dev
-            .legend
-              TWD
-            .value
-              = '%.0f' % @crew.twd + '°'
-          .instrument#awa
-            .legend
-              AWA
-            .value
-              = '%.0f' % @crew.awa + '°'
-          .instrument#aws
-            .legend
-              AWS m/s
-            .value
-              = '%.1f' % @crew.aws
-          .instrument.dev
-            .legend
-              TWA
-            .value
-              = '%.0f' % @crew.twa + '°'
-          .instrument.dev
-            .legend
-              TWS m/s
-            .value
-              = '%.1f' % @crew.tws
-          .instrument
-            .legend
-              Start/Finish
-            .value
-              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|ff8c00|8|_|#{@crew.start_point.number}"
-              = @crew.start_point.number
-          .instrument
-            .legend
-              Trip M
-            .value
-              = '%.1f' % @crew.trip unless @crew.trip.blank?
-          .instrument
-            .legend
-              Log M
-            .value
-              = '%.1f' % @crew.log unless @crew.log.blank?
-          .instrument
-            .legend
-              WPT
-            .value
-              =# image_tag "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|66ff66|8|_|#{@crew.last_point.number}"
-              = @crew.last_point.number
-          .instrument#time
-            .legend
-              Time
-            .value
-              = "#{I18n.l @crew.game_time, :format => :long}"
 
-        - unless @crew.finished
-          %ol.where_to
-            %li#instruction Vart nu? Klicka en punkt i kartan för att se hur långt det är till den.
-            -for section in @sections do
-              %li.initially-hidden{:id => "#{section.to_point.id}"}
-                =link_to ('Gå till ' + section.to_point.number_name + ' (' +  Geocoder::Calculations.compass_point(section.point.bearing_to(section.to_point)).to_s + " " + section.distance.to_s + ' M).'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
-          - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
-            .finish
-              Du är nu vid start-/målpunkten.
-              - if @crew.game_time > (@crew.start_time + 21.hours)
-                = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
-              - else
-                Du måste segla minst 21 timmar innan du kan gå i mål.
-        - else
-          %p=link_to 'Börja om?', crews_path
+    - unless @crew.finished
+      %ol.where_to
+        %li#instruction Vart nu? Klicka en punkt i kartan för att se hur långt det är till den.
+        -for section in @sections do
+          %li.initially-hidden{:id => "#{section.to_point.id}"}
+            =link_to ('Gå till ' + section.to_point.number_name + ' (' +  Geocoder::Calculations.compass_point(section.point.bearing_to(section.to_point)).to_s + " " + section.distance.to_s + ' M).'), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post
+      - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
+        .finish
+          Du är nu vid start-/målpunkten.
+          - if @crew.game_time > (@crew.start_time + 21.hours)
+            = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
+          - else
+            Du måste segla minst 21 timmar innan du kan gå i mål.
+    - else
+      %p=link_to 'Börja om?', crews_path
 
 
-      %h3 Loggbok
-      %table.logbook
+    %h3 Loggbok
+    %table.logbook
+      %tr
+        %th Tid
+        %th Händelse
+        %th Distans
+        %th Vind
+      %tr
+        %td
+        %td Distans:
+        %td= @crew.distance_sum.round(1).to_s + ' M'
+        %td
+          =# Geocoder::Calculations.compass_point(@crew.twd)
+          =# @crew.tws.round 0
+      - for log_entry in @crew.log_entries.reverse do
         %tr
-          %th Tid
-          %th Händelse
-          %th Distans
-          %th Vind
-        %tr
+          %td= I18n.l log_entry.to_time, :format => :long
           %td
-          %td Distans:
-          %td= @crew.distance_sum.round(1).to_s + ' M'
+            = log_entry.to_point.number_name unless log_entry.to_point.blank?
+            = log_entry.description
+          %td= log_entry.distance.round(1).to_s + " M"
           %td
-            =# Geocoder::Calculations.compass_point(@crew.twd)
-            =# @crew.tws.round 0
-        - for log_entry in @crew.log_entries.reverse do
-          %tr
-            %td= I18n.l log_entry.to_time, :format => :long
-            %td
-              = log_entry.to_point.number_name unless log_entry.to_point.blank?
-              = log_entry.description
-            %td= log_entry.distance.round(1).to_s + " M"
-            %td
-              = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
-              = log_entry.tws.round unless log_entry.tws.blank?
-      .app-version= "Torrsegling version: #{Rails.configuration.version}"
+            = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
+            = log_entry.tws.round unless log_entry.tws.blank?
+    .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 = render 'map'
