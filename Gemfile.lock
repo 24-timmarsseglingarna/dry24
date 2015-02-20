@@ -46,14 +46,14 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
-    chunky_png (1.3.3)
+    chunky_png (1.3.4)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.0)
+    coffee-script-source (1.9.1)
     columnize (0.9.0)
     compass (1.0.3)
       chunky_png (~> 1.2)
@@ -83,7 +83,6 @@ GEM
     geocoder (1.2.7)
     globalid (0.3.3)
       activesupport (>= 4.1.0)
-    gmaps4rails (2.1.2)
     haml (4.0.6)
       tilt
     haml-rails (0.8.2)
@@ -213,7 +212,6 @@ DEPENDENCIES
   compass-rails
   formtastic
   geocoder
-  gmaps4rails
   haml
   haml-rails
   jbuilder (~> 2.0)
