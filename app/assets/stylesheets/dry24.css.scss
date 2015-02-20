@@ -138,11 +138,18 @@ ol.where_to {
 ol.where_to li {
   font-size: 0.8rem;
   margin: 0.5em 0;
-  padding: 0.5em;
   background-color: #999999;
+  display: none;
   a {
+    display: block;
+    padding: 1em 0.5em 1em 0.5em;
     @include unstyled-link;
   }
+}
+
+ol.where_to li#instruction {
+  display: block;
+  padding: 1em 0.5em 1em 0.5em;
 }
 
 ol.where_to li:hover {
