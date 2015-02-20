@@ -60,4 +60,22 @@ class Point < ActiveRecord::Base
     target_points
   end
 
+  def within_range(range = 20)
+    within = nearbys(range, :units => :nm)
+    within << self
+    within
+  end
+
+  def sections_within_range(range = 20)
+    within = Array.new
+    for point in within_range(range) do
+      for section in point.sections do
+        unless (section.to_point.distance_to(self) > range) || (section.point.distance_to(self) > range)
+          within << section
+        end
+      end
+    end
+    within
+  end
+
 end

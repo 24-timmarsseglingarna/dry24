@@ -1,33 +1,79 @@
 <script>
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {mapTypeId: google.maps.MapTypeId.TERRAIN,
+    function initialize() {
+        function say_yo(arg) { return function(){alert('yo '+ arg + '!' );};};
+
+        var mapOptions = {
+            zoom: 9,
+            center: new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>),
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
             panControl: false,
             zoomControl: true,
             mapTypeControl: false,
             scaleControl: true,
             streetViewControl: false,
-            overviewMapControl: true,
-    },
-        internal: {id: 'map'}}, function(){
-        <%- for @polyline in @in_range do %>
-        handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#000000', strokeOpacity:0.2, strokeWeight:2});
+            overviewMapControl: true
+        };
+
+        var map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
+
+        <%- for section in @network %>
+        var section = new google.maps.Polyline({
+            path: [new google.maps.LatLng(<%= section.point.latitude %> , <%= section.point.longitude %>), new google.maps.LatLng(<%= section.to_point.latitude %> , <%= section.to_point.longitude %>) ],
+            geodesic: true,
+            strokeColor: '#000000',
+            strokeOpacity: 0.2,
+            strokeWeight: 2
+        });
+        section.setMap(map);
         <%- end %>
 
-        <%- for @polyline in @next_options do %>
-            handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#FF0000', strokeOpacity:1, strokeWeight:2});
+        var wake = new google.maps.Polyline({
+            path: [
+              <%- for point in @rounded_points do %>
+                new google.maps.LatLng(<%=point.latitude %>, <%=point.longitude %>),
+              <%- end %>
+            ],
+            geodesic: true,
+            strokeColor: '#000066',
+            strokeOpacity: 0.4,
+            strokeWeight: 10
+        });
+        wake.setMap(map);
+
+        <%- for point in @points %>
+            <%- pin_color = 'ff0'
+                pin_color = 'ff8c00' if point == @crew.start_point
+                pin_color = '66ff66' if point == @crew.last_point
+            %>
+            var marker = new google.maps.Marker({
+                position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
+                map:        map,
+                title:      '<%= point.number_name %>',
+                icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
+                width:      23,
+                height:     41
+            });
+            google.maps.event.addListener(marker, 'click', function(){
+                $("#<%= point.id %>").show().siblings("li").hide();
+            });
+
         <%- end %>
 
-        <%- for @polyline in @wakes do %>
-            handler.addPolyline(<%=raw @polyline.to_json %>, { strokeColor: '#000066', strokeOpacity:0.4, strokeWeight:6});
+        <%- for point in @crew.last_point.targets %>
+            var whereToGo = new google.maps.Polyline({
+                path: [new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>), new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>) ],
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            whereToGo.setMap(map);
         <%- end %>
-        markers = handler.addMarkers(<%=raw @hash.to_json %>);
-        handler.getMap().setZoom(9);
-        <%- if @crew.finished %>
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-        <%- else %>
-            var centerpoint = new google.maps.LatLng(<%= raw @crew.last_point.latitude %>,<%= raw @crew.last_point.longitude %>);
-            handler.getMap().setCenter(centerpoint);
-        <%- end %>
-    });
+
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
 </script>
