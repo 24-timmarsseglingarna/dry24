@@ -28,26 +28,9 @@ class Crew < ActiveRecord::Base
   end
 
   def range
-    60 # nautical miles
+    24 / 2 * 7 * handicap # nautical miles
   end
 
-  def points_within_range
-    within = last_point.nearbys(range, :units => :nm)
-    within << last_point
-    within
-  end
-
-  def sections_within_range
-    out_array = Array.new
-    for point in points_within_range do
-      for section in point.sections do
-        unless (section.to_point.distance_to(last_point) > range) || (section.point.distance_to(last_point) > range)
-          out_array << section
-        end
-      end
-    end
-    out_array
-  end
 
   def tripled_rounding? point
     roundings = Array.new

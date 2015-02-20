@@ -15,39 +15,36 @@
     @log_entry.point = @crew.last_point
 
     @sections = @crew.last_point.sections
+
+    @network = Array.new
+    for section in @crew.last_point.sections_within_range @crew.range
+      @network << section unless false # TODO don't draw in both directions
+    end
+    #for section in @crew.start_point.sections_within_range @crew.range
+    #  @network << section unless false # TODO don't draw in both directions nor duplicate
+    #end
+
     @points = @crew.last_point.targets
-    @points << @crew.last_point
-    @points << @crew.start_point
-
-    @next_options = Array.new
-    unless @crew.finished
-      from_point = @crew.last_point
-      for point in from_point.targets
-        roundpoints = []
-        roundpoints << {:lng => from_point.longitude, :lat => from_point.latitude}
-        roundpoints << {:lng => point.longitude, :lat => point.latitude}
-        @next_options << roundpoints
-      end
-    end
-    @in_range = Array.new
-    for section in @crew.sections_within_range
-      roundpoints = []
-      roundpoints << {:lng => section.point.longitude, :lat => section.point.latitude}
-      roundpoints << {:lng => section.to_point.longitude, :lat => section.to_point.latitude}
-      @in_range << roundpoints
+    unless @points.include?(@crew.start_point)
+      @points << @crew.start_point
     end
 
-    @visited = Array.new
-    @wakes = Array.new
+    unless @points.include?(@crew.last_point)
+      @points << @crew.last_point
+    end
+
+    @rounded_points = Array.new
     for leg in @crew.log_entries
-      if leg.point.present? && leg.to_point.present?
-        roundpoints = []
-        roundpoints << {:lng => leg.point.longitude, :lat => leg.point.latitude}
-        roundpoints << {:lng => leg.to_point.longitude, :lat => leg.to_point.latitude}
-        @wakes << roundpoints
-        @visited << leg.to_point
+      if  leg.to_point.present?
+        @rounded_points << leg.to_point
       end
     end
+
+  end
+
+
+  def dummy
+
 
     if @crew.finished
       @hash = Gmaps4rails.build_markers(@visited) do |point, marker|
@@ -63,24 +60,7 @@
                            "height" => 41,
                        })
       end
-    else
-      @hash = Gmaps4rails.build_markers(@points) do |point, marker|
-        colorcode='ff0'
-        colorcode = 'ff8c00' if point.number == @crew.start_point.number
-        colorcode = '66ff66' if point.number == @crew.last_point.number
-        marker.lat point.latitude
-        marker.lng point.longitude
-        marker.json({:id => point.number.to_i })
-        marker.title point.number_name
-        marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
-                           "width" =>  23,
-                           "height" => 41,
-                       })
-        #"url" => "http://maps.google.com/mapfiles/ms/micons/sailing.png",
       end
-    end
-
   end
 
   def create_log_entry
@@ -205,6 +185,11 @@
       format.json { head :no_content }
     end
   end
+
+  def gmaps4rails_sidebar
+    "<span class='foo'>#{name}</span>"
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
