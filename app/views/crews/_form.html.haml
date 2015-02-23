@@ -3,9 +3,9 @@
     = f.input :boat_name
     = f.input :captain_name
     = f.input :captain_email
-    = f.input :start_point, :as => :radio, :collection => Hash[@start_points.map{|b| ["#{b.number} #{b.name}",b.id]}]
-  = f.actions do
-    = f.action :submit, :as => :input
+    = f.input :start_point, :as => :radio, :collection => Hash[@start_points.map{|b| ["#{b.number} #{b.name}, #{b.organizers.first.name}",b.id]} ]
+    = f.actions do
+      = f.action :submit, :as => :input
 
 :javascript
   $(document).ready(function () {
