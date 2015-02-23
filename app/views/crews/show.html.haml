@@ -1,37 +1,38 @@
 - title "Torrsegling med #{@crew.boat_name}"
 .wrapper
   .map-wrapper
-    .instruments
-      .instrument
-        .legend
-          Time
-        .value
-          = "#{I18n.l @crew.game_time, :format => :short}"
-      .instrument
-        .legend#cog
-          COG
-        .value
-          = '%.0f' % @crew.cog + '°'
-      .instrument#sog
-        .legend
-          VMG kt
-        .value
-          = '%.1f' % @crew.vmg
-      .instrument#tw-arrow
-        .legend
-          TWD
-        .value{ :style => "-moz-transform: rotate(#{@crew.twd}deg); -ms-transform: rotate(#{@crew.twd}deg); -webkit-transform: rotate(#{@crew.twd}deg); transform: rotate(#{@crew.twd}deg);"   }
-          &#8657;
-      .instrument#wd
-        .legend
-          TWD
-        .value
-          = '%.0f' % @crew.twd + '°'
-      .instrument.dev
-        .legend
-          TWS m/s
-        .value
-          = '%.1f' % @crew.tws
+    - unless @crew.finished
+      .instruments
+        .instrument
+          .legend
+            Time
+          .value
+            = "#{I18n.l @crew.game_time, :format => :short}"
+        .instrument
+          .legend#cog
+            COG
+          .value
+            = '%.0f' % @crew.cog + '°'
+        .instrument#sog
+          .legend
+            VMG kt
+          .value
+            = '%.1f' % @crew.vmg
+        .instrument#tw-arrow
+          .legend
+            TWD
+          .value{ :style => "-moz-transform: rotate(#{@crew.twd}deg); -ms-transform: rotate(#{@crew.twd}deg); -webkit-transform: rotate(#{@crew.twd}deg); transform: rotate(#{@crew.twd}deg);"   }
+            &#8657;
+        .instrument#wd
+          .legend
+            TWD
+          .value
+            = '%.0f' % @crew.twd + '°'
+        .instrument.dev
+          .legend
+            TWS m/s
+          .value
+            = '%.1f' % @crew.tws
     #map
 
   .control-wrapper
@@ -54,10 +55,16 @@
           - else
             Du måste segla minst 21 timmar innan du kan gå i mål.
       - else
-        %p=link_to 'Börja om?', crews_path
+        %p
+          .restart
+            =link_to 'Börja om?', new_crew_path
 
 
       %h3 Loggbok
+      %p
+        Båt: #{@crew.boat_name}, Scanmar 33.
+        %br Befälhavare: #{@crew.captain_name}
+
       %table.logbook
         %tr
           %th Tid
