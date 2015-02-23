@@ -88,17 +88,7 @@
             %td
               = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
               = log_entry.tws.round unless log_entry.tws.blank?
-
-      %h3 Så här funkar det ...
-      %p Svenska Kryssarklubbens 24-timmarsseglingar går ut på att segla så långt som möjligt. Du ska tillbaka till start på 24 timmar. Om du kommer för sent får du distansavdrag.
-      %p Du väljer själv väg bland en stor mängd punkter och sträckor. Punkter får rundas max två gånger och sträckor seglas max två gånger.
-      %p Varje sträcka har en uppmätt distans som du får räkna, oavsett vilken väg du seglar.
-      %p Tips! De flesta båtar är effektivast på halvvind. Kryss ger en låg fart om du inte kan lägga krysslagen mellan rundningspunkter.
-      %p För att kunna jämföra olika båtars prestationer använder vi ett handikappsystem som i stort är SRS-tal.
-      %p I den här övningen seglar du en Scanmar 33:a. Den har SRS-tal #{@crew.handicap}.
-      %p Du har valt att starta #{l(@crew.start_time, :format => :longest)} från #{@crew.start_point.number_name} och skall gå i mål där #{l(@crew.start_time + 1.day, :format => :longest)}.
-
-      %p Seglingarna körs runt hela Sveriges kust, i Vänern och i Mälaren, första helgen i juni och första helgen i september.
+      = render 'how_it_works'
       .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 = render 'map'

@@ -43,26 +43,6 @@
   end
 
 
-  def dummy
-
-
-    if @crew.finished
-      @hash = Gmaps4rails.build_markers(@visited) do |point, marker|
-        colorcode='fff'
-        colorcode = 'ff8c00' if point.number == @crew.start_point.number
-        marker.lat point.latitude
-        marker.lng point.longitude
-        marker.json({:id => point.number.to_i })
-        marker.title point.number_name
-        marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
-                           "width" =>  23,
-                           "height" => 41,
-                       })
-      end
-      end
-  end
-
   def create_log_entry
     @crew = Crew.find(params[:id])
     @log_entry = @crew.log_entries.build
@@ -129,7 +109,7 @@
   def new
     @crew = Crew.new
     @start_points = Array.new
-    for organizer in Organizer.all do
+    for organizer in Organizer do
       for start_point in organizer.start_points do
         @start_points << start_point unless start_point.blank?
       end
