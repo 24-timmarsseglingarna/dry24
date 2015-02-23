@@ -1,6 +1,5 @@
 <script>
     function initialize() {
-        function say_yo(arg) { return function(){alert('yo '+ arg + '!' );};};
 
         var mapOptions = {
             zoom: 9,
@@ -41,41 +40,61 @@
         });
         wake.setMap(map);
 
-        <%- for point in @points %>
-            <%- pin_color = 'ff0'
-                pin_color = 'ff8c00' if point == @crew.start_point
-                pin_color = '66ff66' if point == @crew.last_point
-            %>
-            var marker = new google.maps.Marker({
-                position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
-                map:        map,
-                title:      '<%= point.number_name %>',
-                icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
-                width:      23,
-                height:     41
-            });
-            <%- if point == @crew.start_point %>
-                google.maps.event.addListener(marker, 'click', function(){
-                    $("#finalize").fadeOut(50).fadeIn(250);
+        <%- unless @crew.finished %>
+            <%- for point in @points %>
+                <%- pin_color = 'ff0'
+                    pin_color = 'ff8c00' if point == @crew.start_point
+                    pin_color = '66ff66' if point == @crew.last_point
+                %>
+                var marker = new google.maps.Marker({
+                    position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
+                    map:        map,
+                    title:      '<%= point.number_name %>',
+                    icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
+                    width:      23,
+                    height:     41
                 });
-            <%- else %>
-                google.maps.event.addListener(marker, 'click', function(){
-                    $("#<%= point.id %>").show().siblings("li").hide();
-                    $("#<%= point.id %>").fadeOut(50).fadeIn(250);
+                <%- if point == @crew.start_point && point == @crew.last_point %>
+                    google.maps.event.addListener(marker, 'click', function(){
+                        $("#finalize").fadeOut(250).fadeIn(1000);
+                    });
+                <%- else %>
+                    google.maps.event.addListener(marker, 'click', function(){
+                        $("#<%= point.id %>").show().siblings("li").hide();
+                        $("#<%= point.id %>").fadeOut(250).fadeIn(1000);
+                    });
+                <%- end %>
+            <%- end %>
+        <%- else %>
+            var latlngbounds = new google.maps.LatLngBounds();
+            <%- for point in @rounded_points
+            pin_color = 'fff'
+            pin_color = 'ff8c00' if point == @crew.start_point
+            %>
+                latlngbounds.extend(new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>));
+                var marker = new google.maps.Marker({
+                    position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
+                    map:        map,
+                    title:      '<%= point.number_name %>',
+                    icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
+                    width:      23,
+                    height:     41
                 });
             <%- end %>
-
+            map.fitBounds(latlngbounds);
         <%- end %>
 
-        <%- for point in @crew.last_point.targets %>
-            var whereToGo = new google.maps.Polyline({
-                path: [new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>), new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>) ],
-                geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
-                strokeWeight: 2
-            });
-            whereToGo.setMap(map);
+        <%- unless @crew.finished %>
+            <%- for point in @crew.last_point.targets %>
+                var whereToGo = new google.maps.Polyline({
+                    path: [new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>), new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>) ],
+                    geodesic: true,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+                whereToGo.setMap(map);
+            <%- end %>
         <%- end %>
 
 

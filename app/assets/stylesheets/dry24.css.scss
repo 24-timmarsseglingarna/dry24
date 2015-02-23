@@ -3,6 +3,7 @@
 
 $orange24: #ff8c00;
 $light-orange24: lighten($orange24, 25%);
+$instrument: lighten(#000000, 90%);
 
 html, body {
   background-color: #fff;
@@ -112,7 +113,7 @@ p {
     margin: 0 0 0 0.1em;
     padding: 0.1em 0.2em;
     /*width: 4em;*/
-    background-color: #bbb;
+    background-color: $instrument;
     }
     .legend {
       text-align: center;
@@ -201,7 +202,7 @@ ol.where_to {
   margin: 0;
 }
 
-ol.where_to li, .finalize {
+ol.where_to li, .finalize, .restart {
   margin: 0;
   background-color: $light-orange24;
   a {
@@ -221,7 +222,7 @@ ol.where_to li#instruction {
   padding: 1em 0.5em 1em 0.5em;
 }
 
-ol.where_to li:hover, .finalize:hover {
+ol.where_to li:hover, .finalize:hover, .restart:hover {
   background-color: $orange24;
 }
 
