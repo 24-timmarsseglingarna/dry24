@@ -54,9 +54,16 @@
                 width:      23,
                 height:     41
             });
-            google.maps.event.addListener(marker, 'click', function(){
-                $("#<%= point.id %>").show().siblings("li").hide();
-            });
+            <%- if point == @crew.start_point %>
+                google.maps.event.addListener(marker, 'click', function(){
+                    $("#finalize").fadeOut(50).fadeIn(250);
+                });
+            <%- else %>
+                google.maps.event.addListener(marker, 'click', function(){
+                    $("#<%= point.id %>").show().siblings("li").hide();
+                    $("#<%= point.id %>").fadeOut(50).fadeIn(250);
+                });
+            <%- end %>
 
         <%- end %>
 
