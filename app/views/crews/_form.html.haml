@@ -6,3 +6,8 @@
     = f.input :start_point, :as => :radio, :collection => Hash[@start_points.map{|b| ["#{b.number} #{b.name}",b.id]}]
   = f.actions do
     = f.action :submit, :as => :input
+
+:javascript
+  $(document).ready(function () {
+  $('#crew_boat_name').focus();
+  });

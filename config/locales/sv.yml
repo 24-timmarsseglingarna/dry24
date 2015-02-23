@@ -36,21 +36,21 @@ sv:
     labels:
       crew:
         boat_name: "Båtens namn"
-        captain_name: "Skepparens namn"
-        captain_email: "Skepparens mejladress"
+        captain_name: "Ditt namn"
+        captain_email: "Din mejladress"
         start_point: "Startplats"
     hints:
-      post:
-        title: "Choose a good title for your post."
-        body: "Write something inspiring here."
+      crew:
+        captain_email: "Vi mejlar dig resultaten från torrseglingen och hur du gör om du vill segla 'riktiga' 24-timmarsseglingarna. Vi sprider inte din mejladress."
     placeholders:
-      post:
-        title: "Title your post"
-        slug: "Leave blank for an automatically generated slug"
-      user:
-        email: "you@yours.com"
+      crew:
+        boat_name: "Aurora"
+        captain_name: "Archibald Haddock"
+        captain_email: "haddock@moulinsart.be"
     actions:
-      create: "zCreate my %{model}"
-      update: "zSave changes"
-      reset: "zReset form"
-      cancel: "zCancel and go back"
+      create: "Skapa %{model}"
+      update: "Spara"
+      reset: "Töm formuläret"
+      cancel: "Ångra och gå tillbaka"
+      crew:
+        create: "Kör igång!"
