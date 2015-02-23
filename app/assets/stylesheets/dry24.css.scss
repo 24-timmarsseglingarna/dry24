@@ -1,56 +1,73 @@
 @include h5bp-normalize;
 
+
+$orange24: #ff8c00;
+$light-orange24: lighten($orange24, 25%);
+
 html, body {
-  background-color: #BBBBBB;
+  background-color: #fff;
+  width: 100%;
 }
 
+p {
+  line-height: 1.5em;
+}
 .wrapper {
-  /*background-color: #ffffff;*/
   width: 100%;
-  max-width: 360px;
   margin: 0 auto 0 auto;
 }
 
 .map-wrapper {
-  /*width: 100%;*/
-  /*height: 225px;*/
-  /*@include clearfix;*/
-}
-
-#map {
-  /*width: 100%;*/
-  width: 100vw;
-  height: 70vh;
-  /*height: 225px;*/
-  max-width: 360px;
-  /*float:left;*/
-  /*z-index: -1;*/
-  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 100vw;
+  max-height: 75vh;
+  position: absolute;
   left: 0px;
   top: 0px;
 }
 
-.control-wrapper {
-
-}
-
-.outer-game-container{
-  float: right;
+#map {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow:auto;
-
 }
 
-.inner-game-container{
-
+.control-wrapper {
+  margin-top: 100vw;
+  width: 100%;
+  max-width: 500px;
 }
 
-.game-box{
-  margin: 0;
-  padding: 0;
+
+@media screen and (min-width: 450px) {
+  .map-wrapper {
+    height: 450px;
+  }
+  .control-wrapper {
+    margin-top: 450px;
+  }
+}
+
+
+@media screen and (min-width: 900px) {
+  .map-wrapper {
+    width: 70%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+.control-wrapper {
+    width: 30%;
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0;
+  }
+}
+.control {
+  padding: 0.5em;
 }
 
 #crew {
@@ -61,27 +78,10 @@ html, body {
   background-color: #ffe4b5;
 }
 
-
-/*
-.formtastic .choices-group {
-  width: 90%;
-  padding-left: 5%;
+.logbook {
+  background-color: #fff;
 }
 
-.formtastic .choices .label {
-  margin-top: -2em;
-}
-
-.formtastic .input {
-  overflow: hidden;
-  padding: 0.5em 0;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
-}
-.formtastic ul, .formtastic ol, .formtastic li {
-  list-style-type: none;
-}
-*/
 .logbook, .logbook tr, .logbook td, .logbook th {
   border: solid 1px black;
   border-collapse: collapse;
@@ -90,51 +90,109 @@ html, body {
 
 .logbook {
   width: 100%;
+  max-width: 35em;
+  background-color: #eeeeee;
 }
-.logbook td {
-  padding: 0.2em;
+.logbook td, .logbook th {
+  padding: 0.3em;
 }
-
 
 .instruments {
-  @include clearfix;
   padding-top: 0;
-  position: relative;
+  position: absolute;
+  display: inline-block;
   right: 0px;
   top: 0px;
   z-index: 1;
   background: transparent;
 
   .instrument {
-    float: right;
-    margin: 0 0 0 0.5em;
-    padding: 0.25em 0.5em;
+    /*float: right;*/
+    display: inline-block;
+    margin: 0 0 0 0.1em;
+    padding: 0.1em 0.2em;
     /*width: 4em;*/
-    background-color: #666666;
+    background-color: #bbb;
     }
     .legend {
       text-align: center;
-      font-size: 0.6em;
+      font-size: 0.5rem;
     }
     .value {
       text-align: center;
-      font-size: 1em;
+      font-size: 0.8rem;
+      font-weight: bold;
     }
-    .unit {
-      font-size: 0.4em;
+    #wind-arrow {
+      }
+  }
+
+@media screen and (min-width: 330px) {
+  .instrument {
+    .value {
+      font-size: 0.9rem;
+    }
+    .legend {
+      font-size: 0.6rem;
     }
   }
-.dev {
-  background-color: #999999;
-  color: #fff;
-  display: none;
-}
-.instruments #time{
-  width: 90%;
 }
 
-.boat-name{
-  display: none;
+@media screen and (min-width: 380px) {
+  .instrument {
+    .value {
+      font-size: 1.1rem;
+    }
+    .legend {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .instrument {
+    .value {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 500px) {
+  .instrument {
+    .value {
+      font-size: 1.5rem;
+    }
+    .legend {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .instrument {
+    .value {
+      font-size: 2.5rem;
+    }
+    .legend {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .instrument {
+    .value {
+      font-size: 3.5rem;
+    }
+    .legend {
+      font-size: 1rem;
+    }
+  }
+}
+
+h1.sailing {
+  margin-top: 0;
 }
 
 ol.where_to {
@@ -143,11 +201,9 @@ ol.where_to {
   margin: 0;
 }
 
-ol.where_to li {
-  font-size: 0.8rem;
+ol.where_to li, .finalize {
   margin: 0;
-  background-color: #999999;
-  display: none;
+  background-color: $light-orange24;
   a {
     display: block;
     padding: 1em 0.5em 1em 0.5em;
@@ -156,16 +212,29 @@ ol.where_to li {
   }
 }
 
+ol.where_to li,{
+  display: none;
+}
+
 ol.where_to li#instruction {
   display: block;
   padding: 1em 0.5em 1em 0.5em;
 }
 
-ol.where_to li:hover {
-  background-color: #BBBBBB;
+ol.where_to li:hover, .finalize:hover {
+  background-color: $orange24;
+}
+
+
+.defi {
+  font-size: 80%;
+  font-style: italic;
 }
 
 .app-version {
+  margin: 1em 0;
   font-size: 0.5rem;
   color: #333333;
+  text-align: right;
 }
+

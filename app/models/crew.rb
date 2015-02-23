@@ -123,6 +123,7 @@ class Crew < ActiveRecord::Base
     out
   end
 
+
   private
 
   def start_details

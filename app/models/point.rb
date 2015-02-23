@@ -1,5 +1,6 @@
 class Point < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::OutputSafetyHelper
 
   default_scope { order('number ASC') }
   has_many :sections
