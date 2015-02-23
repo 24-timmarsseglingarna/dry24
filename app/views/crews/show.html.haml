@@ -38,9 +38,9 @@
     .control
       %h1.sailing Torrsegling
       - unless @crew.finished
-        %p Vart nu? Klicka en punkt i kartan för att se hur långt det är till den.
+        %p Vart seglar vi nu?
         %ol.where_to
-          %li#instruction ⇒ &nbsp;
+          %li#instruction ⇒ Klicka en punkt i kartan.
           -for section in @sections do
             %li.initially-hidden{:id => "#{section.to_point.id}"}
               =link_to(go_section(section), create_log_entry_crew_url(:to_point_id => section.to_point.id), :method => :post)
@@ -49,7 +49,8 @@
             Du är nu vid start-/målpunkten.
           %p
           - if @crew.game_time > (@crew.start_time + 21.hours)
-            = link_to 'Gå i mål', finish_crew_path(@crew), :method => :put
+            .finalize#finalize
+              = link_to '⇒ Gå i mål.', finish_crew_path(@crew), :method => :put
           - else
             Du måste segla minst 21 timmar innan du kan gå i mål.
       - else

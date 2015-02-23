@@ -1,5 +1,9 @@
 @include h5bp-normalize;
 
+
+$orange24: #ff8c00;
+$light-orange24: lighten($orange24, 25%);
+
 html, body {
   background-color: #fff;
   width: 100%;
@@ -30,7 +34,6 @@ p {
 
 .control-wrapper {
   margin-top: 100vw;
-  /*@include clearfix;*/
   width: 100%;
   max-width: 500px;
 }
@@ -198,10 +201,9 @@ ol.where_to {
   margin: 0;
 }
 
-ol.where_to li {
+ol.where_to li, .finalize {
   margin: 0;
-  background-color: #999999;
-  display: none;
+  background-color: $light-orange24;
   a {
     display: block;
     padding: 1em 0.5em 1em 0.5em;
@@ -210,14 +212,19 @@ ol.where_to li {
   }
 }
 
+ol.where_to li,{
+  display: none;
+}
+
 ol.where_to li#instruction {
   display: block;
   padding: 1em 0.5em 1em 0.5em;
 }
 
-ol.where_to li:hover {
-  background-color: #BBBBBB;
+ol.where_to li:hover, .finalize:hover {
+  background-color: $orange24;
 }
+
 
 .defi {
   font-size: 80%;
