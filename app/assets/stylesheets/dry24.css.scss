@@ -8,7 +8,9 @@ $instrument: lighten(#000000, 90%);
 html, body {
   background-color: #fff;
   width: 100%;
+  font-family: 'Open Sans','Arial',sans-serif;
 }
+
 
 p {
   line-height: 1.5em;
@@ -86,10 +88,6 @@ p {
 
 #targets {
   background-color: #ffe4b5;
-}
-
-.logbook {
-  background-color: #fff;
 }
 
 .logbook, .logbook tr, .logbook td, .logbook th {
@@ -282,4 +280,24 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 .formtastic .error {
   border-left: 5px solid red;
   padding-left: 5px;
+}
+
+
+
+.result-list, .result-list tr, .result-list td, .result-list th {
+  border: solid 1px black;
+  border-collapse: collapse;
+  font-size: 1.75rem;
+}
+
+.result-list th {
+  font-weight: bold;
+}
+
+.result-list {
+  width: 100%;
+  background-color: #eeeeee;
+}
+.result-list td, .result-list th {
+  padding: 0.3em;
 }

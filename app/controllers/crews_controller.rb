@@ -5,11 +5,15 @@
   # GET /crews.json
   def index
     @crews = Crew.all
+    @best = Crew.where(:finished => true).order(distance: :asc).last 11
+    logger.info "+++ #{@best.count}"
+    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(11).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1
   # GET /crews/1.json
   def show
+    logger.info "+++ start #{@crew.distance}"
     @log_entry = LogEntry.new
     @log_entry.crew = @crew
     @log_entry.point = @crew.last_point
@@ -39,12 +43,13 @@
         @rounded_points << leg.to_point
       end
     end
-
+    logger.info "+++ end #{@crew.distance}"
   end
 
 
   def create_log_entry
     @crew = Crew.find(params[:id])
+
     @log_entry = @crew.log_entries.build
     @log_entry.to_point_id = params[:to_point_id]
     @log_entry.point = @crew.last_point
@@ -53,13 +58,14 @@
     if @log_entry.point.present? && @log_entry.to_point.present?
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
       leg_time = @log_entry.distance / @crew.vmg # nm / knots
-
+      @crew.distance += @log_entry.distance
       @log_entry.to_time = @crew.game_time + leg_time.hours
       @crew.game_time += leg_time.hours
     end
     next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
     @crew.save
+
     if @log_entry.save
       if @crew.tripled_rounding? @log_entry.to_point
         @punishment = @crew.log_entries.build
@@ -67,6 +73,7 @@
         @punishment.from_time = @crew.game_time
         @punishment.to_time = @crew.game_time
         @punishment.distance = - @log_entry.distance
+        @crew.update(:distance => @crew.distance + @punishment.distance)
         @punishment.save
       else #don't punish twice
         if @crew.tripled_sections? @log_entry
@@ -75,6 +82,7 @@
           @punishment.from_time = @crew.game_time
           @punishment.to_time = @crew.game_time
           @punishment.distance = - @log_entry.distance
+          @crew.update(:distance => @crew.distance + @punishment.distance)
           @punishment.save
         end
       end
@@ -93,6 +101,7 @@
       @punishment.from_time = @crew.game_time
       @punishment.to_time = @crew.game_time
       @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
+      @crew.update(:distance => @crew.distance + @punishment.distance)
       @punishment.save
     end
     @handicap_compensation = @crew.log_entries.build
@@ -100,6 +109,7 @@
     @handicap_compensation.from_time = @crew.game_time
     @handicap_compensation.to_time = @crew.game_time
     @handicap_compensation.distance = @crew.distance_sum * (1 -@crew.handicap)
+    @crew.update(:distance => @crew.distance + @handicap_compensation.distance)
     @handicap_compensation.save
     @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."
@@ -109,7 +119,7 @@
   def new
     @crew = Crew.new
     @start_points = Array.new
-    for organizer in Organizer do
+    for organizer in Organizer.all do
       for start_point in organizer.start_points do
         @start_points << start_point unless start_point.blank?
       end
