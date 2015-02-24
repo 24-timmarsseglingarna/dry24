@@ -6,14 +6,12 @@
   def index
     @crews = Crew.all
     @best = Crew.where(:finished => true).order(distance: :asc).last 11
-    logger.info "+++ #{@best.count}"
     @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(11).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1
   # GET /crews/1.json
   def show
-    logger.info "+++ start #{@crew.distance}"
     @log_entry = LogEntry.new
     @log_entry.crew = @crew
     @log_entry.point = @crew.last_point
