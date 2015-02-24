@@ -5,6 +5,8 @@
   # GET /crews.json
   def index
     @crews = Crew.all
+    @best = Crew.where(:finished => true).order(distance: :asc).last 11
+    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(11).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1
@@ -39,32 +41,13 @@
         @rounded_points << leg.to_point
       end
     end
-
+    logger.info "+++ end #{@crew.distance}"
   end
 
-
-  def dummy
-
-
-    if @crew.finished
-      @hash = Gmaps4rails.build_markers(@visited) do |point, marker|
-        colorcode='fff'
-        colorcode = 'ff8c00' if point.number == @crew.start_point.number
-        marker.lat point.latitude
-        marker.lng point.longitude
-        marker.json({:id => point.number.to_i })
-        marker.title point.number_name
-        marker.picture ({
-                           "url" => "https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|#{colorcode}|8|_|#{point.number}",
-                           "width" =>  23,
-                           "height" => 41,
-                       })
-      end
-      end
-  end
 
   def create_log_entry
     @crew = Crew.find(params[:id])
+
     @log_entry = @crew.log_entries.build
     @log_entry.to_point_id = params[:to_point_id]
     @log_entry.point = @crew.last_point
@@ -73,13 +56,14 @@
     if @log_entry.point.present? && @log_entry.to_point.present?
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
       leg_time = @log_entry.distance / @crew.vmg # nm / knots
-
+      @crew.distance += @log_entry.distance
       @log_entry.to_time = @crew.game_time + leg_time.hours
       @crew.game_time += leg_time.hours
     end
     next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
     @crew.save
+
     if @log_entry.save
       if @crew.tripled_rounding? @log_entry.to_point
         @punishment = @crew.log_entries.build
@@ -87,6 +71,7 @@
         @punishment.from_time = @crew.game_time
         @punishment.to_time = @crew.game_time
         @punishment.distance = - @log_entry.distance
+        @crew.update(:distance => @crew.distance + @punishment.distance)
         @punishment.save
       else #don't punish twice
         if @crew.tripled_sections? @log_entry
@@ -95,6 +80,7 @@
           @punishment.from_time = @crew.game_time
           @punishment.to_time = @crew.game_time
           @punishment.distance = - @log_entry.distance
+          @crew.update(:distance => @crew.distance + @punishment.distance)
           @punishment.save
         end
       end
@@ -113,6 +99,7 @@
       @punishment.from_time = @crew.game_time
       @punishment.to_time = @crew.game_time
       @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
+      @crew.update(:distance => @crew.distance + @punishment.distance)
       @punishment.save
     end
     @handicap_compensation = @crew.log_entries.build
@@ -120,6 +107,7 @@
     @handicap_compensation.from_time = @crew.game_time
     @handicap_compensation.to_time = @crew.game_time
     @handicap_compensation.distance = @crew.distance_sum * (1 -@crew.handicap)
+    @crew.update(:distance => @crew.distance + @handicap_compensation.distance)
     @handicap_compensation.save
     @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."

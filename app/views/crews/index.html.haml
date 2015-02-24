@@ -1,32 +1,51 @@
 .wrapper
-
   = link_to 'Börja en ny segling!', new_crew_path
 
-  %h1 Deltagarlista
+  %h1 Topplista
 
-  %table
+  %table.result-list
     %thead
       %tr
         %th Båt
         %th Skeppare
-        %th
-        %th
-        %th
+        %th Distans
+        %th Start/mål
+        %th Spelade
 
     %tbody
-      - @crews.each do |crew|
+      - @best.reverse.each do |crew|
         %tr
           %td= link_to crew.boat_name, crew
           %td= crew.captain_name
-          %td
-            - if crew.finished
-              Gått i mål.
-            -else
-              Seglar.
+          %td= crew.distance.round 1
+          %td= crew.start_point.number_name unless crew.start_point.blank?
+          %td= crew.created_at
 
-          %td=# link_to 'Edit', edit_crew_path(crew)
-          %td=# link_to 'Destroy', crew, :method => :delete, :data => { :confirm => 'Are you sure?' }
+  %hr
+  %h1 Just nu
+  %table.result-list
+    %thead
+      %tr
+        %th Båt
+        %th Skeppare
+        %th Startade vid
+        %th Nu seglat
+        %th Siktad klockan
+        %th Senast siktad vid
+
+    %tbody
+      - @ongoing.each do |crew|
+        %tr
+          %td= link_to crew.boat_name, crew
+          %td= crew.captain_name
+          %td= crew.start_point.number_name unless crew.start_point.blank?
+          %td= crew.distance.round(1).to_s + ' M'
+          %td= l(crew.game_time, :format => :long)
+          %td= crew.last_point.number_name unless crew.last_point.blank?
+
 
 
 
   %p= "Torrsegling version: #{Rails.configuration.version}"
+
+

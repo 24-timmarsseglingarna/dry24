@@ -1,6 +1,10 @@
 .wrapper
-  %h1= title 'Anmäl en ny besättning till seglingen'
+  .content
+    =image_tag 'sxk_logo_ligg2_gul.jpg', :width => '50%'
+    %h1 Hej och välkommen!
 
-  = render 'form'
+    = render 'how_it_works'
 
-  = link_to 'Tillbaka till deltagarlistan', crews_path
+    %h3= title 'Anmäl dig för att delta i torrseglingen'
+
+    = render 'form'
