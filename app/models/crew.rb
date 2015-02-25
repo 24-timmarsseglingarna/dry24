@@ -1,5 +1,5 @@
 class Crew < ActiveRecord::Base
-  has_many :log_entries, -> { order('position ASC') }
+  has_many :log_entries, -> { order('position ASC') }, dependent: :destroy
   belongs_to :last_point, :class_name => 'Point'
   belongs_to  :start_point, :class_name => 'Point'
 
@@ -155,6 +155,19 @@ class Crew < ActiveRecord::Base
       sog * Math::cos((52 - twa.abs) * 2 * Math::PI / 360)
     else
       sog
+    end
+  end
+
+  def vmg_average
+    log_entry = LogEntry.where(crew: self, to_point: last_point).last
+    if log_entry.present?
+      if log_entry.point.present? && log_entry.to_point.present?
+        log_entry.distance/((log_entry.to_time - log_entry.from_time)/3600)
+      else
+        0.0
+      end
+    else
+      0.0
     end
   end
 

@@ -3,7 +3,7 @@ class Point < ActiveRecord::Base
   include ActionView::Helpers::OutputSafetyHelper
 
   default_scope { order('number ASC') }
-  has_many :sections
+  has_many :sections, :dependent => :destroy
   has_and_belongs_to_many :organizers
   has_many :crews
 

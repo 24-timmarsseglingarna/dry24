@@ -15,9 +15,14 @@
             = '%.0f' % @crew.cog + '°'
         .instrument#sog
           .legend
+            SOG kt
+          .value
+            = '%.1f' % @crew.sog
+        .instrument#vmga
+          .legend
             VMG kt
           .value
-            = '%.1f' % @crew.vmg
+            = '%.1f' % @crew.vmg_average
         .instrument#tw-arrow
           .legend
             TWD

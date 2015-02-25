@@ -54,10 +54,20 @@
     @log_entry.to_time = @crew.game_time
     if @log_entry.point.present? && @log_entry.to_point.present?
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
-      leg_time = @log_entry.distance / @crew.vmg # nm / knots
-      @crew.distance += @log_entry.distance
-      @log_entry.to_time = @crew.game_time + leg_time.hours
-      @crew.game_time += leg_time.hours
+      unless @log_entry.distance <= 0
+        increments = (@log_entry.distance * 3).round
+        #logger.info "++++ ----- increments #{increments}"
+        1.upto(increments) do
+          # increment_time = (@log_entry.distance / increments) / @crew.vmg # nm / knots
+          #logger.info "++++ Game time before #{@crew.game_time} ---"
+          #logger.info "++++ increment #{((@log_entry.distance / increments) / @crew.vmg)} ---"
+
+          @crew.increment :game_time,((@log_entry.distance / increments) / @crew.vmg).hours
+          #logger.info "++++ Game time after #{@crew.game_time} ---"
+        end
+        @crew.distance += @log_entry.distance
+        @log_entry.to_time = @crew.game_time #+ leg_time.hours
+      end
     end
     next_point = Point.find params[:to_point_id]
     @crew.last_point = next_point
@@ -97,15 +107,15 @@
       @punishment.description = "Försenad #{((actual_time - 24) * 60).round} min."
       @punishment.from_time = @crew.game_time
       @punishment.to_time = @crew.game_time
-      @punishment.distance = (-@crew.distance_sum * 2 * (actual_time - 24) / 24).round 1
+      @punishment.distance = (-@crew.distance * 2 * (actual_time - 24) / 24).round 1
       @crew.update(:distance => @crew.distance + @punishment.distance)
       @punishment.save
     end
     @handicap_compensation = @crew.log_entries.build
-    @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance_sum.round(1)}."
+    @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance.round(1)}."
     @handicap_compensation.from_time = @crew.game_time
     @handicap_compensation.to_time = @crew.game_time
-    @handicap_compensation.distance = @crew.distance_sum * (1 -@crew.handicap)
+    @handicap_compensation.distance = @crew.distance * (1 -@crew.handicap)
     @crew.update(:distance => @crew.distance + @handicap_compensation.distance)
     @handicap_compensation.save
     @crew.save
