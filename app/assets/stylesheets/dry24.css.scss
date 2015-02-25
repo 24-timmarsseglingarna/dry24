@@ -267,6 +267,9 @@ ol.where_to li:hover, .finalize:hover, .restart:hover {
   padding: 2em 0 0 0;
 }
 
+.formtastic .choice {
+  margin-bottom: 1em;
+}
 
 button, html input[type="button"], input[type="reset"], input[type="submit"] {
   font-size: 2rem;
@@ -282,6 +285,17 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
   padding-left: 5px;
 }
 
+li.show-hide {
+  padding: 0 0 2em 0
+}
+
+.formtastic li#crew_start_point_input li label{
+  display: none;
+}
+
+.formtastic li#crew_start_point_input li label[for="crew_start_point_id_576"] {
+  display: initial;
+}
 
 
 .result-list, .result-list tr, .result-list td, .result-list th {

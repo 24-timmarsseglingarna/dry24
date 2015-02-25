@@ -7,6 +7,14 @@ module CrewsHelper
           #{section.distance.to_s} M). <br><span class='defi'>#{section.to_point.definition}</span>"
   end
 
+  def display_my(points)
+    str = ''
+    for point in points
+      str += '.formtastic li#crew_start_point_input li label[for="crew_start_point_id_' + point.id.to_s + '"] {display: initial;}'
+    end
+    str
+  end
+
 end
 
 
