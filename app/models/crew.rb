@@ -48,13 +48,32 @@ class Crew < ActiveRecord::Base
 
   # True Wind Speed
   def tws
-    10 / (0.54 * 3.6) # depends on location and time
+    t = game_time.to_f - start_time.to_f
+    tws_spline = Spliner::Spliner.new   [-6349,-2739,846,4447,8055,15252,18856,26049,29649,33253,36855,44053,48251,65654,72854,76444,80062,90846,94448,98047,101649,112510,116113,119776,123371,209771],
+                                        [5,6,5,4,5,5,4,3,4,4,2,3,2,1,3,2,4,6,4,6,5,4,3,2,2,2]
+    tws_spline[t]
   end
 
   # Wind direction
   def twd
-    225 # depends on location and time
+    t = game_time.to_f - start_time.to_f
+    twd_spline = Spliner::Spliner.new   [-6349,-2739,846,4447,8055,15252,18856,26049,29649,33253,36855,44053,48251,65654,72854,76444,80062,90846,94448,98047,101649,112510,116113,119776,123371,209771],
+                                        [180,135,135,90,135,180,180,225,180,225,225,225,225,225,225,180,180,180,180,180,180,180,180,180,135,135]
+    twd_spline[t]
   end
+
+  def loop_tws
+    -1.upto(26) do |t|
+      puts tws(t*360).round 1
+    end
+  end
+
+    def loop_twd
+    -1.upto(26) do |t|
+      puts twd(t*360).round 1
+    end
+  end
+
 
   # True wind angle
   def twa
