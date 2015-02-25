@@ -41,7 +41,6 @@
         @rounded_points << leg.to_point
       end
     end
-    logger.info "+++ end #{@crew.distance}"
   end
 
 
