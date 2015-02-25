@@ -1,7 +1,7 @@
 class Crew < ActiveRecord::Base
   has_many :log_entries, -> { order('position ASC') }
-  belongs_to :last_point, :class_name => "Point"
-  belongs_to  :start_point, :class_name => "Point"
+  belongs_to :last_point, :class_name => 'Point'
+  belongs_to  :start_point, :class_name => 'Point'
 
   validates_presence_of :captain_name, :boat_name, :start_point
   accepts_nested_attributes_for :log_entries
@@ -20,9 +20,9 @@ class Crew < ActiveRecord::Base
 
   def distance_sum
     sum = 0.0
-    for log_entry in log_entries do
+    log_entries.each { |log_entry|
       sum += log_entry.distance.to_f
-    end
+    }
     sum
   end
 
@@ -31,17 +31,17 @@ class Crew < ActiveRecord::Base
   end
 
 
-  def tripled_rounding? point
+  def tripled_rounding?(point)
     roundings = Array.new
-    for log_entry in log_entries do
+    log_entries.each { |log_entry|
       roundings << log_entry.to_point unless log_entry.to_point.blank?
-    end
+    }
     no_of_uses = roundings.count(point)
     no_of_uses-= 2 if point == start_point
     no_of_uses > 2
   end
 
-  def tripled_sections? log_entry
+  def tripled_sections?(log_entry)
     (LogEntry.where(crew: self, point: log_entry.point, to_point: log_entry.to_point).count +
      LogEntry.where(crew: self, point: log_entry.to_point, to_point: log_entry.point).count) > 2
   end
@@ -77,8 +77,7 @@ class Crew < ActiveRecord::Base
     # y axis - abeam to port
     aws_x = tws * Math::cos(twa * 2 * Math::PI / 360) + sog / (0.54 * 3.6) # 1/(.54*3.6) knots to m/s
     aws_y = tws * Math::sin(twa * 2 * Math::PI / 360)
-    aws_res = Math::sqrt(aws_x**2 + aws_y**2)
-    aws_res
+    Math::sqrt(aws_x**2 + aws_y**2)
   end
 
   # Apparent wind angle
