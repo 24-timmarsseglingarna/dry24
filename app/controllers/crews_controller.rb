@@ -121,6 +121,10 @@
         @start_points << start_point unless start_point.blank?
       end
     end
+    @local_start_points = Array.new
+    for start_point in Organizer.find_by_fk_org_code('St').start_points do
+      @local_start_points << start_point unless start_point.blank?
+    end
   end
 
   # GET /crews/1/edit
@@ -136,6 +140,10 @@
       for start_point in organizer.start_points do
         @start_points << start_point unless start_point.blank?
       end
+    end
+    @local_start_points = Array.new
+    for start_point in Organizer.find_by_fk_org_code('St').start_points do
+      @local_start_points << start_point unless start_point.blank?
     end
     @crew.last_point = @crew.start_point
     respond_to do |format|
