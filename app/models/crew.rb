@@ -1,5 +1,5 @@
 class Crew < ActiveRecord::Base
-  has_many :log_entries, -> { order('position ASC') }
+  has_many :log_entries, -> { order('position ASC') }, dependent: :destroy
   belongs_to :last_point, :class_name => 'Point'
   belongs_to  :start_point, :class_name => 'Point'
 
