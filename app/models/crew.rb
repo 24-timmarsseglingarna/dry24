@@ -62,18 +62,6 @@ class Crew < ActiveRecord::Base
     twd_spline[t]
   end
 
-  def loop_tws
-    -1.upto(26) do |t|
-      puts tws(t*360).round 1
-    end
-  end
-
-    def loop_twd
-    -1.upto(26) do |t|
-      puts twd(t*360).round 1
-    end
-  end
-
 
   # True wind angle
   def twa
