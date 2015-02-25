@@ -158,6 +158,19 @@ class Crew < ActiveRecord::Base
     end
   end
 
+  def vmg_average
+    log_entry = LogEntry.where(crew: self, to_point: last_point).last
+    if log_entry.present?
+      if log_entry.point.present? && log_entry.to_point.present?
+        log_entry.distance/((log_entry.to_time - log_entry.from_time)/3600)
+      else
+        0.0
+      end
+    else
+      0.0
+    end
+  end
+
   # Course over ground
   def cog
     out = 0
