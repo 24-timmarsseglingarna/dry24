@@ -2,7 +2,6 @@
   <meta http-equiv="refresh" content="300">
 
 .wrapper
-  = link_to 'Börja en ny segling!', new_crew_path
 
   %h1 Topplista
 
@@ -22,10 +21,10 @@
           %td= crew.captain_name
           %td= crew.distance.round 1
           %td= crew.start_point.number_name unless crew.start_point.blank?
-          %td= crew.created_at
+          %td= l(crew.created_at, :format => :long)
 
   %hr
-  %h1 Just nu
+  %h1 Just nu är dessa båtar ute och seglar
   %table.result-list
     %thead
       %tr
@@ -49,6 +48,6 @@
 
 
 
-  %p= "Torrsegling version: #{Rails.configuration.version}"
+  %p= "Torrsegling version: #{Rails.configuration.version} Omladdad #{l(DateTime.now, :format => :short)}"
 
 
