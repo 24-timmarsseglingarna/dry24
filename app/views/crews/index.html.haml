@@ -44,26 +44,31 @@
               %td= l(crew.created_at, :format => :long)
 
     .carousel-item
-      %h1 Just nu är dessa båtar ute och seglar
-      %table.result-list
-        %thead
-          %tr
-            %th Båt
-            %th Skeppare
-            %th Startade vid
-            %th Nu seglat
-            %th Siktad klockan
-            %th Senast siktad vid
-
-        %tbody
-          - @ongoing.each do |crew|
+      - if @ongoing.present?
+        %h1 Just nu är dessa båtar ute och seglar
+        %table.result-list
+          %thead
             %tr
-              %td= link_to crew.boat_name, crew
-              %td= crew.captain_name
-              %td= crew.start_point.number_name unless crew.start_point.blank?
-              %td= crew.distance.round(1).to_s + ' M'
-              %td= l(crew.game_time, :format => :long)
-              %td= crew.last_point.number_name unless crew.last_point.blank?
+              %th Båt
+              %th Skeppare
+              %th Startade vid
+              %th Nu seglat
+              %th Siktad klockan
+              %th Senast siktad vid
+
+          %tbody
+            - @ongoing.each do |crew|
+              %tr
+                %td= link_to crew.boat_name, crew
+                %td= crew.captain_name
+                %td= crew.start_point.number_name unless crew.start_point.blank?
+                %td= crew.distance.round(1).to_s + ' M'
+                %td= l(crew.game_time, :format => :long)
+                %td= crew.last_point.number_name unless crew.last_point.blank?
+      - else
+        =image_tag '24-vimpel.png', :class => :flag
+        %h1 Välkommen hit och prova torrsegling!
+        
     .carousel-item
       =image_tag '24-vimpel.png', :class => :flag
       %p Du kan spela här i montern eller i din mobil, platta eller på din dator.
@@ -80,8 +85,8 @@
   items : 1,
 
   //Basic Speeds
-  slideSpeed : 200,
-  paginationSpeed : 5000,
+  slideSpeed : 3000,
+  paginationSpeed : 750,
   rewindSpeed : 1000,
 
   //Autoplay
