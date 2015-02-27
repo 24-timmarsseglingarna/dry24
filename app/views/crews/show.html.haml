@@ -94,6 +94,9 @@
               = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
               = log_entry.tws.round unless log_entry.tws.blank?
       = render 'how_it_works'
-      .app-version= "Torrsegling version: #{Rails.configuration.version}"
+      - if !@crew.finished
+        %p
+          =link_to 'Avsluta och radera den här omgången.', @crew, :method => :delete, :data => { :confirm => "Vill du radera den här seglingen med #{@crew.boat_name}?"}
+        .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 = render 'map'
