@@ -1,53 +1,94 @@
 - content_for :head do
-  <meta http-equiv="refresh" content="300">
+  <meta http-equiv="refresh" content="60">
 
 .wrapper
+  .carousel#carousel
+    .carousel-item
+      =image_tag 'sxk_logo_ligg2_gul.jpg', :class => :logo
+      %h1 Hur långt hinner du på 24 timmar?
+      %p Utmana dig själv och din besättning att segla Svenska Kryssarklubbens 24-timmarsseglingar.
+      %p En nonstop-segling där du väljer väg själv.
+    .carousel-item
+      =image_tag '24-vimpel.png', :class => :flag
+      %h1 24-timmarsseglingarna
+      %p Alltid första helgen i juni och första helgen i september. Startplatser runt kusten och i Vänern och Mälaren.
+      %p Mer info och anmälan: www.24-timmars.nu.
+    .carousel-item
+      =image_tag '24-vimpel.png', :class => :flag
+      %p Här kan du öva på taktiken i en torrsegling
+      %p Kolla in väderprognosen. Bestäm var du vill starta.Välj väg, runda punkter, håll koll på vädret och klockan.
+      %p Gå i mål inom 24 timmar. Blir du försenad får du distansavdrag.
+    .carousel-item
+      =image_tag '24-vimpel.png', :class => :flag
+      %p Vädret under övningen:
+      %p "Lätta till måttliga sydliga vindar. Under natten passerar en front söderifrån."
+    .carousel-item
+      %h1 Topplista av de som seglat
 
-  %h1 Topplista
+      %table.result-list
+        %thead
+          %tr
+            %th Båt
+            %th Skeppare
+            %th Distans
+            %th Start/mål
+            %th Spelade
 
-  %table.result-list
-    %thead
-      %tr
-        %th Båt
-        %th Skeppare
-        %th Distans
-        %th Start/mål
-        %th Spelade
+        %tbody
+          - @best.reverse.each do |crew|
+            %tr
+              %td= link_to crew.boat_name, crew
+              %td= crew.captain_name
+              %td= crew.distance.round 1
+              %td= crew.start_point.number_name unless crew.start_point.blank?
+              %td= l(crew.created_at, :format => :long)
 
-    %tbody
-      - @best.reverse.each do |crew|
-        %tr
-          %td= link_to crew.boat_name, crew
-          %td= crew.captain_name
-          %td= crew.distance.round 1
-          %td= crew.start_point.number_name unless crew.start_point.blank?
-          %td= l(crew.created_at, :format => :long)
+    .carousel-item
+      %h1 Just nu är dessa båtar ute och seglar
+      %table.result-list
+        %thead
+          %tr
+            %th Båt
+            %th Skeppare
+            %th Startade vid
+            %th Nu seglat
+            %th Siktad klockan
+            %th Senast siktad vid
 
-  %hr
-  %h1 Just nu är dessa båtar ute och seglar
-  %table.result-list
-    %thead
-      %tr
-        %th Båt
-        %th Skeppare
-        %th Startade vid
-        %th Nu seglat
-        %th Siktad klockan
-        %th Senast siktad vid
-
-    %tbody
-      - @ongoing.each do |crew|
-        %tr
-          %td= link_to crew.boat_name, crew
-          %td= crew.captain_name
-          %td= crew.start_point.number_name unless crew.start_point.blank?
-          %td= crew.distance.round(1).to_s + ' M'
-          %td= l(crew.game_time, :format => :long)
-          %td= crew.last_point.number_name unless crew.last_point.blank?
-
-
-
-
-  %p= "Torrsegling version: #{Rails.configuration.version} Omladdad #{l(DateTime.now, :format => :short)}"
+        %tbody
+          - @ongoing.each do |crew|
+            %tr
+              %td= link_to crew.boat_name, crew
+              %td= crew.captain_name
+              %td= crew.start_point.number_name unless crew.start_point.blank?
+              %td= crew.distance.round(1).to_s + ' M'
+              %td= l(crew.game_time, :format => :long)
+              %td= crew.last_point.number_name unless crew.last_point.blank?
+    .carousel-item
+      =image_tag '24-vimpel.png', :class => :flag
+      %p Du kan spela här i montern eller i din mobil, platta eller på din dator.
+      %p Gå till torrsegla.24-timmars.nu.
 
 
+
+%p.footer= "Torrsegling version: #{Rails.configuration.version} Omladdad #{l(DateTime.now, :format => :short)}"
+
+:javascript
+  $("#carousel").owlCarousel({
+
+  // Most important owl features
+  items : 1,
+
+  //Basic Speeds
+  slideSpeed : 200,
+  paginationSpeed : 2000,
+  rewindSpeed : 1000,
+
+  //Autoplay
+  autoPlay : true,
+
+  })
+
+  $(document).ready(function() {
+  $("#carousel").owlCarousel();
+  });
