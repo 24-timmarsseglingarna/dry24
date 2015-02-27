@@ -58,6 +58,12 @@ namespace :populate do
 end
 
 
+namespace :purge do
+  task :crews => :environment do
+    Crew.destroy_all(finished: false)
+  end
+end
+
 namespace :destroy do
   task :points => :environment do
     Point.destroy_all
@@ -74,5 +80,4 @@ namespace :destroy do
   task :log_entries => :environment do
     LogEntry.destroy_all
   end
-
 end
