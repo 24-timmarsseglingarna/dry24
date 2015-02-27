@@ -5,8 +5,8 @@
   # GET /crews.json
   def index
     @crews = Crew.all
-    @best = Crew.where(:finished => true).order(distance: :asc).last 11
-    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(11).sort_by {|e| e[:game_time]}
+    @best = Crew.where(:finished => true).order(distance: :asc).last 8
+    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(8).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1

@@ -315,3 +315,42 @@ li.show-hide {
 .result-list td, .result-list th {
   padding: 0.3em;
 }
+
+p.footer {
+  font-size: 0.8rem;
+  color: #BBBBBB;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding-right: 1em;
+}
+
+.carousel-item{
+  padding: 0 5em;
+  h1 {
+    font-size: 4rem;
+  }
+  p {
+    font-size: 3rem;
+  }
+  .logo {
+    display: block;
+    width: 33%;
+    margin: 1em auto 1em auto;
+  }
+  .flag {
+    display: block;
+    width: 25%;
+    margin: 1em auto 1em auto;
+  }
+  .center {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+
+}
+

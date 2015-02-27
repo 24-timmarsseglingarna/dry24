@@ -56,6 +56,7 @@ gem 'rails-i18n'
 gem 'compass-rails'
 gem 'compass-h5bp'
 gem 'spliner'
+gem 'owlcarousel-rails'
 
 group :production do
   gem 'pg'
