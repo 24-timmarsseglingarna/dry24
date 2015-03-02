@@ -1,5 +1,5 @@
 - content_for :head do
-  <meta http-equiv="refresh" content="60">
+  <meta http-equiv="refresh" content="75">
 
 .wrapper
   .carousel#carousel
@@ -68,7 +68,7 @@
       - else
         =image_tag '24-vimpel.png', :class => :flag
         %h1 Välkommen hit och prova torrsegling!
-        
+
     .carousel-item
       =image_tag '24-vimpel.png', :class => :flag
       %p Du kan spela här i montern eller i din mobil, platta eller på din dator.
@@ -85,12 +85,12 @@
   items : 1,
 
   //Basic Speeds
-  slideSpeed : 3000,
-  paginationSpeed : 750,
-  rewindSpeed : 1000,
+  slideSpeed : 1000,
+  paginationSpeed : 1,
+  rewindSpeed : 1,
 
   //Autoplay
-  autoPlay : true,
+  autoPlay : 10000,
 
   })
 
