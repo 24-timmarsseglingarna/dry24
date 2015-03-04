@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223195904) do
+ActiveRecord::Schema.define(version: 20150304072720) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
@@ -43,12 +43,21 @@ ActiveRecord::Schema.define(version: 20150223195904) do
     t.float    "tws"
   end
 
+  add_index "log_entries", ["crew_id", "point_id", "to_point_id"], name: "index_log_entries_on_crew_id_and_point_id_and_to_point_id"
+  add_index "log_entries", ["crew_id", "to_point_id"], name: "index_log_entries_on_crew_id_and_to_point_id"
+  add_index "log_entries", ["crew_id"], name: "index_log_entries_on_crew_id"
+  add_index "log_entries", ["point_id", "to_point_id"], name: "index_log_entries_on_point_id_and_to_point_id"
+  add_index "log_entries", ["point_id"], name: "index_log_entries_on_point_id"
+  add_index "log_entries", ["to_point_id"], name: "index_log_entries_on_to_point_id"
+
   create_table "organizers", force: :cascade do |t|
     t.string   "name"
     t.string   "fk_org_code"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "organizers", ["fk_org_code"], name: "index_organizers_on_fk_org_code"
 
   create_table "organizers_points", force: :cascade do |t|
     t.integer  "organizer_id"
@@ -76,5 +85,9 @@ ActiveRecord::Schema.define(version: 20150223195904) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  add_index "sections", ["point_id", "to_point_id"], name: "index_sections_on_point_id_and_to_point_id"
+  add_index "sections", ["point_id"], name: "index_sections_on_point_id"
+  add_index "sections", ["to_point_id"], name: "index_sections_on_to_point_id"
 
 end

@@ -27,7 +27,7 @@ class Crew < ActiveRecord::Base
   end
 
   def range
-    24 / 2 * 7 * handicap # nautical miles
+    12 * 6 * handicap # nautical miles
   end
 
 

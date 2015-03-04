@@ -11,4 +11,8 @@ class Section < ActiveRecord::Base
     str += ' (' + distance.to_s + ')' unless distance.blank?
     str
   end
+
+  def opposite
+    Section.find_by(point: to_point, to_point: point)
+  end
 end

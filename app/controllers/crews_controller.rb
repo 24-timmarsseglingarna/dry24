@@ -20,8 +20,9 @@
 
     @network = Array.new
     for section in @crew.last_point.sections_within_range @crew.range
-      @network << section unless false # TODO don't draw in both directions
+      @network << section unless false # (@network.include?(section) || @network.include?(section.opposite))  #false # TODO don't draw in both directions
     end
+
     #for section in @crew.start_point.sections_within_range @crew.range
     #  @network << section unless false # TODO don't draw in both directions nor duplicate
     #end
