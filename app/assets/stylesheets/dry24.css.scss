@@ -3,6 +3,7 @@
 
 $orange24: #ff8c00;
 $light-orange24: lighten($orange24, 25%);
+$active-link: #009A82;
 $instrument: lighten(#000000, 90%);
 
 html, body {
@@ -211,7 +212,8 @@ ol.where_to {
 
 ol.where_to li, .finalize, .restart {
   margin: 0;
-  background-color: $light-orange24;
+  background-color: $orange24;
+  padding: 1em 0.5em 1em 0.5em;
   a {
     display: block;
     padding: 1em 0.5em 1em 0.5em;
@@ -221,18 +223,21 @@ ol.where_to li, .finalize, .restart {
 }
 
 ol.where_to li,{
+  min-height: 135px;
   display: none;
 }
 
 ol.where_to li#instruction {
   display: block;
-  padding: 1em 0.5em 1em 0.5em;
 }
 
 ol.where_to li:hover, .finalize:hover, .restart:hover {
-  background-color: $orange24;
+  /*background-color: $orange24;*/
 }
 
+ol.where_to li:active, .finalize:active, .restart:active {
+  /*background-color: $active-link;*/
+}
 
 .defi {
   font-size: 80%;
@@ -246,6 +251,9 @@ ol.where_to li:hover, .finalize:hover, .restart:hover {
   text-align: right;
 }
 
+.formtastic {
+  padding-bottom: 4em;
+}
 .formtastic .input .label {
   width: 100%;
 }
@@ -293,9 +301,6 @@ li.show-hide {
   display: none;
 }
 
-.formtastic li#crew_start_point_input li label[for="crew_start_point_id_576"] {
-  display: initial;
-}
 
 
 .result-list, .result-list tr, .result-list td, .result-list th {
@@ -324,6 +329,7 @@ p.footer {
   bottom: 0;
   padding-right: 1em;
 }
+
 
 .carousel-item{
   padding: 0 5em;

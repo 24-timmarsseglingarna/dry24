@@ -57,14 +57,8 @@
       @log_entry.distance = Section.find_by(point: @log_entry.point, to_point: @log_entry.to_point).distance
       unless @log_entry.distance <= 0
         increments = (@log_entry.distance * 3).round
-        #logger.info "++++ ----- increments #{increments}"
         1.upto(increments) do
-          # increment_time = (@log_entry.distance / increments) / @crew.vmg # nm / knots
-          #logger.info "++++ Game time before #{@crew.game_time} ---"
-          #logger.info "++++ increment #{((@log_entry.distance / increments) / @crew.vmg)} ---"
-
           @crew.increment :game_time,((@log_entry.distance / increments) / @crew.vmg).hours
-          #logger.info "++++ Game time after #{@crew.game_time} ---"
         end
         @crew.distance += @log_entry.distance
         @log_entry.to_time = @crew.game_time #+ leg_time.hours
