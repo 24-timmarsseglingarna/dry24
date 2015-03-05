@@ -61,7 +61,7 @@
                 <%- else %>
                     google.maps.event.addListener(marker, 'click', function(){
                         $("#<%= point.id %>").show().siblings("li").hide();
-                        $("#<%= point.id %>").fadeOut(250).fadeIn(1000);
+                        $("#<%= point.id %>").fadeIn(250).fadeOut(250).fadeIn(1000);
                     });
                 <%- end %>
             <%- end %>
