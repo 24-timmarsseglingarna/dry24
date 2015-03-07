@@ -94,25 +94,27 @@
 
   def finish
     @crew = Crew.find(params[:id])
-    @crew.finished= true
-    actual_time = (@crew.game_time - @crew.start_time)/3600
-    if actual_time > 24
-      @punishment = @crew.log_entries.build
-      @punishment.description = "Försenad #{((actual_time - 24) * 60).round} min."
-      @punishment.from_time = @crew.game_time
-      @punishment.to_time = @crew.game_time
-      @punishment.distance = (-@crew.distance * 2 * (actual_time - 24) / 24).round 1
-      @crew.update(:distance => @crew.distance + @punishment.distance)
-      @punishment.save
+    unless @crew.finished
+      @crew.finished= true
+      actual_time = (@crew.game_time - @crew.start_time)/3600
+      if actual_time > 24
+        @punishment = @crew.log_entries.build
+        @punishment.description = "Försenad #{((actual_time - 24) * 60).round} min."
+        @punishment.from_time = @crew.game_time
+        @punishment.to_time = @crew.game_time
+        @punishment.distance = (-@crew.distance * 2 * (actual_time - 24) / 24).round 1
+        @crew.update(:distance => @crew.distance + @punishment.distance)
+        @punishment.save
+      end
+      @handicap_compensation = @crew.log_entries.build
+      @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance.round(1)}."
+      @handicap_compensation.from_time = @crew.game_time
+      @handicap_compensation.to_time = @crew.game_time
+      @handicap_compensation.distance = @crew.distance * (1 -@crew.handicap)
+      @crew.update(:distance => @crew.distance + @handicap_compensation.distance)
+      @handicap_compensation.save
+      @crew.save
     end
-    @handicap_compensation = @crew.log_entries.build
-    @handicap_compensation.description = "Handikapp,   kompensation för SXK-tal #{@crew.handicap} på distansen #{@crew.distance.round(1)}."
-    @handicap_compensation.from_time = @crew.game_time
-    @handicap_compensation.to_time = @crew.game_time
-    @handicap_compensation.distance = @crew.distance * (1 -@crew.handicap)
-    @crew.update(:distance => @crew.distance + @handicap_compensation.distance)
-    @handicap_compensation.save
-    @crew.save
     redirect_to crew_url(@crew), notice: "Gått i mål."
   end
 
