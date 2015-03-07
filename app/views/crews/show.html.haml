@@ -42,9 +42,7 @@
 
   .control-wrapper
     .control
-      %h1.sailing Torrsegling
       - unless @crew.finished
-        %p Vart seglar vi nu?
         %ol.where_to
           %li#instruction
             %p Klicka på en punkt i kartan för att mäta avståndet till den.
@@ -69,9 +67,13 @@
           .restart
             = button_to 'Börja om', new_crew_path, :method => 'get'
       %h3 Loggbok
-      %p
-        Båt: #{@crew.boat_name}, Scanmar 33.
-        %br Befälhavare: #{@crew.captain_name}
+      %table.logbook#log-header
+        %tr
+          %th Båt:
+          %td #{@crew.boat_name}, Scanmar 33.
+        %tr
+          %th Befälhavare:
+          %td #{@crew.captain_name}
 
       %table.logbook
         %tr
