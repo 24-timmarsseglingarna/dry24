@@ -23,8 +23,9 @@
             %li.action.input_action#crew_submit_action
               = submit_tag :submit, :value => 'Kör igång', data: { disable_with: 'Hissar segel' }
 
-:css
-  #{display_my(@local_start_points)}
+- content_for :head do
+  :css
+    #{display_my(@local_start_points)}
 
 :javascript
   $(document).ready(function () {
