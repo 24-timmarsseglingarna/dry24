@@ -7,4 +7,29 @@
 
     %h3= title 'Anmäl dig för att delta i torrseglingen'
 
-    = render 'form'
+    = semantic_form_for @crew do |f|
+      = f.inputs do
+        = f.input :boat_name,:input_html => {:autocomplete => :off}
+        = f.input :captain_name,:input_html => {:autocomplete => :off}
+        = f.input :captain_email,:input_html => {:autocomplete => :off}
+        = f.input :start_point, :as => :radio, :collection => Hash[@start_points.map{|b| ["#{b.number} #{b.name}, #{b.organizers.first.name}",b.id]} ]
+
+        %li.show-hide
+          = link_to 'Visa/dölj alla startpunkter.', '', :id => :show_all_start_points
+
+        %fieldset.actions
+          %ol
+            %li.action.input_action#crew_submit_action
+              = submit_tag :submit, :value => 'Kör igång', data: { disable_with: 'Hissar segel' }
+
+:css
+  #{display_my(@local_start_points)}
+
+:javascript
+  $(document).ready(function () {
+  $('#crew_boat_name').focus();
+  $('a#show_all_start_points').click(function(event){
+    event.preventDefault();
+    $('.formtastic li#crew_start_point_input li label').toggle();
+  });
+  });

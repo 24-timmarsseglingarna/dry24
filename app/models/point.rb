@@ -71,8 +71,10 @@ class Point < ActiveRecord::Base
     within = Array.new
     for point in within_range(range) do
       for section in point.sections do
-        unless (section.to_point.distance_to(self) > range) || (section.point.distance_to(self) > range)
-          within << section
+        unless within.include?(section) || within.include?(section.opposite)
+          unless (section.to_point.distance_to(self) > range * 1852 / 1609) || (section.point.distance_to(self) > range * 1852 / 1609)
+            within << section
+          end
         end
       end
     end
