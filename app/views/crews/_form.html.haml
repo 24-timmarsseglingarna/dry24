@@ -6,11 +6,12 @@
     = f.input :start_point, :as => :radio, :collection => Hash[@start_points.map{|b| ["#{b.number} #{b.name}, #{b.organizers.first.name}",b.id]} ]
 
     %li.show-hide
-      = link_to "Visa/dölj alla startpunkter.", '', :id => :show_all_start_points
+      = link_to 'Visa/dölj alla startpunkter.', '', :id => :show_all_start_points
 
-    = f.actions do
-      = f.action :submit
-
+    %fieldset.actions
+      %ol
+        %li.action.input_action#crew_submit_action
+          = submit_tag :submit, :value => 'Kör igång', data: { disable_with: 'Hissar segel' }
 
 :css
   #{display_my(@local_start_points)}

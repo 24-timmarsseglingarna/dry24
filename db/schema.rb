@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304072720) do
+ActiveRecord::Schema.define(version: 20150306093708) do
 
   create_table "crews", force: :cascade do |t|
     t.string   "boat_name"
@@ -27,6 +27,22 @@ ActiveRecord::Schema.define(version: 20150304072720) do
     t.integer  "start_point_id"
     t.float    "distance",       default: 0.0
   end
+
+  create_table "crews_points", force: :cascade do |t|
+    t.integer  "crews_id"
+    t.integer  "point_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "crews_sections", force: :cascade do |t|
+    t.integer "crew_id"
+    t.integer "section_id"
+  end
+
+  add_index "crews_sections", ["crew_id", "section_id"], name: "index_crews_sections_on_crew_id_and_section_id", unique: true
+  add_index "crews_sections", ["crew_id"], name: "index_crews_sections_on_crew_id"
+  add_index "crews_sections", ["section_id"], name: "index_crews_sections_on_section_id"
 
   create_table "log_entries", force: :cascade do |t|
     t.integer  "point_id"

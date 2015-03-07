@@ -6,7 +6,8 @@
   def index
     @crews = Crew.all
     @best = Crew.where(:finished => true).order(distance: :asc).last 8
-    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(8).sort_by {|e| e[:game_time]}
+    time_now = DateTime.now
+    @ongoing = Crew.where(["finished = ? and updated_at > ?", false, time_now - 30.minutes]).order(updated_at: :asc).last(8).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1
@@ -18,14 +19,12 @@
 
     @sections = @crew.last_point.sections
 
-    @network = Array.new
-    for section in @crew.last_point.sections_within_range @crew.range
-      @network << section unless false # (@network.include?(section) || @network.include?(section.opposite))  #false # TODO don't draw in both directions
+    for section in @sections
+      for next_section in section.to_point.sections
+        @crew.sections << next_section unless (@crew.sections.include?(next_section) || @crew.sections.include?(next_section.opposite))
+      end
     end
 
-    #for section in @crew.start_point.sections_within_range @crew.range
-    #  @network << section unless false # TODO don't draw in both directions nor duplicate
-    #end
 
     @points = @crew.last_point.targets
     unless @points.include?(@crew.start_point)

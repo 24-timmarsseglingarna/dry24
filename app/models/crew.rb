@@ -2,10 +2,12 @@ class Crew < ActiveRecord::Base
   has_many :log_entries, -> { order('position ASC') }, dependent: :destroy
   belongs_to :last_point, :class_name => 'Point'
   belongs_to  :start_point, :class_name => 'Point'
+  has_and_belongs_to_many :sections
 
   validates_presence_of :captain_name, :boat_name, :start_point
   accepts_nested_attributes_for :log_entries
   after_create :add_first_log_entry
+  after_create :initialize_network
   before_create :start_details
 
 
@@ -27,7 +29,7 @@ class Crew < ActiveRecord::Base
   end
 
   def range
-    12 * 6 * handicap # nautical miles
+    60 * handicap # nautical miles
   end
 
 
@@ -188,6 +190,13 @@ class Crew < ActiveRecord::Base
 
   def start_details
     self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 10.hours
+  end
+
+  def initialize_network
+    in_reach = start_point.sections_within_range range
+    for s in in_reach
+      sections << s
+    end
   end
 
   def add_first_log_entry

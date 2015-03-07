@@ -16,15 +16,19 @@
         var map = new google.maps.Map(document.getElementById('map'),
                 mapOptions);
 
-        <%- for section in @network %>
-        var section = new google.maps.Polyline({
-            path: [new google.maps.LatLng(<%= section.point.latitude %> , <%= section.point.longitude %>), new google.maps.LatLng(<%= section.to_point.latitude %> , <%= section.to_point.longitude %>) ],
-            geodesic: true,
-            strokeColor: '#000000',
-            strokeOpacity: 0.2,
-            strokeWeight: 2
-        });
-        section.setMap(map);
+        <%- unless @crew.finished %>
+            <%unless @crew.sections.blank? %>
+                <%- for section in @crew.sections %>
+                    var section = new google.maps.Polyline({
+                        path: [new google.maps.LatLng(<%= section.point.latitude %> , <%= section.point.longitude %>), new google.maps.LatLng(<%= section.to_point.latitude %> , <%= section.to_point.longitude %>) ],
+                        geodesic: true,
+                        strokeColor: '#000000',
+                        strokeOpacity: 0.2,
+                        strokeWeight: 2
+                    });
+                    section.setMap(map);
+                <%- end %>
+            <%- end %>
         <%- end %>
 
         var wake = new google.maps.Polyline({

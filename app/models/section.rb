@@ -1,6 +1,7 @@
 class Section < ActiveRecord::Base
   belongs_to :point
   belongs_to :to_point, :class_name => "Point"
+  has_and_belongs_to_many :crews
   validates_presence_of :point_id, :to_point_id, :distance
   validates :distance, :presence => true
   validates_numericality_of :distance, greater_than_or_equal_to: 0
