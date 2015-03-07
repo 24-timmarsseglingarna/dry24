@@ -6,7 +6,8 @@
   def index
     @crews = Crew.all
     @best = Crew.where(:finished => true).order(distance: :asc).last 8
-    @ongoing = Crew.where(:finished => false).order(updated_at: :asc).last(8).sort_by {|e| e[:game_time]}
+    time_now = DateTime.now
+    @ongoing = Crew.where(["finished = ? and updated_at > ?", false, time_now - 30.minutes]).order(updated_at: :asc).last(8).sort_by {|e| e[:game_time]}
   end
 
   # GET /crews/1
