@@ -49,7 +49,7 @@
           -for section in @sections do
             %li.initially-hidden{:id => "#{section.to_point.id}"}
               = form_tag create_log_entry_crew_url do
-                = hidden_field_tag :to_point_id, section.to_point.id
+                = hidden_field_tag :to_point_id, section.to_point.id, :id => "to_point_id_#{section.to_point.id}"
                 = submit_tag :submit, :value => "#{section.to_point.number_name}", data: { disable_with: "Seglar till #{section.to_point.number}" }, :class => :sail_to
               %p= go_section(section)
 
