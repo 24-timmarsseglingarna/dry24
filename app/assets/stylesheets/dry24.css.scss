@@ -73,12 +73,16 @@ html, body {
   }
 }
 
-.log {
+.log-container {
   box-sizing: border-box;
-  max-width: 940em;
   width: 100%;
+  padding: 0 0.25em 1em 0.25em;
+}
+
+.log {
+  margin: 0 auto 3em auto;
+  padding: 1px 1em 1em 1em;
   background-color: #fff;
-  padding-top: 1em;
   img.note-img {
     position: absolute;
     left: 1em;
@@ -91,10 +95,9 @@ html, body {
   }
 }
 
-
 .logbook {
   box-sizing: border-box;
-  width: 95%;
+  width: 100%;
   background-color: #fff;
   font-size: 0.8rem;
   margin: 0 auto;
@@ -169,17 +172,15 @@ ol.where_to {
 
 ol.where_to li, .finalize, .restart {
   margin: 0;
-  padding: 1em 0.5em 1em 0.5em;
-  a {
-    display: block;
-    padding: 1em 0.5em 1em 0.5em;
-    @include unstyled-link;
-    cursor: pointer;
+  padding: 0.5em 0.25em 0.5em 0.25em;
+  p {
+    line-height: initial;
+    margin: 0.25em 0;
   }
 }
 
 ol.where_to li,{
-  min-height: 150px;
+  min-height: 130px;
   display: none;
 }
 
@@ -412,6 +413,7 @@ li.show-hide {
   }
 
   .instruments {
+    width: 62%;
     right: auto;
     left: 2em;
   }
@@ -451,13 +453,13 @@ li.show-hide {
 /***************************************/
 @media screen and (min-width: 560px) and (max-width: 799px) {
 
-  .note {
+  .xnote {
     position: relative;
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
   }
-  .note:before, .note:after {
+  .xnote:before, .xnote:after {
     content: "";
     position: absolute;
     z-index: -1;
@@ -471,7 +473,7 @@ li.show-hide {
     -moz-border-radius: 100px / 10px;
     border-radius: 100px / 10px;
   }
-  .note:after {
+  .xnote:after {
     right: 10px;
     left: auto;
     -webkit-transform: skew(8deg) rotate(3deg);
@@ -481,8 +483,8 @@ li.show-hide {
     transform: skew(8deg) rotate(3deg);
   }
 
-  .note {
+  .xnote {
     background-color: #fff;
-    margin: 40px auto;
+    margin: 40px;
   }
 }

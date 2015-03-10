@@ -45,20 +45,21 @@
       - unless @crew.finished
         %ol.where_to
           %li#instruction
-            %p Klicka på en punkt i kartan för att mäta avståndet.
+            %p Klicka på punkter i kartan för att mäta avståndet.
           -for section in @sections do
             %li.initially-hidden{:id => "#{section.to_point.id}"}
+              %p Gå till:
               = form_tag create_log_entry_crew_url do
                 = hidden_field_tag :to_point_id, section.to_point.id, :id => "to_point_id_#{section.to_point.id}"
                 = submit_tag :submit, :value => "#{section.to_point.number_name}", data: { disable_with: "Seglar till #{section.to_point.number}" }, :class => :sail_to
               %p= go_section(section)
 
         - if @crew.last_point == @crew.start_point && @crew.log_entries.count > 2
-          %p.finish
           - if @crew.game_time > (@crew.start_time + 21.hours)
             .finalize#finalize
               = form_tag finish_crew_path, method: :put do
                 = hidden_field_tag :id, @crew.id
+                %p eller ...
                 = submit_tag :submit, :value => 'Gå i mål', data: { disable_with: 'Firar målgången ...' }
           - else
             Du måste segla minst 21 timmar innan du kan gå i mål.
