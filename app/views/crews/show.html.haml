@@ -45,7 +45,7 @@
       - unless @crew.finished
         %ol.where_to
           %li#instruction
-            %p Klicka på en punkt i kartan för att mäta avståndet till den.
+            %p Klicka på en punkt i kartan för att mäta avståndet.
           -for section in @sections do
             %li.initially-hidden{:id => "#{section.to_point.id}"}
               = form_tag create_log_entry_crew_url do
@@ -66,7 +66,9 @@
         %p
           .restart
             = button_to 'Börja om', new_crew_path, :method => 'get'
-      %h3 Loggbok
+    .log.note
+      =# image_tag 'android-chrome-48x48.png', :class => 'note-img'
+      %h3 Loggbok för 24-timmarssegling
       %table.logbook#log-header
         %tr
           %th Båt:
@@ -74,20 +76,23 @@
         %tr
           %th Befälhavare:
           %td #{@crew.captain_name}
+        %tr
+          %th Distans:
+          %td= @crew.distance_sum.round(1).to_s + ' M'
 
       %table.logbook
+
+        %tr
+          %td
+          %td &nbsp;
+          %td
+          %td
+
         %tr
           %th Tid
           %th Händelse
           %th Distans
           %th Vind
-        %tr
-          %td
-          %td Distans:
-          %td= @crew.distance_sum.round(1).to_s + ' M'
-          %td
-            =# Geocoder::Calculations.compass_point(@crew.twd)
-            =# @crew.tws.round 0
         - for log_entry in @crew.log_entries.reverse do
           %tr
             %td= I18n.l log_entry.to_time, :format => :long
@@ -98,10 +103,12 @@
             %td
               = Geocoder::Calculations.compass_point(log_entry.twd) unless log_entry.twd.blank?
               = log_entry.tws.round unless log_entry.tws.blank?
+
+    .log.note
       = render 'how_it_works'
-      - if !@crew.finished
-        %p
-          =link_to 'Avsluta och radera den här omgången.', @crew, :method => :delete, :data => { :confirm => "Vill du radera den här seglingen med #{@crew.boat_name}?"}
+    - if !@crew.finished
+      %p.exit
+        =link_to 'Avsluta och radera den här omgången.', @crew, :method => :delete, :data => { :confirm => "Vill du radera den här seglingen med #{@crew.boat_name}?"}
         .app-version= "Torrsegling version: #{Rails.configuration.version}"
 
 = render 'map'

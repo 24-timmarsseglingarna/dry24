@@ -31,10 +31,6 @@
       @points << @crew.start_point
     end
 
-    unless @points.include?(@crew.last_point)
-      @points << @crew.last_point
-    end
-
     @rounded_points = Array.new
     for leg in @crew.log_entries
       if  leg.to_point.present?
