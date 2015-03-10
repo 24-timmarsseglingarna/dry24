@@ -2,7 +2,7 @@
     function initialize() {
 
         var mapOptions = {
-            zoom: 9,
+            zoom: 10,
             center: new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>),
             mapTypeId: google.maps.MapTypeId.TERRAIN,
             panControl: false,
@@ -38,25 +38,24 @@
               <%- end %>
             ],
             geodesic: true,
-            strokeColor: '#000066',
-            strokeOpacity: 0.4,
+            strokeColor: '#7d92b3',
+            strokeOpacity: 0.5,
             strokeWeight: 10
         });
         wake.setMap(map);
 
         <%- unless @crew.finished %>
             <%- for point in @points %>
-                <%- pin_color = 'ff0'
+                <%- pin_color = 'E6F2E8'
                     pin_color = 'ff8c00' if point == @crew.start_point
-                    pin_color = '66ff66' if point == @crew.last_point
                 %>
                 var marker = new google.maps.Marker({
                     position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
                     map:        map,
                     title:      '<%= point.number_name %>',
-                    icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
-                    width:      23,
-                    height:     41
+                    icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=1.1|000000|<%= pin_color %>|11|_|<%= point.number %>',
+                    width:      41,
+                    height:     73
                 });
                 <%- if point == @crew.start_point && point == @crew.last_point %>
                     google.maps.event.addListener(marker, 'click', function(){
@@ -65,10 +64,19 @@
                 <%- else %>
                     google.maps.event.addListener(marker, 'click', function(){
                         $("#<%= point.id %>").show().siblings("li").hide();
-                        $("#<%= point.id %>").fadeIn(250).fadeOut(250).fadeIn(1000);
+                        $(".where_to").fadeIn(250).fadeOut(250).fadeIn(1000);
                     });
                 <%- end %>
             <%- end %>
+            var marker = new google.maps.Marker({
+                position:   new google.maps.LatLng(<%= @crew.last_point.latitude %> , <%= @crew.last_point.longitude %>),
+                map:        map,
+                title:      '<%= @crew.boat_name %>',
+                icon:       '<%= image_path "boat-48x48.png" %>',
+                zIndex:     google.maps.Marker.MAX_ZINDEX + 1,
+                width:      48,
+                height:     48
+            });
         <%- else %>
             var latlngbounds = new google.maps.LatLngBounds();
             <%- for point in @rounded_points
