@@ -1,86 +1,22 @@
+
+/* ------------ RESET ------------ */
+
 @include h5bp-normalize;
 
+
+/* ------------ DEFINITIONS ------------ */
 
 $orange24: #ff8c00;
 $light-orange24: lighten($orange24, 25%);
 $active-link: #009A82;
-$instrument: lighten(#000000, 90%);
+$instrument: lighten(#000000, 75% );
+$background: #F4EEE2;
 
-html, body {
-  background-color: #fff;
-  width: 100%;
-  font-family: 'Open Sans','Arial',sans-serif;
-}
 
+/* ------------ PAGE STRUCTURE ------------ */
 
 p {
   line-height: 1.5em;
-}
-.wrapper {
-  width: 100%;
-  margin: 0 auto 0 auto;
-}
-
-.content {
-  width: 100%;
-  max-width: 40em;
-  margin: 0 auto;
-  img {
-    margin-top: 1.5em
-  }
-}
-
-.map-wrapper {
-  width: 100%;
-  max-width: 900px;
-  height: 100vw;
-  max-height: 75vh;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-.control-wrapper {
-  margin-top: 100vw;
-  width: 100%;
-  max-width: 500px;
-}
-
-
-@media screen and (min-width: 450px) {
-  .map-wrapper {
-    height: 450px;
-  }
-  .control-wrapper {
-    margin-top: 450px;
-  }
-}
-
-
-@media screen and (min-width: 900px) {
-  .map-wrapper {
-    width: 70%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-.control-wrapper {
-    width: 30%;
-    max-width: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 0;
-  }
-}
-.control {
-  padding: 0.5em;
 }
 
 #crew {
@@ -91,32 +27,116 @@ p {
   background-color: #ffe4b5;
 }
 
-.logbook, .logbook tr, .logbook td, .logbook th {
-  border: solid 1px black;
-  border-collapse: collapse;
-  font-size: 0.8rem;
+
+/* ------------ PAGE STRUCTURE ------------ */
+
+html, body {
+  background-color: $background;
+  width: 100%;
+  font-family: 'Open Sans','Arial',sans-serif;
+}
+
+.wrapper {
+  width: 100%;
+  margin: 0 auto 0 auto;
+}
+
+.content {
+  width: 100%;
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 1em 2em 2em 2em;
+  background-color: #fff;
+}
+
+.map-wrapper {
+  width: 100%;
+  height: 133vw;
+  max-height: 90vh;
+}
+
+.control-wrapper {
+  width: 100%;
+}
+
+
+#map {
+  width: 100%;
+  height: 100%;
+  max-height: 90vh;
+}
+
+/* ------------ CONTENT ------------ */
+
+.content {
+  img {
+    margin-top: 1.5em
+  }
+}
+
+.log-container {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 0.25em 1em 0.25em;
+}
+
+.log {
+  margin: 0 auto 3em auto;
+  padding: 1px 1em 1em 1em;
+  background-color: #fff;
+  img.note-img {
+    position: absolute;
+    left: 1em;
+    top: 0.25em;
+  }
+  h3:before {
+    background: image-url('android-chrome-48x48.png') no-repeat;
+    padding: 19px 30px;
+    content: " ";
+  }
 }
 
 .logbook {
+  box-sizing: border-box;
   width: 100%;
-  max-width: 35em;
-  background-color: #eeeeee;
+  background-color: #fff;
+  font-size: 0.8rem;
+  margin: 0 auto;
 }
+
+
+
+.logbook, .logbook tr, .logbook td, .logbook th {
+  border: solid 1px #ccc;
+  border-collapse: collapse;
+}
+
+
+.logbook td {
+  font-family: "Comic Sans MS", 'Marker Felt', sans-serif;
+  color: darkblue;
+}
+
 .logbook td, .logbook th {
   padding: 0.3em;
+}
+
+.logbook tr.sum td {
+  font-weight: bold;
 }
 
 #log-header{
   margin-bottom: 1em ;
 }
 
+
 .instruments {
   padding-top: 0;
   position: absolute;
   display: inline-block;
-  right: 0px;
-  top: 0px;
-  z-index: 1;
+  top: 0;
+  right: 0;
+  z-index: 2;
   background: transparent;
 
   .instrument {
@@ -140,69 +160,6 @@ p {
       }
   }
 
-@media screen and (min-width: 330px) {
-  .instrument {
-    .value {
-      font-size: 0.9rem;
-    }
-    .legend {
-      font-size: 0.6rem;
-    }
-  }
-}
-
-@media screen and (min-width: 380px) {
-  .instrument {
-    .value {
-      font-size: 1.1rem;
-    }
-    .legend {
-      font-size: 0.7rem;
-    }
-  }
-}
-
-@media screen and (min-width: 450px) {
-  .instrument {
-    .value {
-      font-size: 1.4rem;
-    }
-  }
-}
-
-
-@media screen and (min-width: 500px) {
-  .instrument {
-    .value {
-      font-size: 1.5rem;
-    }
-    .legend {
-      font-size: 0.75rem;
-    }
-  }
-}
-
-@media screen and (min-width: 800px) {
-  .instrument {
-    .value {
-      font-size: 2.5rem;
-    }
-    .legend {
-      font-size: 0.9rem;
-    }
-  }
-}
-
-@media screen and (min-width: 1600px) {
-  .instrument {
-    .value {
-      font-size: 3.5rem;
-    }
-    .legend {
-      font-size: 1rem;
-    }
-  }
-}
 
 h1.sailing {
   margin-top: 0;
@@ -216,18 +173,15 @@ ol.where_to {
 
 ol.where_to li, .finalize, .restart {
   margin: 0;
-  background-color: $orange24;
-  padding: 1em 0.5em 1em 0.5em;
-  a {
-    display: block;
-    padding: 1em 0.5em 1em 0.5em;
-    @include unstyled-link;
-    cursor: pointer;
+  padding: 0.5em 0.25em 0.5em 0.25em;
+  p {
+    line-height: initial;
+    margin: 0.25em 0;
   }
 }
 
 ol.where_to li,{
-  min-height: 150px;
+  min-height: 130px;
   display: none;
 }
 
@@ -235,13 +189,6 @@ ol.where_to li#instruction {
   display: block;
 }
 
-ol.where_to li:hover, .finalize:hover, .restart:hover {
-  /*background-color: $orange24;*/
-}
-
-ol.where_to li:active, .finalize:active, .restart:active {
-  /*background-color: $active-link;*/
-}
 
 .defi {
   font-size: 80%;
@@ -254,6 +201,43 @@ ol.where_to li:active, .finalize:active, .restart:active {
   color: #333333;
   text-align: right;
 }
+
+.exit {
+  text-align: right;
+}
+
+
+.result-list, .result-list tr, .result-list td, .result-list th {
+  border: solid 1px black;
+  border-collapse: collapse;
+  font-size: 1.75rem;
+}
+
+.result-list th {
+  font-weight: bold;
+}
+
+.result-list {
+  width: 100%;
+  background-color: #eeeeee;
+}
+.result-list td, .result-list th {
+  padding: 0.3em;
+}
+
+p.footer {
+  font-size: 0.8rem;
+  color: #BBBBBB;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding-right: 1em;
+}
+
+
+
+
+/* ------------ FORMS ------------ */
 
 .formtastic {
   padding-bottom: 4em;
@@ -286,6 +270,11 @@ ol.where_to li:active, .finalize:active, .restart:active {
 button, html input[type="button"], input[type="reset"], input[type="submit"] {
   font-size: 2rem;
   padding: 0.25em 0.5em;
+  max-width: 100%;
+}
+
+.formtastic .input .label {
+  padding-bottom: 0.25em;
 }
 
 .formtastic .inline-errors {
@@ -306,34 +295,7 @@ li.show-hide {
 }
 
 
-
-.result-list, .result-list tr, .result-list td, .result-list th {
-  border: solid 1px black;
-  border-collapse: collapse;
-  font-size: 1.75rem;
-}
-
-.result-list th {
-  font-weight: bold;
-}
-
-.result-list {
-  width: 100%;
-  background-color: #eeeeee;
-}
-.result-list td, .result-list th {
-  padding: 0.3em;
-}
-
-p.footer {
-  font-size: 0.8rem;
-  color: #BBBBBB;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  padding-right: 1em;
-}
-
+/* ------------ CAROUSEL / SLIDERS ------------ */
 
 .carousel-item{
   padding: 0 5em;
@@ -364,3 +326,166 @@ p.footer {
 
 }
 
+
+/* ------------ MEDIA QUERIES ------------ */
+
+@media screen and (min-width: 330px) {
+  .instrument {
+    .value {
+      font-size: 0.85rem;
+    }
+    .legend {
+      font-size: 0.55rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 350px) {
+  .instrument {
+    .value {
+      font-size: 0.9rem;
+    }
+    .legend {
+      font-size: 0.6rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 380px) {
+  .instrument {
+    .value {
+      font-size: 1.1rem;
+    }
+    .legend {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 450px) {
+  .instrument {
+    .value {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 500px) {
+  .instrument {
+    .value {
+      font-size: 1.5rem;
+    }
+    .legend {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+
+@media screen and (min-width: 800px) {
+  .map-wrapper {
+    width: 66.6666666%;/*560px;*/
+    float: left;
+    padding-bottom:1000px;
+    margin-bottom:-1000px;
+    height: 100vh;
+    max-height: 100vh;
+  }
+
+  #map {
+    height: 100%;
+    max-height: 100vh;
+  }
+
+  .control-wrapper {
+    width: 33.33333333%; /*220px;*/
+    margin-top: 0;
+    float: left;
+    padding-bottom:1000px;
+    margin-bottom:-1000px;
+  }
+
+  .wrapper {
+    overflow:hidden;
+  }
+
+  .instruments {
+    width: 62%;
+    right: auto;
+    left: 2em;
+  }
+
+  .instrument {
+    .value {
+      font-size: 2rem;
+    }
+    .legend {
+      font-size: 0.85rem;
+    }
+  }
+
+}
+
+
+@media screen and (min-width: 900px) {
+  .instruments {
+    right: 40px;
+  }
+}
+
+
+@media screen and (min-width: 1600px) {
+  .instrument {
+    .value {
+      font-size: 3.5rem;
+    }
+    .legend {
+      font-size: 1rem;
+    }
+  }
+}
+
+
+
+/***************************************/
+@media screen and (min-width: 560px) and (max-width: 799px) {
+
+  .xnote {
+    position: relative;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  }
+  .xnote:before, .xnote:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    -moz-border-radius: 100px / 10px;
+    border-radius: 100px / 10px;
+  }
+  .xnote:after {
+    right: 10px;
+    left: auto;
+    -webkit-transform: skew(8deg) rotate(3deg);
+    -moz-transform: skew(8deg) rotate(3deg);
+    -ms-transform: skew(8deg) rotate(3deg);
+    -o-transform: skew(8deg) rotate(3deg);
+    transform: skew(8deg) rotate(3deg);
+  }
+
+  .xnote {
+    background-color: #fff;
+    margin: 40px;
+  }
+}

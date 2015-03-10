@@ -20,19 +20,13 @@
     @sections = @crew.last_point.sections
 
     for section in @sections
-      for next_section in section.to_point.sections
-        @crew.sections << next_section unless (@crew.sections.include?(next_section) || @crew.sections.include?(next_section.opposite))
-      end
+      @crew.sections << section unless (@crew.sections.include?(section) || @crew.sections.include?(section.opposite))
     end
 
 
     @points = @crew.last_point.targets
     unless @points.include?(@crew.start_point)
       @points << @crew.start_point
-    end
-
-    unless @points.include?(@crew.last_point)
-      @points << @crew.last_point
     end
 
     @rounded_points = Array.new
