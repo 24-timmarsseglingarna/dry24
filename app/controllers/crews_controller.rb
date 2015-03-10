@@ -20,9 +20,7 @@
     @sections = @crew.last_point.sections
 
     for section in @sections
-      for next_section in section.to_point.sections
-        @crew.sections << next_section unless (@crew.sections.include?(next_section) || @crew.sections.include?(next_section.opposite))
-      end
+      @crew.sections << section unless (@crew.sections.include?(section) || @crew.sections.include?(section.opposite))
     end
 
 
