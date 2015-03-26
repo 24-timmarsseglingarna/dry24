@@ -1,0 +1,88 @@
+<script>
+    function initialize() {
+
+        var mapOptions = {
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.TERRAIN,
+            panControl: false,
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            overviewMapControl: true
+        };
+
+        var map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
+
+        <%unless @sections.blank? %>
+            <%- for section in @sections %>
+                var section = new google.maps.Polyline({
+                    path: [new google.maps.LatLng(<%= section.point.latitude %> , <%= section.point.longitude %>), new google.maps.LatLng(<%= section.to_point.latitude %> , <%= section.to_point.longitude %>) ],
+                    geodesic: true,
+                    tile: 'apa',
+                    strokeColor: '#000000',
+                    strokeOpacity: 0.2,
+                    strokeWeight: 2
+                });
+                section.setMap(map);
+            <%- end %>
+        <%- end %>
+
+
+
+        var latlngbounds = new google.maps.LatLngBounds();
+        <%- for point in @points
+        pin_color = 'fff'
+        if (point.number >= 490 && point.number <=616) || (point.number >= 950 && point.number <=989)
+            pin_color = 'ff8a8a'
+        end
+        if (point.number >= 438 && point.number <=489)
+            pin_color = 'f8ff82'
+        end
+        if (point.number >= 400 && point.number <=437)
+            pin_color = 'b5f9ff'
+        end
+        if (point.number >= 327 && point.number <=399)
+            pin_color = 'ebb1ff'
+        end
+        if (point.number >= 253 && point.number <=326)
+            pin_color = 'cfd446'
+        end
+        if point.number >= 617 && point.number <=708
+            pin_color = 'f0e478'
+        end
+        if point.number >= 936 && point.number <=949
+            pin_color = 'f0e478'
+        end
+
+        if point.number >= 709 && point.number <=821
+            pin_color = '4eb9bd'
+        end
+        if point.number >= 926 && point.number <=935
+            pin_color = '4eb9bd'
+        end
+
+        if point.number >= 822 && point.number <=925
+            pin_color = 'd17bc1'
+        end
+
+
+        %>
+            latlngbounds.extend(new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>));
+            var marker = new google.maps.Marker({
+                position:   new google.maps.LatLng(<%= point.latitude %> , <%= point.longitude %>),
+                map:        map,
+                title:      '<%= point.number_name %>',
+                icon:       'https://chart.googleapis.com/chart?chst=d_map_spin&chld=0.6|000000|<%= pin_color %>|8|_|<%= point.number %>',
+                width:      23,
+                height:     41
+            });
+        <%- end %>
+        map.fitBounds(latlngbounds);
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>

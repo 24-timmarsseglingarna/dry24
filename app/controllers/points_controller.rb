@@ -5,6 +5,7 @@ class PointsController < ApplicationController
   # GET /points.json
   def index
     @points = Point.all
+    @sections = Section.all
   end
 
   # GET /points/1
