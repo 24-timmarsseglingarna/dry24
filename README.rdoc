@@ -20,3 +20,15 @@ heroku run rake import:points
 heroku run rake populate:points
 heroku run rake populate:start_points
 </tt>
+=== Local deployment
+
+* Make sure that you have the correct ruby installed. One option to do this is
+trough rvm on unix-like systems.
+
+* run <tt>gem install bundler</tt>
+
+* Run the script <tt>bin/setup</tt>. This creates a database and fills it with
+the needed content.
+
+* Start the development webserver through <tt>bin/rails server</tt> and visit
+the site at http://localhost:3000.
