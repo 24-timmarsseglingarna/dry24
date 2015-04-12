@@ -18,5 +18,5 @@ heroku run rake db:migrate
 heroku run rake db:seed
 heroku run rake import:points
 heroku run rake populate:points
-heroku run rake populate:start:points
+heroku run rake populate:start_points
 </tt>
