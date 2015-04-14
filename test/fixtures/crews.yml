@@ -4,8 +4,18 @@ one:
   boat_name: MyString
   captain_name: MyString
   captain_email: MyString
+  last_point: one
+  start_point: one
+  sections: one, two
+  game_time: 2015-02-03 15:27:06
+  finished: true
 
 two:
   boat_name: MyString
   captain_name: MyString
   captain_email: MyString
+  last_point: two
+  start_point: two
+  sections: two
+  game_time: 2015-02-03 15:27:06
+  finished: false
