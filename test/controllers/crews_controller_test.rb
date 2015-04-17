@@ -18,7 +18,7 @@ class CrewsControllerTest < ActionController::TestCase
 
   test "should create crew" do
     assert_difference('Crew.count') do
-      post :create, crew: { boat_name: @crew.boat_name, captain_email: @crew.captain_email, captain_name: @crew.captain_name }
+      post :create, crew: { boat_name: "Another boat name", captain_email: @crew.captain_email, captain_name: @crew.captain_name, start_point: @crew.start_point }
     end
 
     assert_redirected_to crew_path(assigns(:crew))
@@ -35,7 +35,7 @@ class CrewsControllerTest < ActionController::TestCase
   end
 
   test "should update crew" do
-    patch :update, id: @crew, crew: { boat_name: @crew.boat_name, captain_email: @crew.captain_email, captain_name: @crew.captain_name }
+    patch :update, id: @crew, crew: { boat_name: "Changed boat name", captain_email: @crew.captain_email, captain_name: @crew.captain_name, start_point: @crew.start_point }
     assert_redirected_to crew_path(assigns(:crew))
   end
 
