@@ -29,11 +29,6 @@ class CrewsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @crew
-    assert_response :success
-  end
-
   test "should update crew" do
     patch :update, id: @crew, crew: { boat_name: "Changed boat name", captain_email: @crew.captain_email, captain_name: @crew.captain_name, start_point: @crew.start_point }
     assert_redirected_to crew_path(assigns(:crew))
