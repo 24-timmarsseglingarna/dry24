@@ -1,17 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  point_id: 1
-  to_point_id: 1
+  point: one
+  to_point: two
   from_time: 2015-02-03 15:27:06
   to_time: 2015-02-03 15:27:06
   description: MyString
-  poition: 1
+  position: 1
+  crew: one
+  distance: 0.0
+  twd: 0.5
+  tws: 0.5
 
 two:
-  point_id: 1
-  to_point_id: 1
+  point: one
+  to_point: three
   from_time: 2015-02-03 15:27:06
   to_time: 2015-02-03 15:27:06
   description: MyString
-  poition: 1
+  position: 1
+  crew: two
+  distance: 0.0
+  twd: 0.5
+  tws: 0.5

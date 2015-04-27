@@ -18,7 +18,14 @@ class LogEntriesControllerTest < ActionController::TestCase
 
   test "should create log_entry" do
     assert_difference('LogEntry.count') do
-      post :create, log_entry: { description: @log_entry.description, from_time: @log_entry.from_time, point_id: @log_entry.point_id, poition: @log_entry.poition, to_point_id: @log_entry.to_point_id, to_time: @log_entry.to_time }
+      post :create, log_entry: {
+        description: @log_entry.description,
+        from_time: @log_entry.from_time,
+        point: @log_entry.point_id,
+        position: @log_entry.position,
+        to_point: @log_entry.to_point_id,
+        to_time: @log_entry.to_time,
+        crew: @log_entry.crew }
     end
 
     assert_redirected_to log_entry_path(assigns(:log_entry))
@@ -35,7 +42,13 @@ class LogEntriesControllerTest < ActionController::TestCase
   end
 
   test "should update log_entry" do
-    patch :update, id: @log_entry, log_entry: { description: @log_entry.description, from_time: @log_entry.from_time, point_id: @log_entry.point_id, poition: @log_entry.poition, to_point_id: @log_entry.to_point_id, to_time: @log_entry.to_time }
+    patch :update, id: @log_entry, log_entry: {
+      description: @log_entry.description,
+      from_time: @log_entry.from_time,
+      point: @log_entry.point_id,
+      position: @log_entry.position,
+      to_point: @log_entry.to_point_id,
+      to_time: @log_entry.to_time }
     assert_redirected_to log_entry_path(assigns(:log_entry))
   end
 
