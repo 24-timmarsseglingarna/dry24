@@ -1,5 +1,5 @@
   class CrewsController < ApplicationController
-  before_action :set_crew, only: [:show, :edit, :update, :destroy]
+  before_action :set_crew, only: [:show, :update, :destroy]
 
   # GET /crews
   # GET /crews.json
@@ -125,10 +125,6 @@
     for start_point in Organizer.find_by_fk_org_code('St').start_points do
       @local_start_points << start_point unless start_point.blank?
     end
-  end
-
-  # GET /crews/1/edit
-  def edit
   end
 
   # POST /crews

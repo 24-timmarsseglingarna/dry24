@@ -2,8 +2,11 @@
 
 one:
   name: MyString
-  fk_org_code: MyString
+  fk_org_code: St
+  # St is hardcoded in the crews_controller.
+  start_points: one, two
 
 two:
   name: MyString
   fk_org_code: MyString
+  start_points: three

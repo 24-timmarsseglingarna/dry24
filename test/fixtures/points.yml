@@ -1,15 +1,24 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  number: MyString
+  number: 1
   name: MyString
-  lat: MyString
-  long: MyString
+  latitude: 59.0
+  longitude: 18.0
   definition: MyString
+  organizers: one
 
 two:
-  number: MyString
+  number: 2
   name: MyString
-  lat: MyString
-  long: MyString
+  latitude: 59.1
+  longitude: 18.1
+  definition: MyString
+  organizers: two
+
+three:
+  number: 3
+  name: MyString
+  latitude: 59.1
+  longitude: 18.1
   definition: MyString
