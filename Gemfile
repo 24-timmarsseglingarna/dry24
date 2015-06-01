@@ -6,7 +6,7 @@ ruby '2.1.5'
 gem 'rails', '4.2.0'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '5.0.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -53,7 +53,8 @@ gem 'acts_as_list'
 gem 'underscore-rails'
 gem 'geocoder'
 gem 'rails-i18n'
-gem 'compass-rails'
+gem 'compass', '1.0.3'
+gem 'compass-rails', '2.0.4'
 gem 'compass-h5bp'
 gem 'spliner'
 gem 'owlcarousel-rails'
