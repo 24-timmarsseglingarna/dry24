@@ -172,7 +172,7 @@
   def destroy
     @crew.destroy
     respond_to do |format|
-      format.html { redirect_to crews_url, notice: 'Crew was successfully destroyed.' }
+      format.html { redirect_to new_crew_url, notice: 'Crew was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
