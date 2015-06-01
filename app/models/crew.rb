@@ -54,8 +54,8 @@ class Crew < ActiveRecord::Base
     if t > 209000
       1 + rand(2)
     else
-      tws_spline = Spliner::Spliner.new   [-10800,-7200,-3600,0,3600,7200,10800],
-                                          [9.0,10.0,11.0,12.0,13.0,14.0,15.0]
+      tws_spline = Spliner::Spliner.new   [-36000,-7200,0,7200,28800,50400,93600,115200,999999999],
+                                          [6.0,6.0,1.0,3.0,6.0,10.0,9.0,3.0,3.0]
       tws_spline[t].abs
     end
   end
@@ -66,8 +66,8 @@ class Crew < ActiveRecord::Base
     if t > 209000
       135 + rand(45)
     else
-      twd_spline = Spliner::Spliner.new   [-10800,-7200,-3600,0,3600,7200,10800],
-                                          [9.0,10.0,11.0,12.0,13.0,14.0,15.0]
+      twd_spline = Spliner::Spliner.new   [-36000,-7200,0,7200,28800,50400,93600,115200,999999999],
+                                          [270.0,270.0,315.0,135.0,180.0,270.0,270.0,225.0,225.0]
       twd_spline[t]
     end
   end
@@ -189,7 +189,7 @@ class Crew < ActiveRecord::Base
   private
 
   def start_details
-    self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 10.hours
+    self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 12.hours
   end
 
   def initialize_network
