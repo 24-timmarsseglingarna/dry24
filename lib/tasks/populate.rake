@@ -40,6 +40,14 @@ namespace :populate do
 
     end
   end
+  
+  task :add_organizer => :environment do
+    organizer = Organizer.find_by_name("Svenska Kryssarklubbens Bottenvikskrets")
+    unless organizer.blank?
+      organizer.fk_org_code = "Sk"
+      organizer.save
+    end
+  end
 
   task :start_points => :environment do
     Organizer.all.each do |organizer|
