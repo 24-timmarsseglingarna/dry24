@@ -122,7 +122,7 @@
       end
     end
     @local_start_points = Array.new
-    for start_point in Organizer.find_by_fk_org_code('St').start_points do
+    for start_point in Organizer.find_by_fk_org_code('Vk').start_points do
       @local_start_points << start_point unless start_point.blank?
     end
   end
