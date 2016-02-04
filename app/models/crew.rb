@@ -189,7 +189,7 @@ class Crew < ActiveRecord::Base
   private
 
   def start_details
-    self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 12.hours
+    self.game_time = DateTime.now.beginning_of_year + 5.months + 5.days + 10.hours
   end
 
   def initialize_network
