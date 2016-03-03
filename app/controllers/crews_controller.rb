@@ -116,7 +116,7 @@
   def new
     @crew = Crew.new
     @start_points = Array.new
-    for organizer in Organizer.all do
+    for organizer in Organizer.order(:name) do
       for start_point in organizer.start_points do
         @start_points << start_point unless start_point.blank?
       end
@@ -132,7 +132,7 @@
   def create
     @crew = Crew.new(crew_params)
     @start_points = Array.new
-    for organizer in Organizer.all do
+    for organizer in Organizer.order(:name) do
       for start_point in organizer.start_points do
         @start_points << start_point unless start_point.blank?
       end
