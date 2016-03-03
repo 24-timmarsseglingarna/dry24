@@ -42,9 +42,14 @@ namespace :populate do
   end
   
   task :add_organizer => :environment do
-    organizer = Organizer.find_by_name("Svenska Kryssarklubbens Bottenvikskrets")
+    organizer = Organizer.find_or_create_by(name: 'Svenska Kryssarklubbens Bottenvikskrets')
     unless organizer.blank?
-      organizer.fk_org_code = "Sk"
+      organizer.fk_org_code = 'Sk'
+      organizer.save
+    end
+    organizer = Organizer.find_or_create_by(name: 'Svenska Kryssarklubbens Sörmlandskrets')
+    unless organizer.blank?
+      organizer.fk_org_code = 'So'
       organizer.save
     end
   end

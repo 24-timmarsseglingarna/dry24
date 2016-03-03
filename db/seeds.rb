@@ -16,3 +16,4 @@ Organizer.create(name: 'Svenska Kryssarklubbens Stockholmskrets', fk_org_code: '
 Organizer.create(name: 'Svenska Kryssarklubbens Eggesundskrets')
 Organizer.create(name: 'Svenska Kryssarklubbens Bottenhavskrets')
 Organizer.create(name: 'Svenska Kryssarklubbens Bottenvikskrets', fk_org_code: 'Sk')
+Organizer.create(name: 'Svenska Kryssarklubbens Sörmlandskrets', fk_org_code: 'So')
